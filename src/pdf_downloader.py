@@ -12,13 +12,14 @@ def download_pdf(url: str, output: str) -> None:
 def get_bibliography_list(file: str) -> Tuple[List[str], List[str]]:
     with open(file, 'r') as f:
         data = f.read()
-    names = list(re.findall(r'\[([\W\w]+)\]', data))
-    urls = list(re.findall(r'\((.*)\)', data))
+    papers = re.split(r'##', data)[1]
+    names = list(re.findall(r'\[([\W\w]+?)\]', papers))
+    urls = list(re.findall(r'\((.*?)\)', papers))
     return zip(names, urls)
 
 
 def preprocess_name(name: str) -> str:
-    pattern = re.compile(r'.*?\d+\.([\W\w]+?\s){2}')
+    pattern = re.compile(r'([\W\w])+\d+\.([\W\w]+?\s){2}')
     name = pattern.search(name)
     if name:
         author, date, title = re.split(r'(\d+)', name.group())
