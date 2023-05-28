@@ -1,5 +1,5 @@
-# Pdf files
-*.pdf
+# Data
+data/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
