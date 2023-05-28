@@ -1,0 +1,95 @@
+\documentclass[colorinlistoftodos]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{natbib}
+\usepackage[spanish]{babel}
+\usepackage[numbib,nottoc]{tocbibind}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage[hidelinks]{hyperref}
+\usepackage{todonotes}
+
+
+\title{
+    {\large Universidad de Buenos Aires\vspace{20pt}}\\
+    {\includegraphics[scale=0.4]{images/uba.eps}}\\
+    {\large\textbf{Facultad de Ciencias Exactas y Naturales}}\vspace{16pt}\\
+    {\small\textbf{Especialización en Exploración de Datos\\y Descubrimiento del Conocimiento}\vspace{16pt}}\\
+    {\includegraphics[scale=0.5]{images/master.eps}}\\
+    {Título\todo{Definir título}}
+}
+\author{Autora:\\Fernández Urquiza, Macarena}
+\date{Fecha:\todo{Definir fecha}}
+
+\begin{document}
+\clearpage\maketitle
+\thispagestyle{empty}
+
+\newpage
+\tableofcontents
+
+\newpage
+
+\begin{abstract}
+\todo[color=blue!40]{Escribir abstract}Abstract.
+\end{abstract}
+
+\section{Introducción}
+
+\subsection{Antecedentes}
+
+% Comentario sobre el paper leído.
+% Leer alguno de los otros papers descargados e
+% introducir alguna reflexión sobre la importancia
+% de la ingeniería de rasgos.
+
+\subsection{Objetivos}
+
+% objetivos grales: podrían ser los mismos que los
+% del paper (?)
+% objetivos particulares: podría ser contrastar si
+% las observaciones realizada en el paper se
+% verifican para el español
+
+% GRAL
+% Realizar una selección de rasgos que permita
+% capturar las particularidades discursivas de los
+% partidos a favor de la despenalización del aborto
+% y de los partidos en contra
+
+% PARTICULAR
+% - Las observaciones detalladas en el paper se
+% evidencian también para el caso del español
+% - Los rasgos seleccionados permiten entrenar un
+% modelo que, dado un discurso, distinga a qué
+% tipo de partido pertenece su emisor
+
+\section{Datos}
+
+% Fuente de los datos
+% Procedimiento para su obtención (scrapper)
+% Preprocesamiento realizado
+% - .pdf --> .txt
+% - pasaje a formato tabular
+% Breve descripción de los datos:
+% - cantidad de partidos totales
+% - cantidad de oradores totales
+% - distribucioón oradores~partidos
+% - distribución género~partidos
+% - palabras y tokens totales
+% - distribución de palabras y tokens por partido
+% - distribución de palabras y tokens por orador
+
+\section{Metodología}
+
+% Describir métodos aplicados.
+
+\section{Resultados}
+
+\section{Discusión y conclusiones}
+
+\bibliographystyle{linquiry3}
+\bibliography{bibliography}
+
+\listoftodos%
+
+\end{document}
