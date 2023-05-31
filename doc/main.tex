@@ -57,8 +57,8 @@
 % y de los partidos en contra
 
 % PARTICULAR
-% - Las observaciones detalladas en el paper se
-% evidencian también para el caso del español
+% - Cotejar si las observaciones detalladas en el paper
+% se evidencian también para el caso del español
 % - Los rasgos seleccionados permiten entrenar un
 % modelo que, dado un discurso, distinga a qué
 % tipo de partido pertenece su emisor
@@ -73,7 +73,7 @@
 % Breve descripción de los datos:
 % - cantidad de partidos totales
 % - cantidad de oradores totales
-% - distribucioón oradores~partidos
+% - distribución oradores~partidos
 % - distribución género~partidos
 % - palabras y tokens totales
 % - distribución de palabras y tokens por partido
@@ -82,6 +82,26 @@
 \section{Metodología}
 
 % Describir métodos aplicados.
+
+%% Clasificación ==> w1: 0.004, w2: 0.002
+%   - RF
+%% Nonmodel-based ==> d(D-R) = w>0=D | w<0=R
+%   - Dif. de frecuencias absolutas
+%   - Dif. de proporciones
+%   - Dif. de proporciones (s/stopwords)
+%   - Odds
+%   - Log-odds ratio
+%   - Log-odds ratio (s/baja frecuencia)
+%   - TF-IDF
+%   - Word Scores
+%% Model-based ???
+
+%%% NaiveBayes (baseline)
+%%% Reg. Logística
+
+%       | RF | DFA | DFR |
+% NB    |                |
+% RL    |    |     |     |
 
 \section{Resultados}
 
