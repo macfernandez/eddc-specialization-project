@@ -1,11 +1,11 @@
 import argparse
 
 from src.downloader import download
-from src.preprocessor import convert_pdf2txt
 from src.config_hander import ConfigHandler
+from src.preprocessor import convert_pdf2txt, preprocess
 
 
-CONFIG = 'config.yaml'
+CONFIG = 'config.json'
 config = ConfigHandler(CONFIG)
 
 parser = argparse.ArgumentParser()
@@ -19,3 +19,4 @@ if args.action == 'download':
         data_config = config.get(args.data)
         pdf_out = download(**data_config)
         txt_out = convert_pdf2txt(pdf_out)
+        txt_out = preprocess(txt_out)
