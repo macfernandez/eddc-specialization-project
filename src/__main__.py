@@ -19,4 +19,4 @@ if args.action == 'download':
         data_config = config.get(args.data)
         pdf_out = download(**data_config)
         txt_out = convert_pdf2txt(pdf_out)
-        txt_out = preprocess(txt_out)
+        csv_out, xml_out = preprocess(txt_out)
