@@ -2,5 +2,9 @@
   "data": {
     "url": "https://www.senado.gob.ar/parlamentario/sesiones/29-12-2020/28/downloadTac",
     "output": "data/session_29-12-2020.pdf"
+  },
+  "attendees": {
+    "url": "https://www.senado.gob.ar/senadores/Historico/Fecha",
+    "output": "data/senators_data.csv"
   }
 }
