@@ -33,8 +33,8 @@ cada fragmento fue etiquetado con las siguiente información:
 \begin{itemize}
     \item \texttt{speech}: etiqueta que indica si el fragmento corresponde a un
     discurso efectivamente emitido durante la discusión, en cuyo caso toma el
-    valor \texttt{True}, o si consiste en un comentario del taquígrafo, ante lo cual
-    toma el valor \texttt{False}.
+    valor \texttt{true}, o si consiste en un comentario del taquígrafo, ante lo cual
+    toma el valor \texttt{false}.
     \item \texttt{speaker}: en el caso de que el contenido del texto refiera a
     un fragmento discursivo, esta etiqueta indica el nombre del orador que lo
     pronunció. Si el fragmento es un comentario del traquígrafo, la etiqueta
@@ -44,9 +44,8 @@ cada fragmento fue etiquetado con las siguiente información:
 Adicionalmente, como resultado del preprocesamiento, se extrajo la lista de
 asistentes a la sesión en formato tabular, con el objetivo de poder
 enriquecerla adicionando especificaciónes como la filiación partidaria y la
-decisión de voto.
+decisión de voto.\todo[color=blue!40]{Desarrollar y explicar el scrapping y mergeo de la data.}
 
-% - pasaje a formato tabular
 % =================================================
 % Breve descripción de los datos:
 % - cantidad de partidos totales
