@@ -3,6 +3,15 @@ from typing import Dict, List
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
+from selenium.webdriver.chrome.options import Options
+
+
+def load_page(url: str) -> webdriver:
+    options = Options()
+    options.add_argument('--headless=new')
+    driver = webdriver.Chrome(options=options)
+    driver.get(url)
+    return driver
 
 
 def find_next_page(driver: webdriver) -> bool:
@@ -71,17 +80,14 @@ def select_period(driver, from_year: str, to_year: str) -> None:
 
 
 def download(url: str, output: str) -> str:
-    driver = webdriver.Chrome()
-    driver.get(url)
-    select_period(driver, "2020", "2021")
-    columns = get_col_names(driver)
-    data = get_table_content(driver, columns)
-    driver.close()
+    page = load_page(url)
+    select_period(page, "2020", "2021")
+    columns = get_col_names(page)
+    data = get_table_content(page, columns)
+    page.close()
     (
         pd.DataFrame(data)
         .applymap(lambda x: x.replace("\n", " "))
         .to_csv(output, index=False)
     )
     return output
-
-# add headless
