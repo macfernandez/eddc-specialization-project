@@ -2,6 +2,7 @@
 # Bibliography
 *.pdf
 data/
+visualizations/
 
 ############### Python files
 # Byte-compiled / optimized / DLL files

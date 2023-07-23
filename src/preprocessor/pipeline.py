@@ -124,7 +124,8 @@ def postprocess_speaker(speaker: str) -> str:
     else:
         name = speaker
     speaker = re.sub(r"(Sra?\.|\.\-)", "", name)
-    return speaker.strip()
+    speaker = re.sub(r"\s+", " ", speaker).strip()
+    return speaker
 
 
 def remove_pattern(pattern: str, text: str) -> str:
