@@ -1,0 +1,63 @@
+La sesión analizada contó con un total de 70 senadores,
+pertenecientes a 26 partidos políticos, distribuidos del
+siguiente modo (Figura \ref{fig-distrib-senators}):
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.5]{../visualizations/senators_distribution.png}
+\caption{Distribución de senadores en partidos políticos y en provincias.}
+\label{fig-distrib-senators}
+\end{figure}
+
+Respecto de los partidos, solo uno (Frente de todos) cuenta con 15
+senadores; también uno solo (Alianza frente para la victoria) es
+representado por 10 senadores; dor partidos (Alianza cambiemos y
+Juntos por el cambio) cuentan con 7 senadores, y el resto de los
+partidos tienen entre 3, 2 y un senador. Y en cuanto a las provincias
+(24 en total), la mayoría tiene 3 senadores exceptuando a Tucumán y
+a La Rioja, que tienen solo 2.\todo[color=pink]{Agregar tablas en anexo
+dependiendo de la extensión del trabajo.}
+
+La figura \ref{fig-distrib-senators} nos muestra además que la intención
+de voto no guarda una relación unívoca con los partidos a los cuales los
+senadores representan. A excepción de los partidos que cuentan con un único
+senador, la mayoría cuenta con senadores que votaron a favor y senadores
+que votaron en contra de la ley para el acceso al aborto.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.5]{../visualizations/senators_vote.png}
+\caption{Distribución votos en los distintos partidos políticos.}
+\label{fig-distrib-vote}
+\end{figure}
+
+Por último, al considerar las intervenciones discursivas, observamos que
+9 senadores no intervinieron en la sesión, y las intervenciones de los
+restantes 61 senadores fueron resumidas en la Tabla \ref{table-tokens}\todo[color=pink]{revisar numeración de tabla}, que plasma
+las métricas univariadas de la cantidad de tokens totales y únicos y nos
+permite observar que ambas obedecen una distribución sesgada a izquierda.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.6]{../visualizations/tokens_vote.png}
+\caption{Distribución de tokens emitidos por los oradores en relación a
+su intención de voto.}
+\label{fig-distrib-tokens-vote}
+\end{figure}
+
+La Figura \ref{fig-distrib-tokens-vote}, por otro lado, nos muestra,
+de forma más detallada, la distribución de los tokens emitidos según
+la intención de voto de los oradores.
+
+\begin{center}
+\begin{tabular}{ |c|c|c|c| }
+\hline
+Tokens & Media & Mediana & Desvío Estándar \\
+\hline\hline
+Totales & 811.65 & 636.12 & 714.79 \\
+\hline
+Únicos & 296.47 & 254.25 & 238.68 \\
+\hline
+\end{tabular}
+\label{table-tokens}
+\end{center}
