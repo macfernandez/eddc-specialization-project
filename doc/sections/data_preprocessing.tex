@@ -7,7 +7,7 @@ utilizando el método de \textit{scrapping}.\par
 En primer lugar, se descargó la transcripción en formato \textit{PDF} y, luego, por
 medio de la librería \textit{pdfminer}\footnote{https://pdfminersix.readthedocs.io/en/latest/},
 se lo convirtió a texto plano, de manera que fuese procesable. Dado que la librería
-empleada en la conversión no arrojó una conversión limpia y que, además, no todo el texto
+empleada en la conversión no arrojó una transcripción limpia y que, además, no todo el texto
 resultaba de relevancia para el presente trabajo, se realizó una tarea de
 preprocesamiento, con el fin de limpiar y organizar los datos de forma útil a los
 objetivos aquí perseguidos.\par
@@ -44,14 +44,9 @@ cada fragmento fue etiquetado con las siguiente información:
 Adicionalmente, como resultado del preprocesamiento, se extrajo la lista de
 asistentes a la sesión en formato tabular, con el objetivo de poder
 enriquecerla adicionando especificaciónes como la filiación partidaria y la
-decisión de voto.\todo[color=blue!40]{Desarrollar y explicar el scrapping y mergeo de la data.}
-
-% =================================================
-% Breve descripción de los datos:
-% - cantidad de partidos totales
-% - cantidad de oradores totales
-% - distribución oradores~partidos
-% - distribución género~partidos
-% - palabras y tokens totales
-% - distribución de palabras y tokens por partido
-% - distribución de palabras y tokens por orador
+decisión de voto. En el caso de la filiación partidaria, se utilizó la
+librería \textit{selenium}\footnote{https://selenium-python.readthedocs.io/index.html}
+para buscar los senadores en ejercicio en la fecha en la que tuvo lugar la sesión.
+La decisón de voto, en cambio, debió ser transcripta de forma manual. Si bien
+se encontraba detallada en el documento de la sesión descarcargado, no fue posible convertir
+la tabla del documento \textit{.pdf} a texto plano sin pérdida de información.

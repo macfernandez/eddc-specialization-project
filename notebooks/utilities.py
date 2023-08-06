@@ -1,6 +1,7 @@
 import os
 import re
 import bs4 as bs
+import numpy as np
 import pandas as pd
 from string import punctuation
 
@@ -9,6 +10,13 @@ def assign_speech(speaker: str, speech: bs.BeautifulSoup) -> list:
     discourse = speech.find_all("discourse", {"speech":"true", "speaker":speaker})
     text = list(map(lambda x: x.text, discourse))
     return text
+
+
+def calculate_univariant_metrics(x: pd.Series) -> tuple[float, float, float]:
+    mean = np.mean(x)
+    median = np.median(x)
+    std = np.std(x)
+    return mean, median, std
 
 
 def count_tokens(text: str, unique: bool=False) -> int:
