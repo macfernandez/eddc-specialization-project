@@ -2,10 +2,10 @@ Para este trabajo se utilizó la versión taquigráfica de la sesión número
 23 (reunión 28) celebrada por la Cámara de Senadores, en la que se abordó la
 regulación del acceso a la interrupción voluntaria del embarazo y a sus
 posteriores cuidados. Los datos fueron obtenidos de la página del Senado de la Nación
-Argentina\footnote{https://www.senado.gob.ar/parlamentario/sesiones/29-12-2020/28/}
+Argentina\footnote{\url{https://www.senado.gob.ar/parlamentario/sesiones/29-12-2020/28/}}
 utilizando el método de \textit{scrapping}.\par
 En primer lugar, se descargó la transcripción en formato \textit{PDF} y, luego, por
-medio de la librería \textit{pdfminer}\footnote{https://pdfminersix.readthedocs.io/en/latest/},
+medio de la librería \textit{pdfminer}\footnote{\url{https://pdfminersix.readthedocs.io/en/latest/}},
 se lo convirtió a texto plano, de manera que fuese procesable. Dado que la librería
 empleada en la conversión no arrojó una transcripción limpia y que, además, no todo el texto
 resultaba de relevancia para el presente trabajo, se realizó una tarea de
@@ -45,8 +45,8 @@ Adicionalmente, como resultado del preprocesamiento, se extrajo la lista de
 asistentes a la sesión en formato tabular, con el objetivo de poder
 enriquecerla adicionando especificaciónes como la filiación partidaria y la
 decisión de voto. En el caso de la filiación partidaria, se utilizó la
-librería \textit{selenium}\footnote{https://selenium-python.readthedocs.io/index.html}
-para buscar, en la página del Senado destinada a tal fin\footnote{https://www.senado.gob.ar/senadores/Historico/Fecha},
+librería \textit{selenium}\footnote{\url{https://selenium-python.readthedocs.io/index.html}}
+para buscar, en la página del Senado destinada a tal fin\footnote{\url{https://www.senado.gob.ar/senadores/Historico/Fecha}},
 los senadores en ejercicio en la fecha en la que tuvo lugar la sesión.
 La decisón de voto, en cambio, debió ser transcripta de forma manual. Si bien
 se encontraba detallada en el documento de la sesión descarcargado, no fue posible convertir

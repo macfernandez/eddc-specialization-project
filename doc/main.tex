@@ -1,12 +1,16 @@
 \documentclass[colorinlistoftodos]{article}
 \usepackage[utf8]{inputenc}
 \usepackage{natbib}
+\usepackage{usebib}
+\bibinput{bibliography}
 \usepackage[spanish]{babel}
 \usepackage[numbib,nottoc]{tocbibind}
 \usepackage{graphicx}
+\usepackage{amsmath}
 \usepackage{longtable}
 \usepackage[hidelinks]{hyperref}
 \usepackage{todonotes}
+\setcounter{tocdepth}{2}
 \renewcommand\spanishtablename{Tabla}
 
 
@@ -77,6 +81,7 @@
 
 \section{Metodología}
 \subsection{Métodos estadísticos}
+\input{sections/methods_statistic.tex}
 \subsection{Clasificación}
 \subsection{Métodos predictivos}
 % Describir métodos aplicados.
@@ -90,7 +95,8 @@
 % RL    |    |     |     |
 
 \section{Resultados}
-
+\subsection{Métodos estadísticos}
+\input{sections/results_statistic.tex}
 \section{Discusión y conclusiones}
 
 \bibliographystyle{linquiry3}
