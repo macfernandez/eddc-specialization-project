@@ -2,6 +2,7 @@
 # Bibliography
 *.pdf
 data/
+models/
 visualizations/
 
 ############### Python files
