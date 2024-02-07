@@ -1,0 +1,25 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Download data",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "src",
+            "args": [
+                "download",
+                "data"
+            ]
+        },
+        {
+            "name": "Download bibliography",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "src",
+            "args": [
+                "download",
+                "biblio"
+            ]
+        }
+    ]
+}

@@ -1,9 +1,11 @@
 import os
 import re
+from string import punctuation
+
 import bs4 as bs
 import numpy as np
 import pandas as pd
-from string import punctuation
+
 
 
 def assign_speech(speaker: str, speech: bs.BeautifulSoup) -> list:
@@ -12,7 +14,7 @@ def assign_speech(speaker: str, speech: bs.BeautifulSoup) -> list:
     return text
 
 
-def calculate_univariant_metrics(x: pd.Series) -> tuple[float, float, float]:
+def calculate_univariant_metrics(x: pd.Series) -> [float, float, float]:
     mean = np.mean(x)
     median = np.median(x)
     std = np.std(x)
