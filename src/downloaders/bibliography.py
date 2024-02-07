@@ -1,6 +1,7 @@
 import re
-import requests
 from typing import List, Tuple
+
+import requests
 
 
 def download_pdf(url: str, output: str) -> None:

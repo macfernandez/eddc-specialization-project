@@ -1,7 +1,6 @@
-import os
 import re
-from pdfminer.layout import LAParams
 from typing import List, Dict, Tuple
+
 from pdfminer.high_level import extract_text
 
 from src.utils import save_csv, save_xml
@@ -87,10 +86,9 @@ def postprocess_attendees(text: str) -> List[List[str]]:
                 if name != '':
                     attendees.append([rol,postprocess_name(name)])
             else:
-                next_roles = [i for i in roles_idx if i > idx]
-                rol_id = min(next_roles) if next_roles else max(roles_idx)
-                rol_pos = roles_idx.index(rol_id)
-                rol = roles[rol_pos-1] if next_roles else roles[rol_pos]
+                last_rol_line = max([i for i in roles_idx if i < idx])
+                rol_pos = roles_idx.index(last_rol_line)
+                rol = roles[rol_pos]
                 if re.search(r'\bY\b', line):
                     names = re.split(r'[Y,]', line)
                     for name in names:
