@@ -1,4 +1,4 @@
-# EDDC - Proyecto de especialización Project
+# EDDC - Proyecto de especialización
 
 Proyecto final para la [Especialización de Explotación de Datos y Descubrimiento del Conocimiento de la Universidad de Buenos Aires](https://datamining.dc.uba.ar/datamining/).
 
