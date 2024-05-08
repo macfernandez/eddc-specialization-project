@@ -56,4 +56,38 @@ Este comando descarga la lista de senadores desde la [página del Senado](https:
 
 ## Flujo de trabajo
 
+### [01-data-preprocessing](./notebooks/01-data-preprocessing.ipynb)
 
+Notebook que toma como _input_ las tablas:
+
+1. [session_29-12-2020_attendees](./data/session_29-12-2020_attendees.csv): tabla generada a partir de la transcripción de la sesión
+- primera columna: rol del asistente en la sesión
+- segunda columna: nombre del asistente tal cual aparece en la transcripción de la sesión
+
+2. [senators_data](./data/senators_data.csv): tabla descargada de la [página del Senado](https://www.senado.gob.ar/senadores/Historico/Fecha) con la información de los senadores en ejercicio durante el período en el que tuvo lugar la sesión
+- Senador: nombre del senador o senadora
+- Nº de Orden: número de orden en el Libro de Matrículas de la Dirección Secretaría Parlamentaria
+- Período Legal: período legal de su mandato
+- Período Real: período real de su mandato
+- Provincia: distrito o provincia que representa
+- Partido Político o alianza: partido político o alianza por el que ingresó
+- Reemplazo: apellido y nombre del senador que lo reemplazó
+- Observaciones: observaciones
+
+    Esta información fue extraída de [la paǵina de introductoria al buscador del Senado](https://www.senado.gob.ar/senadores/Historico/Introduccion).
+
+3. [session_29-12-2020_votes](session_29-12-2020_votes.csv): tabla generada manualmente con el voto de cada senador
+- name: nombre del asistente tal cual aparece en la transcripción de la sesión
+- vote: voto emitido
+
+y genera la tabla:
+
+[session_29-12-2020_senators](./data/session_29-12-2020_senators.csv)
+
+- name: nombre del asistente tal cual aparece en la transcripción de la sesión
+- vote: voto emitido
+- senator: nombre del senador o senadora tal cual aparece en la tabla `senators_data`
+- province: distrito o provincia que representa
+- party: partido político o alianza por el que ingresó
+
+Las tablas se unen a partir de los nombres de los senadores, para lo cual es necesario preprocesar los datos en la columna correspondiente en cada una a fin de estandarizarla.
