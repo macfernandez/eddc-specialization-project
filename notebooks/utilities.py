@@ -12,10 +12,14 @@ def assign_speech(speaker: str, speech: bs.BeautifulSoup) -> list:
     return text
 
 
-def calculate_univariant_metrics(x: pd.Series) -> tuple[float, float, float]:
+def calculate_univariant_metrics(x: pd.Series, round_: float=None) -> tuple[float, float, float]:
     mean = np.mean(x)
     median = np.median(x)
     std = np.std(x)
+    if round:
+        mean, median, std = (
+            round(mean, round_), round(median, round_), round(std, round_)
+        )
     return mean, median, std
 
 

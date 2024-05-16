@@ -56,7 +56,9 @@ Este comando descarga la lista de senadores desde la [página del Senado](https:
 
 ## Flujo de trabajo
 
-### [01-data-preprocessing](./notebooks/01-data-preprocessing.ipynb)
+Flujo de trabajo llevado a cabo para la elaboración del trabajo. Las notebooks comentadas se encuentran en la carpeta [notebooks](./notebooks/)
+
+### [01. Data Preprocessing](./notebooks/01-data-preprocessing.ipynb)
 
 Notebook que toma como _input_ las tablas:
 
@@ -91,3 +93,44 @@ y genera la tabla:
 - party: partido político o alianza por el que ingresó
 
 Las tablas se unen a partir de los nombres de los senadores, para lo cual es necesario preprocesar los datos en la columna correspondiente en cada una a fin de estandarizarla.
+
+### [02. Data Description](./notebooks/02-data-description.ipynb)
+
+Notebook que toma como _input_ la tabla [session_29-12-2020_senators](./data/session_29-12-2020_senators.csv) y el archivo [session_29-12-2020_discourse](./data/session_29-12-2020_discourse.xml) y realiza un análisis exploratorio de los datos.
+
+Se observa:
+
+- 70 senadores
+- 24 provincias
+- partidos
+    - 25 partidos
+    - 23 de las provincias se encuentran representadas por 2 partidos, solo La Rioja presenta un único partido que la representa
+    - la mayoría de los partidos presentan una clara filiación (ya en su nomenclatura) con los dos grandes partidos de ese momento: la alianza Juntos por el cambio y Frente de todos. Se añade una nueva columna indicando esta filiación en los casos de los casos de clara pertenencia o relación. Los datos quedan agrupados en: Frente de todos (6 partidos), Juntos por el cambio (11 partidos) y Otros (10 partidos)
+- de las 24 provincias, 22 son representadas por 3 senadores y 2 (Tucumás y La Rioja), por solo 2
+- 13 partidos cuentan con un solo representante; 9 cuentan con 2; 2 cuentan con 7 y solo se observa un partido con 3, 10 y 12 representantes
+- votos:
+    - 4 categorías de voto: positivo, negativo, ausente y abstención
+    - una abstención (en el Frente Justicialista)
+    - dos ausentes (en Cambiemos Fuerza Cívica Riojana y Frente Unidad Justicialista San Luis)
+    - 29 votos negativos (15 en Juntos por el Cambio)
+    - 38 votos positivos (mayoría en partidos vinculados con el Frente para la Victoria, aproximadamente 2/3 vs. 1/3 en Juntos por el cambio)
+- datos del discurso:
+    - a partir del archivo `session_29-12-2020_discourse` se genera un diccionario para matchear los nombres de los senadores con los nombres utilizados en la transcripción (explicar que los nombres utilizados en la transcripción no matchean 100% porque ponen partes del apellido y no el nombre completo, por eso fue necesario diseñar una heurística para hacer corresponder los datos), se observa que hay senadores que no hablaron y otros que lo hicieron y su nombre corresponde con dos entradas (dos oradores)
+    - se revisa manualmente que el mapeo nombre de senador-nombre de orador esté bien hecho (se genera un [diccionario](./notebooks/map_name2speaker.json), se lo revisa manualmente y luego se vuelve a realizar el mapeo tomando como input ese diccionario)
+    - a cada senador se le asigna los discursos que pronunció (`speech`)
+    - se preprocesa esos discursos (se lo convierte a minúscula, se le quita las tildes, se remueve la puntuación) (`speech_prep`)
+    - se calcula:
+        - la cantidad de intervenciones de cada senador (`n_interventions`)
+        - la cantidad de tokens totales por senador intervención (`n_tokens_interventions`)
+        - la cantidad de tokens únicos por senador intervención (`n_unique_tokens_interventions`)
+        - la media de tokens totales de cada senador (`mean_tokens_interventions`)
+        - la media de tokens únicos de cada senador (`mean_unique_tokens_interventions`)
+        - la mediana de tokens totales de cada senador (`median_tokens_interventions`)
+        - la mediana de tokens únicos de cada senador (`median_unique_tokens_interventions`)
+    - se grafica:
+        - la [distribución de intervenciones](./visualizations/distrib_boxplot_interventions.png) (distribución asimétrica a derecha, mediana y moda 1, media 2.871429 y std 6.229712)
+        - la [distribución de tokens](./visualizations/distrib_boxplot_n_tokens_interventions.png) y [tokens únicos en cada intervención](./visualizations/distrib_boxplot_n_unique_tokens_interventions.png)
+        - la [distribución de medias y medianas de tokens](./visualizations/distrib_boxplot_tokens.png) y [tokens únicos en cada intervención](./visualizations/distrib_boxplot_tokens_uniq.png)
+        - la [distribución de medias de tokens por partido](./visualizations/distrib_boxplot_mean_tokens_party.png) y la [distribución de medias de tokens por familias de partidos](./visualizations/)
+    - se observa que:
+        - 9 senadores no hablaron
