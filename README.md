@@ -10,17 +10,14 @@ Para correr el conjunto de _notebooks_ con el código desarrollado, es necesario
 
 #### Entorno
 
-Usando alguna versión de `python3` (para el desarrollo del proyecto se usó `3.11.4`), crear un entorno virtual:
+Usando [`pyenv`](https://github.com/pyenv/pyenv?tab=readme-ov-file) en combinación con [`virualenv`](https://pypi.org/project/virtualenv/), crear un entorno con `python 3.11.4` y activarlo:
+
 ```{bash}
-python -m venv venv
+pyenv virtualenv 3.11.4 <env-name> && pyenv activate <env-name>
 ```
 
-Activarlo:
-```{bash}
-source venv/bin/activate
-```
+A continuación, instalar los requerimientos:
 
-E instalar los requerimientos:
 ```{bash}
 pip install --upgrade pip && pip install -r requirements.txt
 ```
