@@ -1,0 +1,6 @@
+**/.python-version
+**/venv/
+
+**/data/
+!data/session_29-12-2020_votes.csv
+**/visualizations/

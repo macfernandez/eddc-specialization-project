@@ -3,23 +3,25 @@
 	"dockerFile": "Dockerfile",
 	"workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind",
 	"workspaceFolder": "/workspace",
+	"remoteUser": "vscode",
 	"features": {
 		"ghcr.io/devcontainers/features/python:1": {
-			"installTools": true,
+			"installTools": false,
 			"installJupyterlab": true,
 			"version": "3.11"
 		},
 		"ghcr.io/devcontainers-contrib/features/zsh-plugins:0": {
-			"omzPlugins": "https://github.com/zsh-users/zsh-autosuggestions",
-			"username": "vscode"
+			"omzPlugins": "https://github.com/zsh-users/zsh-autosuggestions"
 		},
 		"ghcr.io/devcontainers/features/git:1": {
 			"version": "latest"
 		}
 	},
-	//"mounts": [
-	//	"source=/home/macarena/.ssh/,target=/home/vscode/.ssh,type=volume"
-	//],
+	"mounts": [
+		"source=${localEnv:HOME}/.ssh/,target=/home/vscode/.ssh,type=bind,consistency=cached",
+		"source=${localEnv:HOME}/.gitconfig,target=/home/vscode/.gitconfig,type=bind,consistency=cached",
+		//"source=${localWorkspaceFolder}/data/session_29-12-2020_votes.csv,target=/workspace/data/session_29-12-2020_votes.csv,type=bind,consistency=cached"
+	],
 	"customizations": {
         "vscode": {
             "settings": {
@@ -38,15 +40,6 @@
 				"waderyan.gitblame"
 			]
         }
-    }
-	//"postCreateCommand": "./.devcontainer/install_requirements.sh"
-
-	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	// "forwardPorts": [],
-
-	// Use 'postCreateCommand' to run commands after the container is created.
-	// "postCreateCommand": "uname -a",
-
-	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
-	// "remoteUser": "root"
+    },
+	//"postCreateCommand": "./.devcontainer/postCreateCommand.sh"
 }
