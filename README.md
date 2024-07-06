@@ -105,21 +105,47 @@ Se observa:
 - 70 senadores
 - 24 provincias
 - partidos
-    - 25 partidos
-    - 23 de las provincias se encuentran representadas por 2 partidos, solo La Rioja presenta un único partido que la representa
-    - la mayoría de los partidos presentan una clara filiación (ya en su nomenclatura) con los dos grandes partidos de ese momento: la alianza Juntos por el cambio y Frente de todos. Se añade una nueva columna indicando esta filiación en los casos de los casos de clara pertenencia o relación. Los datos quedan agrupados en: Frente de todos (6 partidos), Juntos por el cambio (11 partidos) y Otros (10 partidos)
-- de las 24 provincias, 22 son representadas por 3 senadores y 2 (Tucumás y La Rioja), por solo 2
-- 13 partidos cuentan con un solo representante; 9 cuentan con 2; 2 cuentan con 7 y solo se observa un partido con 3, 10 y 12 representantes
+  - 25 partidos
+  - 23 de las provincias se encuentran representadas por 2 partidos, solo La Rioja presenta un único partido que la representa
+  - la mayoría de los partidos presentan una clara filiación (ya en su nomenclatura) con los dos grandes partidos de ese momento: la alianza Juntos por el cambio y Frente de todos. Se añade una nueva columna indicando esta filiación en los casos de los casos de clara pertenencia o relación. Los datos quedan agrupados en: Frente de todos (6 partidos), Juntos por el cambio (11 partidos) y Otros (10 partidos)
+  - de las 24 provincias, 22 son representadas por 3 senadores y 2 (Tucumás y La Rioja), por solo 2
+  - 13 partidos cuentan con un solo representante; 9 cuentan con 2; 2 cuentan con 7 y solo se observa un partido con 3, 10 y 12 representantes
 - votos:
-    - 4 categorías de voto: positivo, negativo, ausente y abstención
-    - una abstención (en el Frente Justicialista)
-    - dos ausentes (en Cambiemos Fuerza Cívica Riojana y Frente Unidad Justicialista San Luis)
-    - 29 votos negativos (15 en Juntos por el Cambio)
-    - 38 votos positivos (mayoría en partidos vinculados con el Frente para la Victoria, aproximadamente 2/3 vs. 1/3 en Juntos por el cambio)
+  - 4 categorías de voto: positivo, negativo, ausente y abstención
+  - una abstención (en el Frente Justicialista)
+  - dos ausentes (en Cambiemos Fuerza Cívica Riojana y Frente Unidad Justicialista San Luis)
+  - 29 votos negativos (15 en Juntos por el Cambio)
+  - 38 votos positivos (mayoría en partidos vinculados con el Frente para la Victoria, aproximadamente 2/3 vs. 1/3 en Juntos por el cambio)
 - datos del discurso:
-    - a partir del archivo `session_29-12-2020_discourse` se genera un diccionario para matchear los nombres de los senadores con los nombres utilizados en la transcripción (explicar que los nombres utilizados en la transcripción no matchean 100% porque ponen partes del apellido y no el nombre completo, por eso fue necesario diseñar una heurística para hacer corresponder los datos), se observa que hay senadores que no hablaron y otros que lo hicieron y su nombre corresponde con dos entradas (dos oradores)
-    - se revisa manualmente que el mapeo nombre de senador-nombre de orador esté bien hecho (se genera un [diccionario](./notebooks/map_name2speaker.json), se lo revisa manualmente y luego se vuelve a realizar el mapeo tomando como input ese diccionario)
-    - a cada senador se le asigna los discursos que pronunció (`speech`)
+  - a partir del archivo `session_29-12-2020_discourse` se genera un diccionario para matchear los nombres de los senadores con los nombres utilizados en la transcripción (explicar que los nombres utilizados en la transcripción no matchean 100% porque ponen partes del apellido y no el nombre completo, por eso fue necesario diseñar una heurística para hacer corresponder los datos),  se observa que hay senadores que no hablaron y otros que lo hicieron y su nombre corresponde con dos entradas (dos oradores)
+  - se revisa manualmente que el mapeo nombre de senador-nombre de orador esté bien hecho (se genera un [diccionario](./notebooks/map_name2speaker.json), se lo revisa manualmente y luego se vuelve a realizar el mapeo tomando como input ese diccionario)
+  - a cada senador se le asigna los discursos que pronunció (`speech`)
+  - se procesan los discursos usando el modelo `es_core_news_md` de la librería `spaCy` y la librería `nltk`, y se genera el archivo [tokens2tag_as_stopw.csv](./data/tokens2tag_as_stopw.csv) para etiquetar con las siguientes columns:
+    - raw: token en minúscula
+    - F: frecuencia absoluta observada
+    - f: frecuencia relativa (F/sum(F))
+    - stemm: token stemizado (utilizando el stemmer `Snowball` en español de la librería `nltk`)
+    - lemma: token lematizado (utilizando la librería `spaCy`)
+    - pos: etiqueta POS gel token (generada usando la librería `spaCy`)
+    - use: indicación para usar el lema del token (`lemma`), otra palabras (en cuyo caso, indicada en este campo)
+    - pos_correction: indicación sobre si es necesario cambias la etiqueta POS del token (en cuyo caso, indicada en este mismo campo)
+
+### Decisiones durante la anotación
+
+#### Sobre los verbos
+
+- preferir siempre la lematización (forma infinitiva)
+- los clíticos se omiten (la, lo, las, los)
+- las formas reflexivas se omiten (se)
+
+#### Sobre los nombres
+
+- por cuestiones de relevancia para el estudio, se mantiene la marca de género pero se omite la marca de número
+
+### Sobre los números
+
+- se omiten todos
+
     - se preprocesa esos discursos (se lo convierte a minúscula, se le quita las tildes, se remueve la puntuación) (`speech_prep`)
     - se calcula:
         - la cantidad de intervenciones de cada senador (`n_interventions`)
