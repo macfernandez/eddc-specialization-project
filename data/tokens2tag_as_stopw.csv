@@ -3118,13 +3118,13 @@ repetir,6,6.6526222419337E-05,['repet'],['repetir'],"['VERB', 'NOUN']",lemma,VER
 suma,1,4.43508149462246E-05,['sum'],"['sumar', 'suma']","['VERB', 'NOUN']",suma,NOUN
 suma,3,4.43508149462246E-05,['sum'],"['sumar', 'suma']","['VERB', 'NOUN']",sumar,VERB
 teniendo,11,0.000121964741102118,['ten'],"['tener', 'teniendo']","['VERB', 'NOUN']",tener,VERB
-trata,41,0.000454595853198803,['trat'],"['tratar', 'trata']","['VERB', 'NOUN']",,
+trata,41,0.000454595853198803,['trat'],"['tratar', 'trata']","['VERB', 'NOUN']",tratar,VERB
 decir,127,0.00140813837454263,['dec'],['decir'],"['VERB', 'NOUN', 'PROPN']",lemma,VERB
-marca,9,9.97893336290054E-05,['marc'],"['marcar', 'marca']","['VERB', 'NOUN', 'PROPN']",,
-parto,9,9.97893336290054E-05,['part'],"['partir', 'parto']","['VERB', 'NOUN', 'PROPN']",,
-termino,6,6.6526222419337E-05,['termin'],"['terminar', 'termino']","['VERB', 'NOUN', 'PROPN']",,
+marca,9,9.97893336290054E-05,['marc'],"['marcar', 'marca']","['VERB', 'NOUN', 'PROPN']",marcar,VERB
+parto,9,9.97893336290054E-05,['part'],"['partir', 'parto']","['VERB', 'NOUN', 'PROPN']",parto,NOUN
+termino,6,6.6526222419337E-05,['termin'],"['terminar', 'termino']","['VERB', 'NOUN', 'PROPN']",terminar,VERB
 llamó,5,5.54385186827808E-05,['llam'],"['llamar', 'llamó']","['VERB', 'INTJ']",llamar,VERB
-creo,137,0.00151901541190819,['cre'],"['creer', 'creo']","['VERB', 'AUX']",,
+creo,137,0.00151901541190819,['cre'],"['creer', 'creo']","['VERB', 'AUX']",creer,VERB
 establece,22,0.000243929482204235,['establec'],"['establecer', 'establece']","['VERB', 'AUX']",establecer,VERB
 estoy,57,0.000631999112983701,['estoy'],['estar'],"['VERB', 'AUX']",lemma,VERB
 estar,57,0.000631999112983701,['estar'],['estar'],"['VERB', 'AUX']",lemma,VERB
@@ -8144,10 +8144,10 @@ voluntario,1,1.10877037365562E-05,['voluntari'],['voluntario'],['ADJ'],lemma,
 vulnerables,12,0.000133052444838674,['vulner'],['vulnerable'],['ADJ'],lemma,
 zanjado,1,1.10877037365562E-05,['zanj'],['zanjado'],['ADJ'],lemma,
 agotado,2,2.21754074731123E-05,['agot'],"['agotado', 'agotar']","['ADJ', 'VERB']",agotado,ADJ
-aprobado,2,2.21754074731123E-05,['aprob'],"['aprobado', 'aprobar']","['ADJ', 'VERB']",,
-atravesado,2,2.21754074731123E-05,['atraves'],"['atravesado', 'atravesar']","['ADJ', 'VERB']",,
-comprobado,3,3.32631112096685E-05,['comprob'],"['comprobado', 'comprobar']","['ADJ', 'VERB']",,
-conformado,2,2.21754074731123E-05,['conform'],"['conformado', 'conformar']","['ADJ', 'VERB']",,
+aprobado,2,2.21754074731123E-05,['aprob'],"['aprobado', 'aprobar']","['ADJ', 'VERB']",aprobado,ADJ
+atravesado,2,2.21754074731123E-05,['atraves'],"['atravesado', 'atravesar']","['ADJ', 'VERB']",atravesado,ADJ
+comprobado,3,3.32631112096685E-05,['comprob'],"['comprobado', 'comprobar']","['ADJ', 'VERB']",comprobado,ADJ
+conformado,2,2.21754074731123E-05,['conform'],"['conformado', 'conformar']","['ADJ', 'VERB']",conformado,ADJ
 despenalizado,4,4.43508149462246E-05,['despenaliz'],"['despenalizado', 'despenalizar']","['ADJ', 'VERB']",,
 dicho,43,0.000476771260671915,['dich'],"['dicho', 'decir']","['ADJ', 'VERB']",,
 distinta,6,6.6526222419337E-05,['distint'],"['distinto', 'distinta']","['ADJ', 'VERB']",,
