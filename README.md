@@ -144,10 +144,30 @@ Se observa:
 
 ### Sobre los números
 
-- se omiten todos
+- se omiten todos:
+  - los que aparecen en dígitos (\\d+)
+  - los que aparecen en caracteres ('cuarenta')
 
-    - se preprocesa esos discursos (se lo convierte a minúscula, se le quita las tildes, se remueve la puntuación) (`speech_prep`)
-    - se calcula:
+### Sobre los conectore
+
+- se parsean como SCONJ
+
+### Sobre las etiquetas auxiliares
+
+- se las cataloga como verbos si pertenecen a ese tipo
+- se desprecia la categoría auxiliar
+
+### Palabras que se omiten
+
+- se indican con `FALSE` en la columna `use`
+- se omiten aquellas palabras que:
+  - son dígitos (`NUM`)
+  - son signos de puntuación (`PUNCT`)
+  - son palabras más signo de puntuación (`SYM`)
+  - son u operan como conectores (`SCONJ`, `CCONJ`)
+
+  - se preprocesa esos discursos (se lo convierte a minúscula, se le quita las tildes, se remueve la puntuación) (`speech_prep`)
+  - se calcula:
         - la cantidad de intervenciones de cada senador (`n_interventions`)
         - la cantidad de tokens totales por senador intervención (`n_tokens_interventions`)
         - la cantidad de tokens únicos por senador intervención (`n_unique_tokens_interventions`)
