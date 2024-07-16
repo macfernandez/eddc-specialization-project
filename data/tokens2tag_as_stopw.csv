@@ -3205,7 +3205,7 @@ ver,80,0.000887016298924493,['ver'],['ver'],"['VERB', 'ADJ', 'NOUN']",ver,VERB
 déme,1,1.10877037365562E-05,['dem'],['déme'],['SYM'],dar,VERB
 aunque,12,0.000133052444838674,['aunqu'],['aunque'],['SCONJ'],lemma,
 porque,421,0.00466792327309014,['porqu'],['porque'],['SCONJ'],lemma,
-si,270,0.00299368000887016,['si'],['si'],"['SCONJ', 'VERB', 'AUX', 'PUNCT', 'PART']",lemma,sss
+si,270,0.00299368000887016,['si'],['si'],"['SCONJ', 'VERB', 'AUX', 'PUNCT', 'PART']",lemma,SCONJ
 cuando,184,0.00204013748752633,['cuand'],['cuando'],"['SCONJ', 'PRON', 'ADV']",lemma,SCONJ
 pues,7,7.76139261558931E-05,['pues'],['pues'],"['SCONJ', 'NOUN']",lemma,SCONJ
 mientras,20,0.000221754074731123,['mientr'],['mientras'],"['SCONJ', 'CCONJ']",lemma,SCONJ
