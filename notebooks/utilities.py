@@ -1,9 +1,16 @@
 import os
 import re
+from string import punctuation
+
 import bs4 as bs
+from nltk import stem
 import numpy as np
 import pandas as pd
-from string import punctuation
+import spacy
+
+
+STEMMER = stem.SnowballStemmer("spanish")
+SPACY_MODEL = spacy.load("es_core_news_md")
 
 
 def assign_speech(speaker: str, speech: bs.BeautifulSoup) -> list:
@@ -66,3 +73,23 @@ def save_dataframe(
     dataframe.to_csv(f"{file_path}.csv", index=False)
     if latex:
         dataframe.to_latex(f"{file_path}.tex", index=False)
+
+def stem_and_lemmatize(
+    text: str,
+    stemmer: stem.StemmerI = STEMMER,
+    model: spacy.Language = SPACY_MODEL
+) -> dict[str, str]:
+    tokens = model(text)
+    output = list()
+    for t in tokens:
+        token = preprocess_text(t.text)
+        if token:
+            output.append(
+                {
+                    "raw": token,
+                    "stem": stemmer.stem(token),
+                    "lemma": preprocess_text(t.lemma_),
+                    "pos": t.pos_
+                }
+            )
+    return output
