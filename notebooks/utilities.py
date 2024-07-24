@@ -1,11 +1,17 @@
+from copy import deepcopy
+import math
 import os
 import re
 from string import punctuation
 
 import bs4 as bs
+import matplotlib.pyplot as plt
 from nltk import stem
 import numpy as np
 import pandas as pd
+import seaborn as sns
+from sklearn.base import BaseEstimator
+from sklearn.preprocessing import MinMaxScaler
 import spacy
 
 
@@ -37,6 +43,15 @@ def count_tokens(text: str, unique: bool=False) -> int:
     return len(tokens)
 
 
+def map_inf(x: float, min_value: float, max_value: float) -> float:
+    if x == -math.inf:
+        return math.ceil(min_value)
+    elif x == math.inf:
+        return math.floor(max_value)
+    else:
+        return x
+
+
 def match_senator_name(senator: str, speakers: list) -> list:
     senator = set(preprocess_name(senator).split())
     speakers_prep = list(map(lambda x: set(x.split()), speakers))
@@ -44,6 +59,58 @@ def match_senator_name(senator: str, speakers: list) -> list:
     senator_idx = [speakers_prep.index(s) for s in speaker]
     senator = [speakers[i] for i in senator_idx]
     return senator
+
+    
+def plot_stats(df: pd.DataFrame, title: str, ylabel: str, filename: str = None):
+    # df copy
+    df_copy = deepcopy(df)
+    
+    # calculate dots sizes
+    _min, _max = df_copy["diff"].min(), df_copy["diff"].max()
+    df_copy["size"] = df_copy["diff"].apply(lambda x: map_inf(x, _min, _max))
+    
+    dot_size = scale(df_copy["size"], MinMaxScaler, (0.001,1.0))
+
+    # calculate words texts
+    neg, pos = df_copy[df_copy["size"]<0], df_copy[0<=df_copy["size"]]
+    word_texts = list()
+    
+    for df, method, inv in zip([pos, neg],["nlargest", "nsmallest"], [False, True]):
+        if not df.empty:
+            word_texts.append(scale_text(df, method, 25, inv))
+    word_texts = pd.concat(word_texts)
+
+    # plot
+    fig, ax = plt.subplots(figsize=(9,9))
+
+    sns.scatterplot(df_copy, x="total", y="diff", size=dot_size, ax=ax)
+    
+    for e, (i, row) in enumerate(word_texts.iterrows(), start=1):
+
+        # add words to scatter
+        ax.text(
+            row["total"], row["size"], row["word"],
+            horizontalalignment='left', color='black', fontsize=row["text_size"]
+        )
+
+        # add words to the right
+        ylim_min, ylim_max = ax.get_ylim()
+        ylim_div = (ylim_max-ylim_min)/50
+        ax.text(
+            ax.get_xlim()[1]+2, ylim_max-(e*ylim_div), row["word"],
+            horizontalalignment='left', color='black', fontsize=row["text_size"]
+        )
+
+    ax.set_title(title)
+    ax.set_xlabel("Frecuencia absoluta (log)")
+    ax.set_ylabel(ylabel)
+    ax.get_legend().set_visible(False)
+    plt.tight_layout()
+
+    if filename:
+        plt.savefig(filename)
+    else:
+        plt.show()
 
 
 def preprocess_name(name: str) -> str:
@@ -66,6 +133,7 @@ def preprocess_text(text: str) -> str:
 def remove_punctuation(x: str) -> str:
     return re.sub(rf"[{punctuation}]", "", x)
 
+
 def save_dataframe(
     dataframe: pd.DataFrame, folder: str, filename: str, latex: bool=True
 ) -> None:
@@ -73,6 +141,36 @@ def save_dataframe(
     dataframe.to_csv(f"{file_path}.csv", index=False)
     if latex:
         dataframe.to_latex(f"{file_path}.tex", index=False)
+
+    
+def scale(
+    x: pd.Series,
+    scaler: BaseEstimator,
+    feature_range: tuple[float,float],
+) -> pd.Series:
+    y = deepcopy(x)
+    _scaler = scaler(feature_range=feature_range)
+    y = (
+        _scaler
+        .fit_transform(np.array(y).reshape(-1,1))
+        .reshape(len(y))
+    )
+    return y
+
+
+def scale_text(df: pd.DataFrame, func: callable, n: int = 30, inverse: bool = False) -> pd.DataFrame:
+    words_scaler = MinMaxScaler(feature_range=(8.0,16.0))
+    method = getattr(df, func)
+    inv = -1 if inverse else 1
+    df = (
+        method(n=n, columns=["size"], keep="all")
+        .assign(
+            text_size=lambda x: words_scaler.fit_transform(np.array(x["size"]*inv).reshape(-1,1))
+        )
+        .sort_values(by=["size"], ascending=False)
+    )
+    return df
+
 
 def stem_and_lemmatize(
     text: str,
