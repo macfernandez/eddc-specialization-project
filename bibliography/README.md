@@ -1,6 +1,6 @@
-# Bibliography
+# Bibliografía
 
-## Papers
+## _Papers_
 
 - [Burt L. Monroe, Michael P. Colaresi, Michael P. Colaresi. 2009. Fightin’
 Words: Lexical Feature Selection and Evaluation for Identifying the Content of
@@ -19,7 +19,7 @@ costs.](https://faculty.washington.edu/jwilker/559/Quinn.pdf)
 - [Laver, Michael, Kenneth Benoit, and John Garry. 2003. Extracting policy positions from political texts using
 words as data.](https://faculty.washington.edu/jwilker/559/Laver.pdf)
 
-## Other resources
+## Otros recursos
 
 - [Porter, Martin F. 2001. The English (Porter2) stemming
 algorithm](http://snowball.tartarus.org/algorithms/english/stemmer.html)

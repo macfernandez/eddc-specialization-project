@@ -51,8 +51,6 @@ Este comando descarga la lista de senadores desde la [página del Senado](https:
 
 #TODO
 
-#Cuando se arme el contenedor, ya descargar todo
-
 ## Flujo de trabajo
 
 Flujo de trabajo llevado a cabo para la elaboración del trabajo. Las notebooks comentadas se encuentran en la carpeta [notebooks](./notebooks/)
@@ -148,7 +146,7 @@ Se observa:
   - los que aparecen en dígitos (\\d+)
   - los que aparecen en caracteres ('cuarenta')
 
-### Sobre los conectore
+### Sobre los conectores
 
 - se parsean como SCONJ
 
