@@ -1,7 +1,7 @@
 ############### Data
 # Bibliography
 *.pdf
-data/
+data/*
 models/
 visualizations/
 

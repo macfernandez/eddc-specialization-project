@@ -1,0 +1,87 @@
+Para este trabajo se utilizó la versión {taquigr\'afica} de la sesión número
+23 (reunión 28) celebrada por la {C\'amara} de Senadores, en la que se abordó la
+regulación del acceso a la interrupción voluntaria del embarazo y a sus
+posteriores cuidados. Los datos fueron obtenidos de la {p\'agina} del Senado de la Nación
+Argentina\footnote{\url{https://www.senado.gob.ar/parlamentario/sesiones/29-12-2020/28/downloadTac}}
+utilizando el método de \textit{scraping}.\par
+En primer lugar, se descargó la transcripción en formato \textit{PDF} y, luego, por
+medio de la librería \textit{pdfminer}\footnote{\url{https://pdfminersix.readthedocs.io/en/latest/}},
+se lo convirtió a texto plano, de manera que fuese procesable. Dado que la librería
+empleada en la conversión no arrojó una transcripción limpia y que, {adem\'as}, no todo el texto
+resultaba de relevancia para el presente trabajo, se {realiz\'o} una tarea de
+preprocesamiento, con el fin de limpiar y organizar los datos de forma útil a los
+objetivos aquí perseguidos.\par
+Como primer paso del preprocesamiento se quitaron los encabezados y pies de paǵina.
+El archivo \textit{.pdf}, convertido a \textit{.txt}, no contaba con separación de
+{p\'aginas}, por lo que los encabezados y pies se convertían en líneas de texto que
+interrumpían los discursos de los senadores y participantes del debate.
+Posteriormente, se extrajo la sección del texto pertinente para este trabajo:
+la sección 6, dedicada a la ``Regulación  del  acceso  a  la  interrupción
+voluntaria  del  embarazo  y  a  la atención postaborto''. Otras secciones consistían
+en el izamineto de la bandera, la convocatoria a la sesión, la lectura de la ley
+resultante, entre otras cuestiones que no hacían al discurso argumentativos de los
+asistentes, sino {m\'as} bien a cuestiones protocolares, por lo que fueron desestimadas
+para este {an\'alisis}.\par
+Con el texto de interés delimitado, y mediante el uso de patrones regulares, se
+identificó a los distintos oradores y sus respectivos discursos, como así también
+a las secciones que no pertenecían a fragmentos discursivos emitidos durante la
+discusión, sino a comentarios agregados por el taquígrafo\footnote{``Luego de unos
+instantes'' y ``Contenido no inteligible'' constituyen ejemplos de estos
+fragmentos.}. Siguiendo la metodología descripta por \cite{monroe2008fightin},
+los datos fueron guardados en un archivo en formato \textit{.xml}, en el que
+cada fragmento fue etiquetado con las siguiente información:
+\begin{itemize}
+    \item \texttt{speech}: etiqueta que indica si el fragmento corresponde a un
+    discurso efectivamente emitido durante la discusión, en cuyo caso toma el
+    valor \texttt{true}, o si consiste en un comentario del taquígrafo, ante lo cual
+    toma el valor \texttt{false}.
+    \item \texttt{speaker}: en el caso de que el contenido del texto refiera a
+    un fragmento discursivo, esta etiqueta indica el nombre del orador que lo
+    pronunció. Si el fragmento es un comentario del traquígrafo, la etiqueta
+    recibe el valor \texttt{none}.
+\end{itemize}
+\par
+Adicionalmente, como resultado del preprocesamiento, se extrajo la lista de
+asistentes a la sesión en formato tabular, con el objetivo de poder
+enriquecerla adicionando especificaciónes como la filiación partidaria y la
+decisión de voto. En el caso de la filiación partidaria, se utilizó la
+librería \textit{selenium}\footnote{\url{https://selenium-python.readthedocs.io/index.html}}
+para buscar, en la {p\'agina} del Senado destinada a tal
+fin\footnote{\url{https://www.senado.gob.ar/senadores/Historico/Fecha}},
+los senadores en ejercicio en la fecha en la que tuvo lugar la sesión.
+Esta librería permite un interacción dinámica con la página \textit{web} consultada,
+por lo que posibilitó el acceso al motor de búsqueda de la del Senado, la selección
+del período deseado de forma automática y el procesamiento de los datos de interés,
+los cuales se encontraban en \textit{.html} en la página pero que, luego de su
+extracci\'on fueron guardados en formato \textit{.csv}.
+\par
+La decisón de voto, en cambio, debió ser transcripta de forma manual. Si bien
+se encontraba detallada en el documento de la sesión descarcargado, no fue posible
+convertir la tabla del documento \textit{.pdf} a texto plano sin pérdida de información.
+Por lo cual, tomando los nombres de los senadores previamente extra\'idos, se gener\'o
+un \textit{csv} en el cual se le agregó a cada uno el voto emitido.
+\par
+Una vez obtenidos los distintos conjuntos de datos para el estudio en cuestión,
+fue necesario un paso ulterior de procesamiento a fin de que la información
+recopilada de diversas fuentes pudiera ser vinculada de manera
+satisfactoria. El desaf\'io aqu\'i residi\'o en la discrepancia entre
+dichas fuentes para nombrar a los senadores. Al incio de la versión taquigráfica
+es posible encontrar una lista de todos los asistentes a la sesión del Senado,
+incluyendo no solo a los senadores con poder de voto sino también a quienes presidieron
+y oficiaron en la secretaría. Esta lista, utilizada para la confección
+de la tabla que vincula a cada senador con el voto emitido, enuncia a cada funcionario
+recurriendo primero al nombre y luego, al apellido (en los caoss en los que
+la persona tiene más de un nombre y/o apellido, se hizo uso de todos ellos). Esta
+enunciación, sin embargo, es modificada a lo largo de la transcripción, donde la
+primera vez que cada interlocutor hace uso de la palabra, se lo refiere con apellido
+y nombre (en ese orden) y luego, solo con el apellido (uno solo en los casos que no
+se prestan a confusión, o más de uno en caso contrario). Así también, utilizando primero
+el apellido y luego, el nombre es como se hace referencia a los senadores en la página
+destinada a proporcionar su lugar de origen y filiación partidaria. Para lidiar con esta
+diversidad en la enunciación, se realizó un proceso de estandarización híbrido en el
+cual, tomando como base los nombres y apellidos en un \textit{dataset}, se exploró
+exhaustivamente con cuáles podían corresponderse en otro \textit{dataset}. Para esto, se
+consideró cada cadena de nombre/s y apellido/s como un conjunto y se evaluó si existía
+coincidencia entre ambos o si alguno era subconjunto de otro. En la mayoría de los casos,
+este mecanismo permitió la desambiguación. Los pocos casos que no pudieron ser estandarizados
+de esta manera por darse relación entre más de dos conjuntos fueron desambiguados manualmente.
