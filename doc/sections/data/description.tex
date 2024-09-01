@@ -37,16 +37,43 @@ En cuanto a las intervenciones discursivas, observamos que, en promedio, se emit
 2.87 discursos por senador, con un desvío de 6.23 y una mediana de 1, coincidente además
 con la moda. Estas medidas de centralidad, incluyen 9 senadores que no intervinieron en
 la sesión, 7 de ellos votaron en contra de la despenalización del aborto; uno, a favor,
-y uno estuvo ausente durante la votación. La figure \ref{fig-distrib-speech} muestra esta
-distribución global y también discriminada por intención de voto.
+y uno estuvo ausente durante la votación. La figura \ref{fig-distrib-speech} muestra esta
+distribución global y también discriminada por intención de voto.\todo{explicar un poco esto}
 
-% INSERTAR GRÁFICO QUE MUESTRE DISTRIBUCIÓN GLOBAL Y POR VOTO
-% con qué voy a seguir?
-% - métricas/gráficos de diversidad de tokens y tokens únicos
-% - explicar que esto podría ser un problema
-% - explicar que para el análisis al nivel de la oración elegí probar con stemmizado y lemmatizado
-% - el stemmer y el lemma ya es cuestión de la metodología
+\begin{figure}[h!]
+    \centering
+    \includegraphics[scale=0.5]{../visualizations/speech_by_vote.png}
+    \caption{Distribución de votos en los distintos partidos políticos.}
+    \label{fig-distrib-speech}
+\end{figure}
 
+\begin{table}[ht]
+\centering
+\begin{tabular}{ |c|c|c|c|c| }
+    \hline
+    Voto & Media & Desvío & Mediana & Moda \\
+    \hline\hline
+    Abstención & 1.00 & 0.00 & 1.00 & 1 \\
+    \hline
+    Ausente & 0.50 & 0.71 & 0.50 & 0 \\
+    \hline
+    Negativo & 3.03 & 8.43 & 1.00 & 1 \\
+    \hline
+    Positivo & 2.92 & 4.26 & 2.00 & 1 \\
+    \hline
+\end{tabular}
+\caption{Medidas de centralidad de la cantidad de discursos emitidos}
+\label{table-tokens}
+\end{table}
+
+%
+%
+%% con qué voy a seguir?
+%% - métricas/gráficos de diversidad de tokens y tokens únicos
+%% - explicar que esto podría ser un problema
+%% - explicar que para el análisis al nivel de la oración elegí probar con stemmizado y lemmatizado
+%% - el stemmer y el lemma ya es cuestión de la metodología
+%    
 \begin{table}[h!]
 \begin{center}
 \begin{tabular}{ |c|c|c|c| }
