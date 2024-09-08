@@ -64,16 +64,16 @@ distribución varía dependiendo de si los medimos en \textit{tokens} totales o 
 Un \textit{token} es una secuencia de caracteres que queremos considerar como un
 grupo\footnote{\citet*{bird2009natural}}. Aquí este grupo constituye lo que denominamos
 `palabra'. En promedio, los discursos emitidos tienen 418 palabras, con un desvío
-estándar de 714 palabra; la mediana es de 11 y la moda, de 7. Sin embargo, estas medidas
+estándar de 714 palabras; la mediana es de 11 y la moda, de 7. Sin embargo, estas medidas
 reflejan las palabras totales utilizadas en cada intervención, sin considerar si se repiten
 o no: cada ocurrencia de una palabra cuenta, sin importar si ya fue pronunciada en el mismo
 discurso. Es por eso que, a fines comparativos, se tomaron también las medidas de centralidad
 de los \textit{tokens} únicos, las cuales mostraron una media de 161 palabras por discurso
 con un desvío de 245, una mediana de 11 y una moda de 1. La figura \ref{fig-distrib-tokens}
 refleja este contraste. Como es posible observar, si bien en ambos casos los discursos
-muestran \textit{outliers} respecto de su longitud, cuando la misma se mide en palabras
-totales, se presenta una mayor cantidad de casos atípicos con valores más extremos que en
-el caso en el que se miden \textit{tokens} únicos. En este último, un
+muestran \textit{outliers} respecto de su longitud, cuando esta se mide en palabras
+totales, presenta una mayor cantidad de casos atípicos con valores más extremos que
+al medirla en \textit{tokens} únicos. En este último caso, un
 $20\percentsign$ de los registros son \textit{outliers}, de los cuales solo el
 $17\percentsign$ constituyen casos extremos, mientras que, al considerar
 el total de palabras, un $22\percentsign$ de los datos resultan atípicos y,
@@ -93,7 +93,7 @@ que la cantidad de veces que se puede usar una de estas mismas palabras al en un
     \includegraphics[scale=0.5]{../visualizations/distrib_tokens.png}
     \caption{Distribución de \textit{tokens} totales y únicos en los discursos pronunciados. En ambos gráficos,
     la línea azul indica el límite a partir del cual una observación se considera atípica leve
-    ($IQR*1.5$) y la naranja, el límite a partir del cual se la consifera atípica extrema ($IQR*3$).}
+    ($IQR*1.5$) y la naranja, el límite a partir del cual se la considera atípica extrema ($IQR*3$).}
     \label{fig-distrib-tokens}
 \end{figure}
 
