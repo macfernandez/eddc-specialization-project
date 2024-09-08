@@ -13,6 +13,15 @@
 \setcounter{tocdepth}{2}
 \renewcommand\spanishtablename{Tabla}
 
+\hypersetup{
+    colorlinks=true,
+    urlcolor=blue,
+    linkcolor=blue,
+    filecolor=black,
+    linkcolor=black,
+    citecolor=black
+}
+
 
 \title{
     {\large Universidad de Buenos Aires\vspace{20pt}}\\
@@ -52,7 +61,7 @@
 
 \section{Metodolog\'ia}
 \subsection{Anotación}
-%\input{sections/methods/statistic.tex}
+\input{sections/methods/annotation.tex}
 \subsection{Aplicación de m\'etodos estad\'isticos}
 \input{sections/methods/statistic.tex}
 \subsection{Entrenamiento de modelos}
@@ -62,7 +71,7 @@
 
 \section{Resultados}
 \subsection{Anotación}
-%\input{sections/methods/statistic.tex}
+\input{sections/results/annotation.tex}
 \subsection{Aplicación de m\'etodos estad\'isticos}
 \input{sections/results/statistic.tex}
 \subsection{Entrenamiento de modelos}
@@ -74,6 +83,11 @@
 
 \bibliographystyle{linquiry3}
 \bibliography{bibliography}
+
+\clearpage
+\appendix
+\section{Anexo}
+\subsection{Guías de anotación}
 
 \listoftodos%
 
