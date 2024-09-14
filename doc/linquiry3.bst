@@ -1104,6 +1104,40 @@ FUNCTION {misc}
   fin.entry
 }
 
+FUNCTION {dictionay}
+{ output.bibitem
+  author empty$
+    { format.editors "author and editor" output.check
+      editor format.key output
+    }
+    { format.authors output.nonnull
+      crossref missing$
+        { "author and editor" editor either.or.check }
+        'skip$
+      if$
+    }
+  if$
+  date.block
+  format.btitle "title" output.check
+  crossref missing$
+    { format.bvolume output
+      new.block
+      format.number.series output
+      new.sentence
+      format.publisher.address output
+    }
+    {
+      new.block
+      format.book.crossref output.nonnull
+    }
+  if$
+  format.edition output
+  howpublished output
+  new.block
+  format.note output
+  fin.entry
+}
+
 FUNCTION {phdthesis}
 { output.bibitem
   format.authors "author" output.check
