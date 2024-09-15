@@ -60,11 +60,16 @@ En concreto, el flujo de trabajo consistió en procesar cada discurso emitido
 con los modelos pre-entrenados de la librería spaCy, los cuales permitieron
 predecir, para cada token, su lema y \textit{POS tag}\footnote{El
 \textit{POS tag}, por \textit{Part of Speech}, o etiquetado gramatical consiste
-en la asignación a cada palabra de su categoría sintáctica.}. Luego, esta
+en la asignación a cada palabra de su categoría sintáctica. Los modelos de la
+librería spaCy emplean el sistema de etiquetas de \textit{Universal Dependencies}.
+Para más información, visitar
+\url{https://spacy.io/usage/linguistic-features\#pos-tagging}
+y \url{https://universaldependencies.org/u/pos/}}. Luego, esta
 información fue volcada en una tabla con tres columnas: una para las ocurrencias
 reales de las palabras, otra para los lemas asignados y una tercera con las etiquetas
 sintácticas predichas. En un paso siguiente, estas asignaciones fueron corregidas
 manualemente, y los lemas y etiquetas obtenidos fueron utilizados para la
 extracción de rasgos en el entrenamiento de modelos que se detalla a continuación.
-Un breve análisis de este proceso de anotación puede encontrarse en la sección
-\ref{subsec-results-annotation}.
+Los criterios de corrección utilizados pueden encontrarse en el apéndice
+\ref{appendix-annotation}, y la sección \ref{subsec-results-annotation}
+proporciona un breve análisis de los resultados de este proceso.

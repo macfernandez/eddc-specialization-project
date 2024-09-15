@@ -1,6 +1,23 @@
 Para todas las categorías de palabras se prefiere la lematización. A continuación
-se detallan las decisiones tomadas en casos particulares.\todo{Indicar el sistema
-de POS tag utilizado}
+se detallan las decisiones tomadas en casos particulares.
+
+\subsubsection{Conectores}
+Clases de palabra como preposiciones (`según'), pronombres relativos (`que') o
+conjunciones (`si') que suelen funcionar como conectores subordinantes son
+etiquetados con la categoría \textit{SCONJ}.
+
+\subsubsection{Nombres}
+Por cuestiones de relevancia para el estudio, se mantiene la marca de género (femenino
+o masculino), pero se omite la marca de número (singular o plural). Ejemplo: `abuelas'
+$\rightarrow$ `abuela'.
+
+\subsubsection{Números}
+Se omiten todos, aquellos que aparecen en dígitos (`1', `10', etc.) y los que aparecen
+en caracters (`cuarenta').
+
+\subsubsection{Puntuación}
+Se omiten todas los signos etiquetados como signos de puntuación (\textit{PUNCT}).
+Ejemplos: `¿', `?', `;'.
 
 \subsubsection{Verbos}
 \begin{itemize}
@@ -12,20 +29,6 @@ de POS tag utilizado}
     Ejemplo: `enfrentar\textit{se}' $\rightarrow$ `enfrentar'.
 \end{itemize}
 
-\subsubsection{Nombres}
-Por cuestiones de relevancia para el estudio, se mantiene la marca de género (femenino
-o masculino), pero se omite la marca de número (singular o plural). Ejemplo: `abuelas'
-$\rightarrow$ `abuela'.
-
-\subsubsection{Números}
-Se omiten todos, aquellos que aparecen en dígitos (`1', `10', etc.) y los que aparecen
-en caracters (`cuarenta').
-
-\subsubsection{Conectores}
-Clases de palabra como preposiciones (`según'), pronombres relativos (`que') o
-conjunciones (`si') que suelen funcionar como conectores subordinantes son
-etiquetados con la categoría \textit{SCONJ}.
-
 \subsubsection{Verbos auxiliares}
 \begin{itemize}
     \item La categoría \textit{AUX} es despreciada.
@@ -34,11 +37,6 @@ etiquetados con la categoría \textit{SCONJ}.
     palabra, y transformados a la forma en infinitivo (`seamos' $\rightarrow$ `ser')
 \end{itemize}
 
-%### Palabras que se omiten
-%
-%- se indican con `FALSE` en la columna `use`
-%- se omiten aquellas palabras que:
-%  - son dígitos (`NUM`)
-%  - son signos de puntuación (`PUNCT`)
-%  - son palabras más signo de puntuación (`SYM`)
-%  - son u operan como conectores (`SCONJ`, `CCONJ`)
+\subsubsection{Palabras con tokenizados erróneos}
+Se omiten las cadenas de caracters que al ser tokenizadas, quedaron unidas a un
+signo de puntuación. Ejemplos: `¡negando', `¿por'.
