@@ -1,0 +1,44 @@
+Para todas las categorías de palabras se prefiere la lematización. A continuación
+se detallan las decisiones tomadas en casos particulares.\todo{Indicar el sistema
+de POS tag utilizado}
+
+\subsubsection{Verbos}
+\begin{itemize}
+    \item Se omiten los clíticos (`la', `lo', `le' y sus formas plurales). En caso de
+    que el verbo presente una forma con clítico, se lo omite y se lo convierte a su
+    forma infinitiva. Ejemplo: `consierar\textit{la}' $\rightarrow$ `consierar'.
+    \item Se omiten las formas reflexivas (`se'). En caso de que el verbo presente
+    una forma reflexiva, se lo omite y se lo convierte a su forma infinitiva.
+    Ejemplo: `enfrentar\textit{se}' $\rightarrow$ `enfrentar'.
+\end{itemize}
+
+\subsubsection{Nombres}
+Por cuestiones de relevancia para el estudio, se mantiene la marca de género (femenino
+o masculino), pero se omite la marca de número (singular o plural). Ejemplo: `abuelas'
+$\rightarrow$ `abuela'.
+
+\subsubsection{Números}
+Se omiten todos, aquellos que aparecen en dígitos (`1', `10', etc.) y los que aparecen
+en caracters (`cuarenta').
+
+\subsubsection{Conectores}
+Clases de palabra como preposiciones (`según'), pronombres relativos (`que') o
+conjunciones (`si') que suelen funcionar como conectores subordinantes son
+etiquetados con la categoría \textit{SCONJ}.
+
+\subsubsection{Verbos auxiliares}
+\begin{itemize}
+    \item La categoría \textit{AUX} es despreciada.
+    \item Aquellos verbos catalogados con la etiqueta \textit{AUX} fueron
+    recatalogados como verbos (\textit{VERB}) si pertenecen a ese tipo de
+    palabra, y transformados a la forma en infinitivo (`seamos' $\rightarrow$ `ser')
+\end{itemize}
+
+%### Palabras que se omiten
+%
+%- se indican con `FALSE` en la columna `use`
+%- se omiten aquellas palabras que:
+%  - son dígitos (`NUM`)
+%  - son signos de puntuación (`PUNCT`)
+%  - son palabras más signo de puntuación (`SYM`)
+%  - son u operan como conectores (`SCONJ`, `CCONJ`)

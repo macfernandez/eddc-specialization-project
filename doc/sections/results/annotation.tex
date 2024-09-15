@@ -1,0 +1,21 @@
+Luego del proceso de anotación y corrección de lemas, se extrajeron algunas métricas
+de resumen y se realizaron gráficos con el fin de comprender qué distribución
+presentaban las etiqutas utilizadas y cuántos de los datos etiquetdados de forma
+automática requirieron alguna corrección, ya fuera en el lema asignado, ya en
+la etiqueta gramatical predicha. Los criterios de corrección utilizados pueden
+encontrarse en el apéndice \ref{appendix-annotation}.
+\par
+En total, se encontró un conjunto de 8324 \textit{tokens} únicos, donde la unicidad no
+hace referencia solamente a la secuencia de caracteres sino también a la etiqueta
+gramatical asignada. En contraste con la figura \ref{fig-distrib-tokens}, donde
+la unicidad implica igualdad en dicha secuencia y, entonces, dos palabras que
+contienen los mismos caracteres en el mismo orden son consideradas el mismo
+\textit{token}, aquí también se tiene en cuenta que, además, reciben el mismo
+\textit{POS tag}. Por ejemplo: en el análisis exploratorio realizado
+para la descripción de los datos, el \textit{token} `suma' se considera una sola vez,
+independientemente de si, en sus distintas ocurrencias, refiere al verbo
+(en la tercera persona singular del verbo `sumar') o al nombre
+(\textit{Acción y efecto de sumar}\footnote{\Citeauthor{rae23diccionario}}). En
+este apartado, en cambio, al agrupar los \textit{tokens} por caracters y etiqueta
+gramatical, estas dos ocurrencias son consideradas por separado.
+\par
