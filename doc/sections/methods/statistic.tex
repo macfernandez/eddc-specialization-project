@@ -3,53 +3,60 @@ no basadas en modelos probabil\'isticos para la selecci\'on de rasgos.
 Dos de los m\'etodos aplicados (\textit{TF-IDF} y \textit{Word Scores}) consisten
 en algoritmos para la asignaci\'on de puntuaciones o \textit{scores} a las
 palabras dentro de un \textit{corpus}. El resto de las t\'ecnicas utilizan
-m\'etricas estad\'isticas sencillas.
+m\'etricas estad\'isticas sencillas. Para la aplicación de estos procedimientos
+se utilizaron solamente las lematizaciones de las palabras, sin su categoría
+gramatical.
 
 \subsubsection{Diferencia de frecuencias absolutas}
-En primer lugar, se contrastaron las palabras de los discursos de los
-senadores con votos positivos y las de los de senadores con votos negativos
-utilizando la diferencia de frecuencias absolutas de estas palabras:
+En primer lugar, se contrastaron los lemas de los discursos de los
+senadores con votos positivos conlos de los de senadores con votos negativos
+utilizando la diferencia de frecuencias absolutas:
 
-\begin{equation*}
+\begin{equation}
 y_w = y_{w}^{(P)}-y_{w}^{(N)}
-\end{equation*}
+\end{equation}
 
-En los casos en los que $y_{w}$ sea mayor o igual a $0$, la palabra
-\textit{w} ser\'a caracter\'istica del discurso de los senadores que votaron a
-favor de la legalizaci\'on. En caso contrario, ser\'a caracter\'istica de quienes
-votaron en contra.
+donde $y_{w}^{(X)}$ refiere a la cantidad de ocurrencias absolutas del lema
+\textit{w} en los discursos que votaron de manera positiva (P) y negativa (N).
+En los casos en los que $y_{w}$ sea mayor o igual a $0$, el lema \textit{w}
+ser\'a caracter\'istico del discurso de los senadores que votaron a favor de
+la legalizaci\'on. En caso contrario, ser\'a caracter\'istica de quienes votaron
+en contra.
 
 \subsubsection{Diferencia de proporciones}
 El segundo contraste realizado utiliz\'o, en lugar de las frecuencias absolutas,
-la proporci\'on de las palabras en cada conjunto de discursos.
+la proporci\'on de los lemas en cada conjunto de discursos.
 
-\begin{equation*}
+\begin{equation}
     f_w = f_{w}^{(P)}-f_{w}^{(N)}
-\end{equation*}
+\end{equation}
 
 
 donde $f_{w}^{(X)}$ se define como $y_{w}^{(X)} / n^{(X)}$, siendo $y_{w}^{(X)}$
-la frecuencia absoluta de la palabra $w$ en el cojunto los discursos de $X$
-y $n^{(X)}$, la cantidad de palabras totales en esos discursos.
+la frecuencia absoluta del lema $w$ en el cojunto los discursos de $X$
+y $n^{(X)}$, la cantidad de lemas totales en esos discursos.
 
 El mismo abordaje se intent\'o removiendo previamente las palabras consideradas
-\textit{stopwords}. Para esto se utiliz\'o el conjunto de palabras predefinidas
-como tales de la librer\'ia \textit{NLTK}.
+\textit{stopwords}. Para esto se probaron dos abordajes. Por un lado, se
+utiliz\'o el conjunto de palabras predefinidas como tales de la librer\'ia \textit{NLTK}
 \footnote{\url{https://raw.githubusercontent.com/nltk/nltk_data/gh-pages/packages/corpora/stopwords.zip}}
+y, por otro, se definió un conjunto de palabras consideradas \textit{stopwords}
+en el universo de estos discursos a partir de aplicar un análisis utilizando la
+Ley de Zipf.\todo[color=pink]{Expicar qué es la Ley de Zipf}
 
-\subsubsection{\textit{Odds}}
+\subsubsection{Ratio de \textit{Odds}}
 Asimismo, se compararon los \textit{odds} de ambos conjuntos de discursos:
 
-\begin{equation*}
+\begin{equation}
     O_w = \frac{O_{w}^{(P)}}{O_{w}^{(N)}}
-\end{equation*}
+\end{equation}
 
 aqu\'i, $O_{w}^{(X)}$ consiste en $f_{w}^{(X)}/(1-f_{w}^{(X)})$.
 
 \subsubsection{Ratio \textit{Log-odds}}
 Sobre los \textit{odds}, tambi\'en se calcul\'o el \textit{ratio log-odds} y
 se realiz\'o una comparaci\'on con ellos. Para este c\'alculo se utiliz\'o el
-logaritmo natural, $\ln{O_w}$
+logaritmo natural: $\ln{O_w}$
 
 \subsubsection{\textit{TF-IDF}}
 Los autores del art\'iculo ``\usebibentry{monroe2008fightin}{title}'' indican
@@ -57,21 +64,31 @@ que utilizaron tambi\'en, como estad\'istica comparativa, el algoritmo de asigna
 de peso \textit{TF-IDF}. Siguiendo su proceder, en este trabajo se intent\'o
 hacer lo mismo. Para ello, fue necesario implementar el c\'alculo, dado que
 la f\'ormula utilizada en el \textit{paper} no era la misma que la implementada
-por \textit{scikit-learn}, la librer\'ia usual para realizar este tipo extraer
+por \textit{scikit-learn}, la librer\'ia usual para extraer
 este tipo de \textit{scores}.\footnote{Para m\'as informaci\'on sobre las f\'ormulas
 implementadas por \textit{scikit-learn}, visitar:
 \url{https://scikit-learn.org/stable/modules/feature_extraction.html\#tfidf-term-weighting}}\par
-La f\'ormula usada por los autores, seg\'un ellos mismo señalan, es:
+Los autores indican haber usado dos fórmulas diferentes: ambar utilizando la frecuencia
+de término natural y sin normalizar, pero una con la frecuencia de documentos
+con logaritmo (fórmula \ref{equation-tfidf-ntn}) y la otra, con frecuencia de documento
+natural (fórmula \ref{equation-tfidf-nnn}):
 
-\begin{equation*}
-    tf.idf_{w}^{X} = f_{w}^{X} \times \ln\bigg({\frac{1}{df_{w}}}\bigg)
-\end{equation*}
+\begin{equation}
+\label{equation-tfidf-ntn}
+    tf.idf_{w}^{(X)}(ntn) = f_{w}^{(X)} \times \ln\bigg({\frac{1}{df_{w}}}\bigg)
+\end{equation}
 
-donde $f_{w}^{X}$ refiere a la proporci\'on de la palabra $w$ en el discurso
+\begin{equation}
+\label{equation-tfidf-nnn}
+    tf.idf_{w}^{(X)}(nnn) = \frac{f_{w}^{(X)}}{df_{w}}
+\end{equation}
+
+donde $f_{w}^{X}$ refiere a la proporci\'on del lema $w$ en el discurso
 perteneciente a $X$ (con $X \in \lbrace P,N \rbrace$) y $df_w$ refiere a la
-cantidad de documentos totales en los que aparece la palabra $w$.\par
-Lo que los autores no mencionan es qu\'e tipo de comparaci\'on realizan entre las
-palabras pertenecientes a los distintos discursos. Siguiendo los procedimientos
+cantidad de documentos totales en los que aparece el lema $w$.
+\par
+Lo que los autores no mencionan es qu\'e tipo de comparaci\'on realizan entre los
+lemas pertenecientes a los distintos discursos. Siguiendo los procedimientos
 anteriores, en este trabajo se opt\'o por usar la sustracci\'on, por lo que:
 \todo[color=pink]{en resultados, recordar hablar de lo pol\'emico de este abordaje
 para}
@@ -82,10 +99,10 @@ para}
 
 \subsubsection{\textit{Word Scores}}
 Por \'ultimo, se utiliz\'o tambi\'en el procedimiento \textit{WordScores} descripto por
-\cite{laver2003extracting}, que le asigna un peso a las palabras a partir
+\cite{laver2003extracting}, que le asigna un peso a los lemas a partir
 del siguiente c\'alculo:\todo[color=pink]{checkear si es de ellos o de qui\'en}
 
 \begin{equation*}
-    W_{w}^{^*(P-N)} = \frac{y_{w}^{(P)}/n^{(P)}-y_{w}^{(N)}/n^{(N)}}{y_{w}^{(P)}/n^{(P)}+y_{w}^{(N)}/n^{(N)}}n_{k}
+    W_{w}^{^*(P-N)} = \frac{y_{w}^{(P)}/n^{(P)}-y_{w}^{(N)}/n^{(N)}}{y_{w}^{(P)}/n^{(P)}+y_{w}^{(N)}/n^{(N)}}n_{w}
 \end{equation*}\todo[color=pink]{leer lowe 2008, understanding wordscores y demostar
 this is nearly identical to the difference of proportions measure (correlate at over +0.998)}

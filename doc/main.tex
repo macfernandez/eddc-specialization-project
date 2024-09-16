@@ -44,7 +44,16 @@
 \newpage
 
 \begin{abstract}
-\todo[color=blue!40]{Escribir abstract}Abstract.
+En este trabajo se aborda la selección y evaluación de rasgos para el
+entrenamiento de modelos de aprendizaje automatizado aplicado sobre datos textuales.
+El \textit{corpus} con el que se trabajó pertenece a la transcripción taquigráfica
+de la sesión del Senado de la Nación Argentina para la reglamentación del acceso
+al aborto, la cual fue obtenida mediante la técnica de \textit{scraping}. Durante el
+procesamiento de los datos se recurrió a una lematización automatizada sobre la que
+luego se realizó una corrección manual. Los datos fueron analizados empleando
+métodos estadísticos tomados de \cite{monroe2008fightin}, que permitieron la selección
+de rasgos y el posterior entrenamiento de modelos predictivos como
+\textit{Naive Bayes} multinominal, regresión logísitca y máquinas de soporte vectorial.
 \end{abstract}
 
 \section{Introducci\'on}
@@ -87,7 +96,7 @@
 \clearpage
 \appendix
 \section{Anexo}
-\subsection{Guías de anotación}\label{appendix-annotation}
+\subsection{Guía de anotación}\label{appendix-annotation}
 \input{sections/appendix/annotation.tex}
 
 \listoftodos%
