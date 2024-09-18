@@ -61,9 +61,13 @@ def match_senator_name(senator: str, speakers: list) -> list:
     return senator
 
     
-def plot_stats(df: pd.DataFrame, title: str, ylabel: str, filename: str = None):
+def plot_stats(
+    df: pd.DataFrame, title: str, ylabel: str, filename: str = None, nwords: int = 25
+    ):
     # df copy
     df_copy = deepcopy(df)
+    df_copy["word"] = df_copy["word"].apply(postprocess_word)
+    df_copy["group"] = df_copy["diff"].apply(lambda x: "pos" if x>=0 else "neg")
     
     # calculate dots sizes
     _min, _max = df_copy["diff"].min(), df_copy["diff"].max()
@@ -77,13 +81,23 @@ def plot_stats(df: pd.DataFrame, title: str, ylabel: str, filename: str = None):
     
     for df, method, inv in zip([pos, neg],["nlargest", "nsmallest"], [False, True]):
         if not df.empty:
-            word_texts.append(scale_text(df, method, 25, inv))
+            word_texts.append(scale_text(df, method, nwords, inv))
     word_texts = pd.concat(word_texts)
 
     # plot
     fig, ax = plt.subplots(figsize=(9,9))
 
-    sns.scatterplot(df_copy, x="total", y="diff", size=dot_size, ax=ax)
+    color_map = {"pos":"#1f77b4", "neg":"#d62728"}
+    sns.scatterplot(df_copy, x="total", y="diff",
+                    size=dot_size, ax=ax, alpha=.7,
+                    hue="group", palette=color_map
+    )
+
+    # add words to the right
+    ylim_min, ylim_max = ax.get_ylim()
+    ylim_div = (ylim_max-ylim_min)/(nwords*2)
+
+    xlim_min, xlim_max = ax.get_xlim()
     
     for e, (i, row) in enumerate(word_texts.iterrows(), start=1):
 
@@ -92,13 +106,12 @@ def plot_stats(df: pd.DataFrame, title: str, ylabel: str, filename: str = None):
             row["total"], row["size"], row["word"],
             horizontalalignment='left', color='black', fontsize=row["text_size"]
         )
-
-        # add words to the right
-        ylim_min, ylim_max = ax.get_ylim()
-        ylim_div = (ylim_max-ylim_min)/50
+        
         ax.text(
-            ax.get_xlim()[1]+2, ylim_max-(e*ylim_div), row["word"],
-            horizontalalignment='left', color='black', fontsize=row["text_size"]
+            xlim_max+2, ylim_max-(e*ylim_div), row["word"],
+            horizontalalignment='left', color=color_map.get(row["group"]),
+            fontsize=row["text_size"],
+            alpha=.9
         )
 
     ax.set_title(title)
@@ -111,6 +124,14 @@ def plot_stats(df: pd.DataFrame, title: str, ylabel: str, filename: str = None):
         plt.savefig(filename)
     else:
         plt.show()
+    
+
+def postprocess_word(word: str):
+    return re.sub(
+        r"(?P<word>[a-z]+_)(?P<tag>[a-z]+)",
+        lambda x: f"{x.group('word')}{x.group('tag').upper()}",
+        word
+    )
 
 
 def preprocess_name(name: str) -> str:
