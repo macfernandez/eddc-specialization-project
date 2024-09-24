@@ -2,6 +2,7 @@ from copy import deepcopy
 import math
 import os
 import re
+import random
 from string import punctuation
 
 import bs4 as bs
@@ -14,6 +15,7 @@ from sklearn.base import BaseEstimator
 from sklearn.preprocessing import MinMaxScaler
 import spacy
 
+random.seed(6300)
 
 STEMMER = stem.SnowballStemmer("spanish")
 SPACY_MODEL = spacy.load("es_core_news_md")
@@ -62,12 +64,15 @@ def match_senator_name(senator: str, speakers: list) -> list:
 
     
 def plot_stats(
-    df: pd.DataFrame, title: str, ylabel: str, filename: str = None, nwords: int = 25
+    df: pd.DataFrame, title: str, ylabel: str, filename: str = None, nwords: int = 25,
+    threshold: int = 0
     ):
     # df copy
     df_copy = deepcopy(df)
     df_copy["word"] = df_copy["word"].apply(postprocess_word)
-    df_copy["group"] = df_copy["diff"].apply(lambda x: "pos" if x>=0 else "neg")
+    df_copy["group"] = df_copy["diff"].apply(
+        lambda x: "pos" if x>=threshold else "neg"
+    )
     
     # calculate dots sizes
     _min, _max = df_copy["diff"].min(), df_copy["diff"].max()
@@ -76,16 +81,18 @@ def plot_stats(
     dot_size = scale(df_copy["size"], MinMaxScaler, (0.001,1.0))
 
     # calculate words texts
-    neg, pos = df_copy[df_copy["size"]<0], df_copy[0<=df_copy["size"]]
+    neg, pos = df_copy[df_copy["group"]=="neg"], df_copy[df_copy["group"]=="pos"]
     word_texts = list()
     
-    for df, method, inv in zip([pos, neg],["nlargest", "nsmallest"], [False, True]):
+    for df, method, col, inv in zip(
+        [pos, neg], ["nlargest", "nsmallest"], ["pos", "neg"], [False, True]
+    ):
         if not df.empty:
-            word_texts.append(scale_text(df, method, nwords, inv))
+            word_texts.append(scale_text(df, method, col, nwords, inv))
     word_texts = pd.concat(word_texts)
 
     # plot
-    fig, ax = plt.subplots(figsize=(9,9))
+    fig, ax = plt.subplots(figsize=(12,10))
 
     color_map = {"pos":"#1f77b4", "neg":"#d62728"}
     sns.scatterplot(df_copy, x="total", y="diff",
@@ -108,7 +115,7 @@ def plot_stats(
         )
         
         ax.text(
-            xlim_max+2, ylim_max-(e*ylim_div), row["word"],
+            xlim_max+1, ylim_max-(e*ylim_div), row["word"],
             horizontalalignment='left', color=color_map.get(row["group"]),
             fontsize=row["text_size"],
             alpha=.9
@@ -179,12 +186,18 @@ def scale(
     return y
 
 
-def scale_text(df: pd.DataFrame, func: callable, n: int = 30, inverse: bool = False) -> pd.DataFrame:
+def scale_text(
+    df: pd.DataFrame, func: callable, col: str, n: int = 30, inverse: bool = False
+    ) -> pd.DataFrame:
     words_scaler = MinMaxScaler(feature_range=(8.0,16.0))
     method = getattr(df, func)
     inv = -1 if inverse else 1
+    method_called = method(n=n, columns=["diff", col], keep="all")
+    if method_called.shape[0] > n:
+        idx = random.sample(method_called.index.to_list(), k=25)
+        method_called = method_called.loc[idx]
     df = (
-        method(n=n, columns=["size"], keep="all")
+        method_called
         .assign(
             text_size=lambda x: words_scaler.fit_transform(np.array(x["size"]*inv).reshape(-1,1))
         )

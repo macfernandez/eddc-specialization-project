@@ -25,6 +25,7 @@ la legalizaci\'on. En caso contrario, ser\'a caracter\'istica de quienes votaron
 en contra.
 
 \subsubsection{Diferencia de proporciones}
+\label{subsubsect-proportions}
 El segundo contraste realizado utiliz\'o, en lugar de las frecuencias absolutas,
 la proporci\'on de los lemas en cada conjunto de discursos.
 
@@ -38,12 +39,16 @@ la frecuencia absoluta del lema $w$ en el cojunto los discursos de $X$
 y $n^{(X)}$, la cantidad de lemas totales en esos discursos.
 
 El mismo abordaje se intent\'o removiendo previamente las palabras consideradas
-\textit{stopwords}. Para esto se probaron dos abordajes. Por un lado, se
+\textit{stopwords}. Para esto se probaron dos alternativas. Por un lado, se
 utiliz\'o el conjunto de palabras predefinidas como tales de la librer\'ia \textit{NLTK}
 \footnote{\url{https://raw.githubusercontent.com/nltk/nltk_data/gh-pages/packages/corpora/stopwords.zip}}
-y, por otro, se definió un conjunto de palabras consideradas \textit{stopwords}
-en el universo de estos discursos a partir de aplicar un análisis utilizando la
-Ley de Zipf.\todo[color=pink]{Expicar qué es la Ley de Zipf}
+y, por otro, se utilizó la Ley de Zipf para definir el conjunto de palabras
+consideradas \textit{stopwords} en el universo de estos discursos.
+Para esto, se calculó la frecuencia absoluta de aparición de
+cada token y, en virtud de esa frecuencia, se estableció \textit{ranking}
+ordenando las palabras de manera decreciente según su aparición.
+Luego se contrastó diche frecuencia con el orden asignado y se definió
+un umbral a partir del cual una palabra es considerada \textit{stopword}.
 
 \subsubsection{Ratio de \textit{Odds}}
 Asimismo, se compararon los \textit{odds} de ambos conjuntos de discursos:
