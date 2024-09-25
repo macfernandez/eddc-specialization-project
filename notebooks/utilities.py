@@ -15,7 +15,6 @@ from sklearn.base import BaseEstimator
 from sklearn.preprocessing import MinMaxScaler
 import spacy
 
-random.seed(6300)
 
 STEMMER = stem.SnowballStemmer("spanish")
 SPACY_MODEL = spacy.load("es_core_news_md")
@@ -47,9 +46,9 @@ def count_tokens(text: str, unique: bool=False) -> int:
 
 def map_inf(x: float, min_value: float, max_value: float) -> float:
     if x == -math.inf:
-        return math.ceil(min_value)
+        return math.floor(min_value)
     elif x == math.inf:
-        return math.floor(max_value)
+        return math.ceil(max_value)
     else:
         return x
 
@@ -62,6 +61,33 @@ def match_senator_name(senator: str, speakers: list) -> list:
     senator = [speakers[i] for i in senator_idx]
     return senator
 
+def list_words(
+    df: pd.DataFrame, nwords: int = 25, threshold: int = 0
+):
+    df_copy = deepcopy(df)
+    df_copy = (
+        df_copy
+        .assign(
+            _word=lambda x: x.word.apply(lambda z: z.split("_")[0]),
+            _pos=lambda x: x.word.apply(lambda z: z.split("_")[1]),
+            group=lambda x: x["diff"].apply(lambda z: "pos" if z>=threshold else "neg")
+        )
+    )
+    neg, pos = df_copy[df_copy["group"]=="neg"], df_copy[df_copy["group"]=="pos"]
+    
+    for col in ["pos", "neg"]:
+        print(f"--- {col.upper()}")
+        df = eval(col)
+        inv = True if ((df["diff"].min()<0) and (df["diff"].max()<0)) else False
+        df_scaled = scale_text(df, col, n=nwords, inverse=inv)
+        df_grouped = (
+            df_scaled
+            .groupby("_pos")["_word"].apply(
+                lambda x: ", ".join(pd.Series(x).apply(lambda z: f"`{z}'").tolist())
+            )
+        )
+        for key, value in df_grouped.items():
+            print(f"{value} ({key})")
     
 def plot_stats(
     df: pd.DataFrame, title: str, ylabel: str, filename: str = None, nwords: int = 25,
@@ -75,7 +101,8 @@ def plot_stats(
     )
     
     # calculate dots sizes
-    _min, _max = df_copy["diff"].min(), df_copy["diff"].max()
+    diff_not_inf = df.loc[~df_copy["diff"].isin([math.inf,-math.inf]),"diff"]
+    _min, _max = diff_not_inf.min(), diff_not_inf.max()
     df_copy["size"] = df_copy["diff"].apply(lambda x: map_inf(x, _min, _max))
     
     dot_size = scale(df_copy["size"], MinMaxScaler, (0.001,1.0))
@@ -84,11 +111,11 @@ def plot_stats(
     neg, pos = df_copy[df_copy["group"]=="neg"], df_copy[df_copy["group"]=="pos"]
     word_texts = list()
     
-    for df, method, col, inv in zip(
-        [pos, neg], ["nlargest", "nsmallest"], ["pos", "neg"], [False, True]
-    ):
+    for col in ["pos", "neg"]:
+        df = eval(col)
         if not df.empty:
-            word_texts.append(scale_text(df, method, col, nwords, inv))
+            inv = True if ((df["size"].min()<0) and (df["size"].max()<0)) else False
+            word_texts.append(scale_text(df, col, nwords, inv))
     word_texts = pd.concat(word_texts)
 
     # plot
@@ -187,22 +214,34 @@ def scale(
 
 
 def scale_text(
-    df: pd.DataFrame, func: callable, col: str, n: int = 30, inverse: bool = False
+    df: pd.DataFrame, col: str, n: int = 30, inverse: bool = False
     ) -> pd.DataFrame:
     words_scaler = MinMaxScaler(feature_range=(8.0,16.0))
-    method = getattr(df, func)
+    if col == "pos":
+        ascending = False
+    elif col == "neg":
+        ascending = True
+    df = df.sort_values(by=["diff", col], ascending=[ascending, False])
+    df_chunk = df.head(n)
+    remaining = df[(df["diff"]==df_chunk.iloc[-1]["diff"]) & (df[col]==df_chunk.iloc[-1][col])]
+    to_add = [r for r in remaining.index.tolist() if r not in df_chunk.index]
+    if to_add:
+        df_chunk = pd.concat([df_chunk, remaining.loc[to_add]])
     inv = -1 if inverse else 1
-    method_called = method(n=n, columns=["diff", col], keep="all")
-    if method_called.shape[0] > n:
-        idx = random.sample(method_called.index.to_list(), k=25)
-        method_called = method_called.loc[idx]
-    df = (
-        method_called
-        .assign(
-            text_size=lambda x: words_scaler.fit_transform(np.array(x["size"]*inv).reshape(-1,1))
+    if df_chunk.shape[0] > n:
+        random.seed(6300)
+        idx = random.sample(df_chunk.index.to_list(), k=25)
+        df_chunk = df_chunk.loc[idx]
+    if "size" in df_chunk.columns:
+        df = (
+            df_chunk
+            .assign(
+                text_size=lambda x: words_scaler.fit_transform(np.array(x["size"]*inv).reshape(-1,1))
+            )
+            .sort_values(by=["diff",col], ascending=[False,ascending])
         )
-        .sort_values(by=["size"], ascending=False)
-    )
+    else:
+        df = df_chunk.sort_values(by=["diff",col], ascending=[False,ascending])
     return df
 
 

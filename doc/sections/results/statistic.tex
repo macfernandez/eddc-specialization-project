@@ -144,9 +144,32 @@ con la concepción y el nacimiento.
 \end{figure}
 
 \subsubsection{Ratio de \textit{Odds}}
-La comparación utilizando \textit{Odds} se mostró menos transparente
-Decir que acá la diferencia nos es pos y neg sino mayor o menor que 1
-Se tuvo que remover las palabras con inf
+A diferencia de los casos anteriores, por la definición de la función de
+\textit{ratio} de \textit{odds}, el punto de corte para considerar
+a una palabra como característica de cada discurso ya no es el $0$ sino el $1$:
+las palabras por encima de ese umbral serán las positivas y aquellas por debajo,
+las negativas. Nótese que, dado que la ocurrencia de una palabra nunca es negativa,
+los \textit{ratios} calculados solo arrojarán valores positivos. Por otro lado,
+la función no estará definida para los casos en los cuales una palabra se
+observe solamente en el conjunto de discursos a favor, dado que no es posible
+dividir por $0$. Se observaron 1871 registros en esta situación, los cuales
+fueron removidos para poder proceder con una visualización semejante a la realizada
+anteriormente y, así, realizar el análisis.
+\par
+
+POSITIVO
+`abandonada', `abultado', `abstracto', `abandonado', `abortivo', `abortista', `abierto', `abierta', `abdominal', `aceptada' (adj)
+`abrumadoramente' (adv)
+`absolución', `acento', `accesibilidad', `abuelo', `abuelastro', `abstracción', `abstención', `abolición', `abogada', `abismo' (noun)
+`abstener', `absolver', `abrazar', `aber' (verb)
+-----------------------------------------------------------------
+NEGATIVO
+`administrado', `activa', `acertado', `acelerada', `abusiva', `abocado' (adj)
+`acertadamente', `abruptamente', `abiertamente' (adv)
+`adjetivación', `actuación', `actor', `abandono', `abogado', `aberración' (noun)
+`adn', `adam', `adolfo' (propn)
+`abandonar', `acordado', `acontecer', `acentuar', `acelerar', `acatar', `abarcar' (verb)
+
 
 \subsubsection{Ratio \textit{Log-odds}}
 
