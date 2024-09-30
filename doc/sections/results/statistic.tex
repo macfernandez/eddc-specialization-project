@@ -76,7 +76,7 @@ E irrumpe, como novedad, la palabra `vida'.
     \label{fig-statistics-proportions}
 \end{figure}
 
-\paragraph{Proporciones sin \textit{stopwords}}
+\paragraph{Corrección: remoción de \textit{stopwords}}
 \cite{monroe2008fightin} señalan que, si bien numerosos abordajes proponen remover
 las palabras consideradas \textit{stopwords} del \textit{corpus} a analizar con el
 fin de no viciar métricas como el cálculo de proporciones, ellos consideran inapropiado
@@ -152,34 +152,56 @@ las negativas. Nótese que, dado que la ocurrencia de una palabra nunca es negat
 los \textit{ratios} calculados solo arrojarán valores positivos. Por otro lado,
 la función no estará definida para los casos en los cuales una palabra se
 observe solamente en el conjunto de discursos a favor, dado que no es posible
-dividir por $0$. Se observaron 1871 registros en esta situación, los cuales
-fueron removidos para poder proceder con una visualización semejante a la realizada
-anteriormente y, así, realizar el análisis.
+dividir por $0$. Se observaron 1871 registros en esta situación, todos ellos
+pertenecientes a palabras presentes en los dicursos positivos y ausentes En
+los negativos.
 \par
-
-POSITIVO
-`abandonada', `abultado', `abstracto', `abandonado', `abortivo', `abortista', `abierto', `abierta', `abdominal', `aceptada' (adj)
-`abrumadoramente' (adv)
-`absolución', `acento', `accesibilidad', `abuelo', `abuelastro', `abstracción', `abstención', `abolición', `abogada', `abismo' (noun)
-`abstener', `absolver', `abrazar', `aber' (verb)
------------------------------------------------------------------
-NEGATIVO
-`administrado', `activa', `acertado', `acelerada', `abusiva', `abocado' (adj)
-`acertadamente', `abruptamente', `abiertamente' (adv)
-`adjetivación', `actuación', `actor', `abandono', `abogado', `aberración' (noun)
-`adn', `adam', `adolfo' (propn)
-`abandonar', `acordado', `acontecer', `acentuar', `acelerar', `acatar', `abarcar' (verb)
-
+Al analizar las palabras arrojadas como representativas de cada discurso, se
+encuentra que el grupo de votantes a favor hace referencia a las violaciones
+(con el adjetivo `violada'); a la clandestinidad (con el adjetivo `clandestina'),
+y a la interrupción legal del embarazo (con la sigla `ILE'). Vuelve a aparecer,
+a su vez, la cuestión de la elección (con el verbo `elegir'), y hallamos también
+la presencia de verbos referentes al castigo (`castigar'), al parto (`parir') y
+al hecho de juzgar. Por otro lado, en los discursos negativos se encontraron
+adjetivos como `inoportuno'; sustantivos como `respaldo', `juicio' y `hambre', 
+y verbos como `aprovechar' y `justificar'.
 
 \subsubsection{Ratio \textit{Log-odds}}
 
+Los resultados de aplicar el logaritmo sobre el ratio de \textit{odds} no distaron
+de los observados sin su aplicación. La única mejora se dio en
+términos de la visualización de los datos: al tomar logaritmo, el umbral que separa
+las palabras de los discursos positivos de los negativos vuelve a ser el $0$ y,
+similar a lo que ocurre en los gráficos anteriores, los puntos representativos
+de las palabras se ordenan de forma espejada, mientras que, sin tomar logaritmo,
+esto no ocurrió y la interpretabilidad de los datos resultó más dificultosa.
+
+\paragraph{Suavizado}
+Así como ocurría con el ratio de \textit{odds}, el ratio de \textit{log-odds} no
+permite capturar claramente aquellos csos en los que una palabra solo se observa en
+un grupo de discursos pero no en el otro. Por su formulación, cuando una palabra
+ocurra solamente en los discursos negativos, el logaritmo devolverá el valor $1$ y,
+cuando solo ocurra en los discursos positivos, la función estará indefinida. Para
+superar esta limitación, se aplicó un suavizado sobre tales casos.
+\par
+Sin embargo, como señalan \cite{monroe2008fightin}, si bien esta técnica permite
+lidiar con las palabras conf frecuencia $0$ para algún grupo discursivo, arroja,
+en cada caso, un conjunto de palabras cuya interepreación resulta un poco más
+oscura respecto de la su relevancia para el tópico en cuestion. En el caso
+de los discursos a favor, podemos encontrar algunas más claras como `médica',
+`matriculado', `privilegiado', entre los adjetivos, y `solvencia', entre los nombres,
+pero otras menos claras como `operatividad', `tapita', `alcohol', `postre',
+`desencuentro'. Y, por parte de los discursos en contra, vemos `dramáticp', `sordo' y
+`biológico', como casos de adejtivos que podrían ser más fácilmente vinculados a la
+temática, y `horizontal', `restringida', `pavada', `plasmada', `transitado', `sumado',
+`ilustrar', como casos que, al menos, requieren un análisis más agudo para poder
+aventurar una interepreación.
+
 \subsubsection{\textit{TF-IDF}}
+
+\paragraph{Frecuencia de documentos natural}
+
+\paragraph{Frecuencia de documentos con logaritmo}
 
 \subsubsection{\textit{Word Scores}}
 
-
-% gráficos que debería mostrar en la des de
-% los datos porque son funcionales a esta sección
-% --- cantidad de votantes de cada intención de voto
-% --- cantitdad de discursos emitidos por cada grupo
-% --- longitud de los discursos emitidos

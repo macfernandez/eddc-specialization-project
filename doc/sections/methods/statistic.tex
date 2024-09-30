@@ -60,9 +60,14 @@ Asimismo, se compararon los \textit{odds} de ambos conjuntos de discursos:
 aqu\'i, $O_{w}^{(X)}$ consiste en $f_{w}^{(X)}/(1-f_{w}^{(X)})$.
 
 \subsubsection{Ratio \textit{Log-odds}}
-Sobre los \textit{odds}, tambi\'en se calcul\'o el \textit{ratio log-odds} y
-se realiz\'o una comparaci\'on con ellos. Para este c\'alculo se utiliz\'o el
-logaritmo natural: $\ln{O_w}$
+Sobre los \textit{odds}, tambi\'en se calcul\'o el \textit{ratio log-odds}.
+Para este c\'alculo se utiliz\'o el logaritmo natural: $\ln{O_w}$.
+Asimismo, se realizó un suavizado sobre las frecuencias en los casos
+en los que las palabras solo se encontraban en uno de los grupos
+discursivos. Dicho suavizado consistió en agregar un peso predefinido a las
+frecuencias relativas, $\tilde{f}^{i}_{w} = f^{i}_{w}+\epsilon$, y tomar
+este valor en el cálculo del ratio. Siguiendo a \cite{monroe2008fightin},
+se utilizó $\epsilon=0.5$.
 
 \subsubsection{\textit{TF-IDF}}
 Los autores del art\'iculo ``\usebibentry{monroe2008fightin}{title}'' indican
