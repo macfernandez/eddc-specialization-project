@@ -21,11 +21,11 @@ los votantes a favor.
     \includegraphics[scale=0.4]{../visualizations/stats/frecuencias.png}
     \caption{Comparación de palabras características de los votos afirmativos y
     negativos tomando como medida la diferencia de frecuencias absolutas descripta
-    en la sección \ref{subsubsect-freq-abs}. El eje de abscisas indica el logaritmo
-    de la frecuencia absoluta de cada palabra en el conjunto de total de discursos
-    y el eje de ordenadas, la comparación en cuestión. En la columna de la
-    derecha se observan las 25 palabras más representativas de cada grupo de
-    votantes escaladas según su relevancia.}
+    en la sección \ref{subsubsec-methods-freq-abs}. El eje de abscisas indica el
+    logaritmo de la frecuencia absoluta de cada palabra en el conjunto de total
+    de discursos y el eje de ordenadas, la comparación en cuestión. En la
+    columna de la derecha se observan las 25 palabras más representativas de
+    cada grupo de votantes escaladas según su relevancia.}
     \label{fig-statistics-freq-abs}
 \end{figure}
 
@@ -44,6 +44,7 @@ y su lugar en la vida de una sociedad o privada de los ciudadanos
 sobre qué actos poner el foco (`respetar', `nacer', `concepción').
 
 \subsubsection{Diferencia de proporciones}
+\label{subsubsec-results-proporcions}
 Al normalizar la frecuencia absoluta de cada palabra con la cantidad
 de palabras totales emitidas por cada grupo, el cálculo de proporciones permite
 superar la limitación observada en el apartado anterior.
@@ -72,7 +73,7 @@ E irrumpe, como novedad, la palabra `vida'.
     \includegraphics[scale=0.4]{../visualizations/stats/proporciones.png}
     \caption{Comparación de palabras características de los votos afirmativos y
     negativos tomando como medida la diferencia de proporciones descripta
-    en la sección \ref{subsubsect-proportions}.}
+    en la sección \ref{subsubsec-methods-proportions}.}
     \label{fig-statistics-proportions}
 \end{figure}
 
@@ -90,7 +91,7 @@ contrastar lo sostenido por los autores, aquí se intentaron dos remociones empl
 distingos métodos para la definición del conjunto de \textit{stopwords}.
 
 \subparagraph{Librería NLTK}
-Como se adelantó en \ref{subsubsect-proportions}, se tomó el conjunto cerrado de
+Como se adelantó en \ref{subsubsec-methods-proportions}, se tomó el conjunto cerrado de
 \textit{stopwords} predefinido por esta librería y se removió tales ocurrencias
 del corpus trabajado.
 Luego se volvió a realizar el análisis de proporciones y, esta
@@ -138,7 +139,7 @@ con la concepción y el nacimiento.
     \includegraphics[scale=0.4]{../visualizations/stats/proporciones_sin_stopwords_zipf.png}
     \caption{Comparación de palabras características de los votos afirmativos y
     negativos tomando como medida la diferencia de proporciones descripta
-    en la sección \ref{subsubsect-proportions} luego de la remoción de
+    en la sección \ref{subsubsec-methods-proportions} luego de la remoción de
     \textit{stopwrods} utilizando la Ley de Zipf.}
     \label{fig-statistics-proportions-zipf}
 \end{figure}
@@ -200,8 +201,50 @@ aventurar una interepreación.
 \subsubsection{\textit{TF-IDF}}
 
 \paragraph{Frecuencia de documentos natural}
+Similar a lo hallado por \cite{monroe2008fightin}, esta métrica presenta una
+fuerte correlación ($-0.96$) con los resultados arrojados por la diferencia
+de proporciones. La misma es de tipo inverso debido a la naturaleza del cálculo
+utilizado: la frecuencia relativa es simpre positiva y el logaritmo de la
+frecuencia inversa de un término en los documetnos, negativo. De modo que aquí,
+a diferencia de los gráfios anteriores, los lemas representativos de los discursos
+a favor se visualizarán debajo del eje `x' y aquellos representativos de los
+discursos en contra, por encima. Quitando esta salvedad, las palabras observadas
+para cada grupo son las mismas que las detalladas en la sección
+\ref{subsubsec-results-proporcions} para la diferencia de proporciones.
 
 \paragraph{Frecuencia de documentos con logaritmo}
+Esta métrica no mostró resultados de fácil interpretación. Las palabras de cada
+grupo resultaron ampliamente variadas y con poca conexión semántica
+entre sí y con la temática de interés. Es por esto que, por cuestiones de espacio,
+omitiremos detallarla.
 
 \subsubsection{\textit{Word Scores}}
 
+--- POS
+`a', `en', `con' (adp)
+`hoy', `también' (adv)
+`pero' (cconj)
+`la', `esa', `su' (det)
+`mujer', `aborto', `embarazo', `sociedad', `debate', `año', `decisión', `clandestinidad' (noun)
+`yo' (pron)
+`que' (sconj)
+`decidir', `querer', `abortar', `haber', `seguir', `ir' (verb)
+--- NEG
+`internacional' (adj)
+`desde', `al', `por' (adp)
+`no' (adv)
+`o' (cconj)
+`el' (det)
+`problema', `persona', `senador', `artículo', `concepción', `proyecto', `presidenta', `derecho', `niña', `vida' (noun)
+`él', `esto', `se' (pron)
+`constitución' (propn)
+`tener', `nacer', `decir', `ser' (verb)
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[scale=0.4]{../visualizations/stats/wordscores.png}
+    \caption{Comparación de palabras características de los votos afirmativos y
+    negativos tomando como medida el \textit{word score} descripto
+    en la sección \ref{subsubsec-methods-wordscores}.}
+    \label{fig-statistics-wordscores}
+\end{figure}

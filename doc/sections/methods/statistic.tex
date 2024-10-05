@@ -8,7 +8,7 @@ se utilizaron las lematizaciones de las palabras incluyendo su categoría
 gramatical.
 
 \subsubsection{Diferencia de frecuencias absolutas}
-\label{subsubsect-freq-abs}
+\label{subsubsec-methods-freq-abs}
 En primer lugar, se contrastaron los lemas de los discursos de los
 senadores con votos positivos conlos de los de senadores con votos negativos
 utilizando la diferencia de frecuencias absolutas:
@@ -25,7 +25,7 @@ la legalizaci\'on. En caso contrario, ser\'a caracter\'istica de quienes votaron
 en contra.
 
 \subsubsection{Diferencia de proporciones}
-\label{subsubsect-proportions}
+\label{subsubsec-methods-proportions}
 El segundo contraste realizado utiliz\'o, en lugar de las frecuencias absolutas,
 la proporci\'on de los lemas en cada conjunto de discursos.
 
@@ -79,10 +79,10 @@ por \textit{scikit-learn}, la librer\'ia usual para extraer
 este tipo de \textit{scores}.\footnote{Para m\'as informaci\'on sobre las f\'ormulas
 implementadas por \textit{scikit-learn}, visitar:
 \url{https://scikit-learn.org/stable/modules/feature_extraction.html\#tfidf-term-weighting}}\par
-Los autores indican haber usado dos fórmulas diferentes: ambar utilizando la frecuencia
+Los autores indican haber usado dos fórmulas diferentes: ambas utilizando la frecuencia
 de término natural y sin normalizar, pero una con la frecuencia de documentos
 con logaritmo (fórmula \ref{equation-tfidf-ntn}) y la otra, con frecuencia de documento
-natural (fórmula \ref{equation-tfidf-nnn}):
+natural (fórmula \ref{equation-tfidf-nnn}).
 
 \begin{equation}
 \label{equation-tfidf-ntn}
@@ -109,6 +109,7 @@ para}
 \end{equation*}
 
 \subsubsection{\textit{Word Scores}}
+\label{subsubsec-methods-wordscores}
 Por \'ultimo, se utiliz\'o tambi\'en el procedimiento \textit{WordScores} descripto por
 \cite{laver2003extracting}, que le asigna un peso a los lemas a partir
 del siguiente c\'alculo:\todo[color=pink]{checkear si es de ellos o de qui\'en}
