@@ -51,7 +51,7 @@ superar la limitación observada en el apartado anterior.
 La figura \ref{fig-statistics-proportions} ya no muestra en su mayoría palabras
 vinculadas al grupo de votantes a favor de la legalización, sino que también
 deja ver una gran cantidad de palabras relacionadas al grupo de votantes en contra.
-Sembargo, este análisis sigue careciendo de validez semántica puesto que, como bien
+Sin embargo, este análisis sigue careciendo de validez semántica puesto que, como bien
 indican \cite{monroe2008fightin}, no deja de asignarle mayor peso a aquellas palabras
 que ocurren con más frecuencia. Si bien se observa una mayor presencia de palabras
 con cierta significatividad para la temática abordada, la mayoría de los lemas
@@ -200,7 +200,7 @@ aventurar una interepreación.
 
 \subsubsection{\textit{TF-IDF}}
 
-\paragraph{Frecuencia de documentos natural}
+\paragraph{Frecuencia de documentos con logaritmo}
 Similar a lo hallado por \cite{monroe2008fightin}, esta métrica presenta una
 fuerte correlación ($-0.96$) con los resultados arrojados por la diferencia
 de proporciones. La misma es de tipo inverso debido a la naturaleza del cálculo
@@ -212,7 +212,18 @@ discursos en contra, por encima. Quitando esta salvedad, las palabras observadas
 para cada grupo son las mismas que las detalladas en la sección
 \ref{subsubsec-results-proporcions} para la diferencia de proporciones.
 
-\paragraph{Frecuencia de documentos con logaritmo}
+\begin{figure}[h!]
+    \centering
+    \includegraphics[scale=0.4]{../visualizations/stats/tfidf_dflogged.png}
+    \caption{Comparación de palabras características de los votos afirmativos y
+    negativos tomando como medida \textit{TF-IDF} tomando logaritmo
+    sobre \textit{IDF}, tal como se describe en la sección
+    \ref{subsubsec-methods-tfidf}.}
+    \label{fig-statistics-wordscores}
+\end{figure}
+
+
+\paragraph{Frecuencia de documentos natural}
 Esta métrica no mostró resultados de fácil interpretación. Las palabras de cada
 grupo resultaron ampliamente variadas y con poca conexión semántica
 entre sí y con la temática de interés. Es por esto que, por cuestiones de espacio,
@@ -220,31 +231,10 @@ omitiremos detallarla.
 
 \subsubsection{\textit{Word Scores}}
 
---- POS
-`a', `en', `con' (adp)
-`hoy', `también' (adv)
-`pero' (cconj)
-`la', `esa', `su' (det)
-`mujer', `aborto', `embarazo', `sociedad', `debate', `año', `decisión', `clandestinidad' (noun)
-`yo' (pron)
-`que' (sconj)
-`decidir', `querer', `abortar', `haber', `seguir', `ir' (verb)
---- NEG
-`internacional' (adj)
-`desde', `al', `por' (adp)
-`no' (adv)
-`o' (cconj)
-`el' (det)
-`problema', `persona', `senador', `artículo', `concepción', `proyecto', `presidenta', `derecho', `niña', `vida' (noun)
-`él', `esto', `se' (pron)
-`constitución' (propn)
-`tener', `nacer', `decir', `ser' (verb)
-
-\begin{figure}[h!]
-    \centering
-    \includegraphics[scale=0.4]{../visualizations/stats/wordscores.png}
-    \caption{Comparación de palabras características de los votos afirmativos y
-    negativos tomando como medida el \textit{word score} descripto
-    en la sección \ref{subsubsec-methods-wordscores}.}
-    \label{fig-statistics-wordscores}
-\end{figure}
+Tal como señalan \cite{monroe2008fightin}, en este trabajo se contata que
+la métrica de \textit{word scores} correlaciona fuertemente ($+0.99$) con
+la calculada a partir de la diferencia de proporciones. De ahí que, las palabras
+que arroje como características de cada grupo sean las mismas que las antes
+observadas. En este sentido, esta métrica adolece de la misma limitación
+que aquella: asigna mayor peso a palabras de uso frecuente en el discurso antes
+que a aquellas que represantan mejor determinada postura.

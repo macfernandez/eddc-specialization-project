@@ -40,15 +40,17 @@ y $n^{(X)}$, la cantidad de lemas totales en esos discursos.
 
 El mismo abordaje se intent\'o removiendo previamente las palabras consideradas
 \textit{stopwords}. Para esto se probaron dos alternativas. Por un lado, se
-utiliz\'o el conjunto de palabras predefinidas como tales de la librer\'ia \textit{NLTK}
+utiliz\'o el conjunto predefinido de la librer\'ia \textit{NLTK}
 \footnote{\url{https://raw.githubusercontent.com/nltk/nltk_data/gh-pages/packages/corpora/stopwords.zip}}
-y, por otro, se utilizó la Ley de Zipf para definir el conjunto de palabras
-consideradas \textit{stopwords} en el universo de estos discursos.
-Para esto, se calculó la frecuencia absoluta de aparición de
-cada token y, en virtud de esa frecuencia, se estableció \textit{ranking}
-ordenando las palabras de manera decreciente según su aparición.
-Luego se contrastó diche frecuencia con el orden asignado y se definió
+y, por otro, se utilizó la Ley de Zipf. Este último procedimiento consiste en
+calcular la frecuencia absoluta de aparición de
+cada token y, en virtud de ella, establecer un \textit{ranking} de palabras
+ordenándolas de manera decreciente según su frecuencia de aparición.
+Luego, se contrasta dicha frecuencia con el orden asignado y se define
 un umbral a partir del cual una palabra es considerada \textit{stopword}.
+
+para definir el conjunto de palabras
+consideradas \textit{stopwords} en el universo de estos discursos.
 
 \subsubsection{Ratio de \textit{Odds}}
 Asimismo, se compararon los \textit{odds} de ambos conjuntos de discursos:
@@ -70,6 +72,7 @@ este valor en el cálculo del ratio. Siguiendo a \cite{monroe2008fightin},
 se utilizó $\epsilon=0.5$.
 
 \subsubsection{\textit{TF-IDF}}
+\label{subsubsec-methods-tfidf}
 Los autores del art\'iculo ``\usebibentry{monroe2008fightin}{title}'' indican
 que utilizaron tambi\'en, como estad\'istica comparativa, el algoritmo de asignaci\'on
 de peso \textit{TF-IDF}. Siguiendo su proceder, en este trabajo se intent\'o
