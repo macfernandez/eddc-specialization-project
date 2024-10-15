@@ -1,10 +1,66 @@
-% Temas a abordar
-%% Impacto de la reglamentaci\'on del acceso al aborto
-%% Importancia del acceso, por parte de los ciudadanos, a los datos
-%%  de incumbencia gubernamental y de organizaci\'on social
-%% Posibilidad de hacer un an\'alisis discursivo con mayor cantidad
-%%  de datos --> FerCa
-%% Relevancia de la buena selecci\'on de features para el an\'alisis
-%%  de texto y, en este caso, del discurso
-%% Paper seleccionado
-\todo[color=blue!40]{Escribir antecedentes}
+El ``Encuentro nacional de mujeres'' consisten en un evento de alcance nacional
+en el territorio argentino que se realiza de manera anual desde 1986, y se propone
+auto-convocado, democrático, pluralista y federal.
+Como fruto de este evento surge, en 2005, la ``Campaña nacional por el derecho al
+aborto legal, seguro y gratuito'', una alianza de organizaciones que promueve y
+lucha por la educación sexual como pilar fundamental en la decisión sobre la gestación,
+el acceso a métodos anticnceptions que permitan la adecuada prevención de embarazos
+no deseados, y el aborto legal, seguro y grauito que posibilite a la persona gestante
+a discontinuar con un embarazo si no desea atravesarlo.
+Hacia 2007, la campaña redacta y presenta el ``Proyecto de ley de interrupción
+voluntaria del embarazo'' como iniciativa social para que sea considerado por los
+legisladores y, así, llegase a ser tratado en el Congreso de la Nación.
+Pero no es sino hasta junio de 2018, y luego de reiteradas presentaciones que contaron
+con el aval de entre 20 y 70 diputados, que el proyecto llega a ser debatido en en la
+Cámara de Diputados, donde logra media sanción.
+Posteriormente, la Cámara de Senadores rechaza su aprobación.
+En diciembre de 2021, el proyecto se vuelve a tratar y, esta vez, logra la aprobación
+del Congreso.
+La ley 27.610, sobre el ``Acceso a la interrupción voluntaria del embarazo'', entró
+en vigencia en la Argentina el 24 de enero de 2021, y regula el acceso a la
+interrupción voluntaria del embarazo y a los cuidados postaborto a todas
+las personas con capacidad de gestar.\footnote{\citeauthor{campana@lalucha}.}
+\footnote{\citeauthor{huesped@historia}.}
+\par
+La ley 27.275 garantiza el acceso a la información pública y permite su búsqueda,
+acceso y solicitud, como así también su análisis, procesamiento, uso y distribución.
+Se considera información pública a todos aquellos datos generados, obtenidos o
+controlados por los organismos del Estado y empresas indicados en la ley, entre
+los cuales se encuentra, entre otros, el Poder Legislativo de la
+Nación\footnote{\citeauthor{minjusticia@accesoinfo}}, conformado por la Cámara
+de Diputados y Senadores.
+Luego de sus sesiones, ambas cámaras disponibilizan, en formato digital, la
+transcripción taquigráfica de la reunión, de modo que cualquier ciudadano con
+acceso a una computadora e internet pueda acceder a ella.
+\par
+Al trabajar con textos, el científico de datos se ve en la necesidad
+de vectorizar, mediante algún mecanismo, el \textit{corpus} con el que desea
+trabajar.
+De este modo, lo convierte en una secuencia de números capaz de ser
+procesada por una computadora siguiendo cierto procedimiento.
+Los textos, una vez convertidos en vectores, pueden ser agrupados, utilizados
+como conjunto de entrenamiento y testeo de modelos predictivos, o analizados para
+la obtención de información.
+En el capítulo 6 de \textit{Speech and language processing}, Jurafsky
+repasa los distintos usos y ventajas de la vectorización de documentos, a la vez
+que detalla los procedimientos más utilizados en aprendizaje automático y menciona,
+entre ellos, el modelo de \textit{TF-IDF} como uno de los métodos \textit{baselines}.
+\par
+Por su parte, \cite{monroe2008fightin} exponen una serie de técnicas
+que podrían ser útiles a la hora de capturar palabras con contenido partidario
+en el discurso político, y los aplican sobre datos tomados del Senado de los Estados
+Unidos. Sus objectivos se centran en la selección y evaluación de rasgos, a través
+de los cuales esperan distinguir qué palabras indican la adopción de una u otra postura
+y, de ahí, que pueda usarse como un \textit{feature} confiable a la hora de entrenar un
+modelo. A su vez, respecto de la evaluación, pretenden no solo comprender qué
+palabras caracterizan a determinado partido sino, además, en qué medida o grado
+lo caractirzan, cuáles son las palabras más partidarias o representativas de ciertas
+posturas.
+\par
+En este trabajo, se retoman las técnicas estadísticas detalladas por
+\citeauthor{monroe2008fightin} y se las utiliza para vectorizar los
+discursos emitidos por los senadores en la vigésimo tercera sesión
+del Congreso Nacional, en la cual se discutió la ley para el acceso a la interrupción
+voluntaria del embarazo.
+Se intenta, con esto, evaluar alternativas posibles al tradicional \textit{TF-IDF}
+y comparar su desempeño en la selección de rasgos y entrenamiento de modelos.

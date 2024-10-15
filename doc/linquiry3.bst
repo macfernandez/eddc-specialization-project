@@ -1104,6 +1104,18 @@ FUNCTION {misc}
   fin.entry
 }
 
+FUNCTION {custommisc}
+{ output.bibitem
+  format.authors output
+  author format.key output
+  format.title output
+  new.block
+  howpublished output
+  new.block
+  format.note output
+  fin.entry
+}
+
 FUNCTION {dictionay}
 { output.bibitem
   author empty$

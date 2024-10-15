@@ -52,10 +52,9 @@ El \textit{corpus} con el que se trabajó pertenece a la transcripción taquigr�
 de la sesión del Senado de la Nación Argentina para la reglamentación del acceso
 al aborto, la cual fue obtenida mediante la técnica de \textit{scraping}. Durante el
 procesamiento de los datos se recurrió a una lematización automatizada sobre la que
-luego se realizó una corrección manual. Los datos fueron analizados empleando
+luego se realizó una corrección manual. Los datos fueron vectorizados empleando
 métodos estadísticos tomados de \cite{monroe2008fightin}, que permitieron la selección
-de rasgos y el posterior entrenamiento de modelos predictivos como
-\textit{Naive Bayes} multinominal, regresión logísitca y máquinas de soporte vectorial.
+de rasgos y el posterior entrenamiento de un modelo de Regresión Logísitca.
 \end{abstract}
 
 \section{Introducci\'on}
@@ -73,9 +72,9 @@ de rasgos y el posterior entrenamiento de modelos predictivos como
 \section{Metodolog\'ia}
 \subsection{Anotación}
 \input{sections/methods/annotation.tex}
-\subsection{Aplicación de m\'etodos estad\'isticos}
+\subsection{Selección de rasgos}
 \input{sections/methods/statistic.tex}
-\subsection{Entrenamiento de modelos}
+\subsection{Entrenamiento de un modelo predictivo}
 \input{sections/methods/models.tex}
 \subsection{Evaluaci\'on}
 \input{sections/methods/evaluation.tex}
@@ -83,9 +82,9 @@ de rasgos y el posterior entrenamiento de modelos predictivos como
 \section{Resultados}
 \subsection{Anotación}\label{subsec-results-annotation}
 \input{sections/results/annotation.tex}
-\subsection{Aplicación de m\'etodos estad\'isticos}
+\subsection{Selección de rasgos}
 \input{sections/results/statistic.tex}
-\subsection{Entrenamiento de modelos}
+\subsection{Entrenamiento de un modelo predictivo}
 \input{sections/results/models.tex}
 \subsection{Evaluaci\'on}
 \input{sections/results/evaluation.tex}
