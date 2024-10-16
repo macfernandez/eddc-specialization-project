@@ -466,6 +466,7 @@ class CustomTfidfVectorizer(CustomProportionsVectorizer):
     
         return super().transform(raw_documents)
 
+
 class CustomWordScoresVectorizer(CustomProportionsVectorizer):
     def __init__(
         self,
