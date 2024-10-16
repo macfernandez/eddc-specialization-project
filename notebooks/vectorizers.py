@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 from sklearn.feature_extraction.text import CountVectorizer
 
-from notebooks.config import MODELS_PATH
+from config import MODELS_PATH
 
 STOPWORDS_PATH = os.path.join(MODELS_PATH, "stopwords")
 
