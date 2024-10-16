@@ -121,7 +121,10 @@ class CustomFrequenciesVectorizer(CountVectorizer):
 
     def _remove_zipf_stopwords(self, frequencies):
         stop_words = self._get_zipf_stop_words(frequencies)
-        return frequencies[~frequencies.vocabulary.isin(stop_words)]
+        return (
+            frequencies[~frequencies.vocabulary.isin(stop_words)]
+            .reset_index(drop=True)
+        )
     
     def _get_zipf_stop_words(self, frequencies):
         ids = (
@@ -200,27 +203,18 @@ class CustomProportionsVectorizer(CustomFrequenciesVectorizer):
         metric = self._calculate_proportions(raw_documents, y)
 
         metric["diff"] = metric[self.positive_values] - metric[negative_values]
-
-        metric.reset_index(inplace=True, drop=True)
         return metric
     
     def _calculate_proportions(self, raw_documents:list[str], y:list[str]):
         total_frequencies = self._calculate_absolute_frequencies(raw_documents, y)
+        columns = total_frequencies.columns.to_list()
+        total_frequencies.set_index("vocabulary", inplace=True)
         proportions = (
             total_frequencies
-            .drop(columns="vocabulary")
-            .div(
-                total_frequencies.drop(columns="vocabulary").sum()
-            )
-            .merge(
-                total_frequencies.filter(items=["vocabulary"]),
-                right_index=True,
-                left_index=True,
-                how="left"
-            )
-            [total_frequencies.columns.to_list()]
+            .div(total_frequencies.sum())
+            .reset_index(names="vocabulary")
         )
-        return proportions
+        return proportions[columns]
 
 
 class CustomOddsRatioVectorizer(CustomProportionsVectorizer):
