@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 from sklearn.feature_extraction.text import CountVectorizer
 
-from config import MODELS_PATH
+from notebooks.config import MODELS_PATH
 
 STOPWORDS_PATH = os.path.join(MODELS_PATH, "stopwords")
 
@@ -34,8 +34,8 @@ class CustomFrequenciesVectorizer(CountVectorizer):
         dtype=np.int64,
         dimension: int = 300,
         positive_values: str = "",
-        custom_stop_words: str = "",
-        n_custom_stop_words: int = 1
+        custom_stop_words: str = None,
+        n_custom_stop_words: int = 100
         ) -> None:
         super().__init__(
             input=input,
@@ -57,89 +57,84 @@ class CustomFrequenciesVectorizer(CountVectorizer):
             dtype=dtype
         )
         self.dimension = dimension
+        self.positive_values = positive_values
         self.custom_stop_words = custom_stop_words
         self.n_custom_stop_words = n_custom_stop_words
-        self.positive_values = positive_values
-
-    def fit(self, raw_documents, y=None):
-        super().fit(raw_documents)
-        return self
-    
+        self.split_value = 0
+  
     def fit_transform(self, raw_documents:list[str], y:list[str]):
-        difference = self.calculate_metric(raw_documents, y)
+        negative_values = list(set(y).difference(set([self.positive_values])))[0]
 
+        difference = self.calculate_metric(raw_documents, y, negative_values)
+
+        vocabulary = self._select_vocabulary(difference, negative_values)
+        self.vocabulary = vocabulary
+        
+        return super().fit_transform(raw_documents, y)
+ 
+    def calculate_metric(self, raw_documents:list[str], y:list[str], negative_values: str):
+        metric = self._calculate_absolute_frequencies(raw_documents, y)
+
+        metric["diff"] = metric[self.positive_values] - metric[negative_values]
+
+        return metric
+
+    def _calculate_absolute_frequencies(self, raw_documents, y=None):
+        X = super().fit_transform(raw_documents, y)
+        total_frequencies = (
+            pd.DataFrame(X.toarray(), columns=self.get_feature_names_out(), index=y)
+            .groupby(level=0).sum()
+            .T
+            .reset_index(names="vocabulary")
+        )
+        if self.custom_stop_words == "zipf":
+            total_frequencies = self._remove_zipf_stopwords(total_frequencies)
+        return total_frequencies
+    
+    def _select_vocabulary(self, difference: pd.DataFrame, negative_values: str):
         if (len(difference)*2) <= (self.dimension):
             vocabulary = difference.vocabulary.to_list()
         else:
             n = math.ceil(int(self.dimension / 2))
             pos_voc = (
-                difference[difference["diff"]>=0]
-                .sort_values(by=["diff", "pos", "neg"], ascending=[False, False, True])
+                difference[difference["diff"]>=self.split_value]
+                .sort_values(
+                    by=["diff", self.positive_values, negative_values],
+                    ascending=[False, False, True]
+                )
                 .head(n)
                 .vocabulary
                 .to_list()
             )
             neg_voc = (
-                difference[difference["diff"]<0]
-                .sort_values(by=["diff", "neg", "pos"], ascending=[True, False, True])
+                difference[difference["diff"]<self.split_value]
+                .sort_values(
+                    by=["diff", negative_values, self.positive_values],
+                    ascending=[True, False, True]
+                )
                 .head(n)
                 .vocabulary
                 .to_list()
             )
             vocabulary = pos_voc+neg_voc
-        self.vocabulary = vocabulary
-        return super().fit_transform(raw_documents, y)
-        
-    def calculate_metric(self, raw_documents:list[str], y:list[str]):
-        total_frequencies = self._count_total_frequencies(raw_documents, y)
-        
-        negative_values = list(set(y).difference(set([self.positive_values])))[0]
-        
-        count_difference = (
-            pd.DataFrame({
-                "diff": total_frequencies.loc[self.positive_values]-total_frequencies.loc[negative_values],
-                "pos": total_frequencies.loc[self.positive_values],
-                "neg": total_frequencies.loc[negative_values]
-            })
-            .rename_axis("vocabulary", axis=0)
-            .reset_index()
-        )
-        return count_difference
-
-    def _count_total_frequencies(self, raw_documents, y=None):
-        X = super().fit_transform(raw_documents, y)
-        total_frequencies = (
-            pd.DataFrame(X.toarray(), columns=self.get_feature_names_out(), index=y)
-            .rename_axis("LABEL", axis=0)
-            .reset_index()
-            .groupby("LABEL")
-            .sum()
-        )
-        if (self.custom_stop_words == "zipf"):
-            total_frequencies = self._remove_zipf_stopwords(total_frequencies)
-        return total_frequencies
-    
-    def _set_stopwords(self, raw_documents) -> list:
-        if isinstance(self.custom_stop_words, str) and (self.custom_stop_words == "zipf"):
-            self.stop_words = self.get_zipf_stopwords(raw_documents)
-        elif isinstance(self.custom_stop_words, list):
-            self.stop_words = self.custom_stop_words
-        elif self.custom_stop_words == None:
-            self.stop_words = self.custom_stop_words
-        else:
-            raise ValueError("stop_words must be either string ('zipf'), a list of strings or None.")
+        return vocabulary
 
     def _remove_zipf_stopwords(self, frequencies):
-        stop_words = self.get_zipf_stop_words(frequencies)
-        return frequencies.drop(columns=stop_words)
+        stop_words = self._get_zipf_stop_words(frequencies)
+        return frequencies[~frequencies.vocabulary.isin(stop_words)]
     
-    def get_zipf_stop_words(self, frequencies):
-        stop_words = (
+    def _get_zipf_stop_words(self, frequencies):
+        ids = (
             frequencies
-            .sum(axis=0)
+            .drop(columns="vocabulary")
+            .sum(axis=1)
             .sort_values(ascending=False)
-            .head(100)
+            .head(self.n_custom_stop_words)
             .index
+        )
+        stop_words = (
+            frequencies.iloc[ids]
+            .vocabulary
             .tolist()
         )
         file = f"{self.__class__.__name__}_{self.dimension}_{self.custom_stop_words}_{self.n_custom_stop_words}_{self.positive_values}.txt"
@@ -148,12 +143,9 @@ class CustomFrequenciesVectorizer(CountVectorizer):
         with open(file_path, "w") as f:
             _ = f.write("\n".join(stop_words))
         return stop_words
-    
-    def transform(self, raw_documents):
-        return super().transform(raw_documents)
 
 
-class CustomProportionsVectorizer(CountVectorizer):
+class CustomProportionsVectorizer(CustomFrequenciesVectorizer):
     def __init__(
         self,
         *,
@@ -177,7 +169,7 @@ class CustomProportionsVectorizer(CountVectorizer):
         dimension: int = 300,
         positive_values: str = "",
         custom_stop_words: str = "",
-        n_custom_stop_words: int = 1
+        n_custom_stop_words: int = 100
         ) -> None:
         super().__init__(
             input=input,
@@ -197,110 +189,41 @@ class CustomProportionsVectorizer(CountVectorizer):
             vocabulary=vocabulary,
             binary=binary,
             dtype=dtype,
+            dimension=dimension,
+            positive_values=positive_values,
+            custom_stop_words=custom_stop_words,
+            n_custom_stop_words=n_custom_stop_words
         )
-        self.dimension = dimension
-        self.custom_stop_words = custom_stop_words
-        self.n_custom_stop_words = n_custom_stop_words
-        self.positive_values = positive_values
+        self.split_value = 0
  
-    def fit(self, raw_documents, y=None):
-        super().fit(raw_documents)
-        return self
+    def calculate_metric(self, raw_documents:list[str], y:list[str], negative_values: str):
+        metric = self._calculate_proportions(raw_documents, y)
 
-    def fit_transform(self, raw_documents:list[str], y:list[str]):
-        difference = self.calculate_metric(raw_documents, y)
+        metric["diff"] = metric[self.positive_values] - metric[negative_values]
 
-        if (len(difference)*2) <= (self.dimension):
-            vocabulary = difference.vocabulary.to_list()
-        else:
-            n = math.ceil(int(self.dimension / 2))
-            pos_voc = (
-                difference[difference["diff"]>=0]
-                .sort_values(by=["diff", "pos", "neg"], ascending=[False, False, True])
-                .head(n)
-                .vocabulary
-                .to_list()
-            )
-            neg_voc = (
-                difference[difference["diff"]<0]
-                .sort_values(by=["diff", "neg", "pos"], ascending=[True, False, True])
-                .head(n)
-                .vocabulary
-                .to_list()
-            )
-            vocabulary = pos_voc+neg_voc
-        self.vocabulary = vocabulary
-        return super().fit_transform(raw_documents, y)
- 
-    def calculate_metric(self, raw_documents:list[str], y:list[str]):
-        proportions = self._calculate_proportions(raw_documents, y)
-        
-        negative_values = list(set(y).difference(set([self.positive_values])))[0]
-
-        count_difference = (
-            pd.DataFrame({
-                "diff": proportions.loc[self.positive_values]-proportions.loc[negative_values],
-                "pos": proportions.loc[self.positive_values],
-                "neg": proportions.loc[negative_values]
-            })
-            .rename_axis("vocabulary", axis=0)
-            .reset_index()
-        )
-        return count_difference
+        metric.reset_index(inplace=True, drop=True)
+        return metric
     
     def _calculate_proportions(self, raw_documents:list[str], y:list[str]):
-        total_frequencies = self._count_total_frequencies(raw_documents, y)
-        proportions = total_frequencies.div(total_frequencies.sum(axis=1), axis=0)
+        total_frequencies = self._calculate_absolute_frequencies(raw_documents, y)
+        proportions = (
+            total_frequencies
+            .drop(columns="vocabulary")
+            .div(
+                total_frequencies.drop(columns="vocabulary").sum()
+            )
+            .merge(
+                total_frequencies.filter(items=["vocabulary"]),
+                right_index=True,
+                left_index=True,
+                how="left"
+            )
+            [total_frequencies.columns.to_list()]
+        )
         return proportions
 
-    def _count_total_frequencies(self, raw_documents, y=None):
-        X = super().fit_transform(raw_documents, y)
-        total_frequencies = (
-            pd.DataFrame(X.toarray(), columns=self.get_feature_names_out(), index=y)
-            .rename_axis("LABEL", axis=0)
-            .reset_index()
-            .groupby("LABEL")
-            .sum()
-        )
-        if (self.custom_stop_words == "zipf"):
-            total_frequencies = self._remove_zipf_stopwords(total_frequencies)
-        return total_frequencies
-    
-    def _set_stopwords(self, raw_documents) -> list:
-        if isinstance(self.custom_stop_words, str) and (self.custom_stop_words == "zipf"):
-            self.stop_words = self.get_zipf_stopwords(raw_documents)
-        elif isinstance(self.custom_stop_words, list):
-            self.stop_words = self.custom_stop_words
-        elif self.custom_stop_words == None:
-            self.stop_words = self.custom_stop_words
-        else:
-            raise ValueError("stop_words must be either string ('zipf'), a list of strings or None.")
 
-    def _remove_zipf_stopwords(self, frequencies):
-        stop_words = self.get_zipf_stop_words(frequencies)
-        return frequencies.drop(columns=stop_words)
-    
-    def get_zipf_stop_words(self, frequencies):
-        stop_words = (
-            frequencies
-            .sum(axis=0)
-            .sort_values(ascending=False)
-            .head(100)
-            .index
-            .tolist()
-        )
-        file = f"{self.__class__.__name__}_{self.dimension}_{self.custom_stop_words}_{self.n_custom_stop_words}_{self.positive_values}.txt"
-        file_path = os.path.join(STOPWORDS_PATH, file)
-        os.makedirs(STOPWORDS_PATH, exist_ok=True)
-        with open(file_path, "w") as f:
-            _ = f.write("\n".join(stop_words))
-        return stop_words
-    
-    def transform(self, raw_documents):
-        return super().transform(raw_documents)
-
-
-class CustomOddsRatioVectorizer(CountVectorizer):
+class CustomOddsRatioVectorizer(CustomProportionsVectorizer):
     def __init__(
         self,
         *,
@@ -324,7 +247,7 @@ class CustomOddsRatioVectorizer(CountVectorizer):
         dimension: int = 300,
         positive_values: str = "",
         custom_stop_words: str = "",
-        n_custom_stop_words: int = 1
+        n_custom_stop_words: int = 100
         ) -> None:
         super().__init__(
             input=input,
@@ -344,111 +267,34 @@ class CustomOddsRatioVectorizer(CountVectorizer):
             vocabulary=vocabulary,
             binary=binary,
             dtype=dtype,
+            dimension=dimension,
+            custom_stop_words=custom_stop_words,
+            n_custom_stop_words=n_custom_stop_words,
+            positive_values=positive_values
         )
-        self.dimension = dimension
-        self.custom_stop_words = custom_stop_words
-        self.n_custom_stop_words = n_custom_stop_words
-        self.positive_values = positive_values
+        self.split_value = 1
 
-    def fit(self, raw_documents, y=None):
-        super().fit(raw_documents)
-        return self
-
-    def fit_transform(self, raw_documents:list[str], y:list[str]):
-        difference = self.calculate_metric(raw_documents, y)
-
-        if (len(difference)*2) <= (self.dimension):
-            vocabulary = difference.vocabulary.to_list()
-        else:
-            n = math.ceil(int(self.dimension / 2))
-            pos_voc = (
-                difference[difference["diff"]>=1]
-                .sort_values(by=["diff", "pos", "neg"], ascending=[False, False, True])
-                .head(n)
-                .vocabulary
-                .to_list()
-            )
-            neg_voc = (
-                difference[difference["diff"]<1]
-                .sort_values(by=["diff", "neg", "pos"], ascending=[True, False, True])
-                .head(n)
-                .vocabulary
-                .to_list()
-            )
-            vocabulary = pos_voc+neg_voc
-        self.vocabulary = vocabulary
-        return super().fit_transform(raw_documents, y)
-
-    def calculate_metric(self, raw_documents:list[str], y:list[str]):
-        proportions = self._calculate_proportions(raw_documents, y)
-
-        negative_values = list(set(y).difference(set([self.positive_values])))[0]
+    def calculate_metric(self, raw_documents:list[str], y:list[str], negative_values: str):
+        metric = self._calculate_odds(raw_documents, y, negative_values)
         
-        count_difference = (
-            pd.DataFrame({
-                "pos": proportions.loc[self.positive_values]/(1-proportions.loc[self.positive_values]),
-                "neg": proportions.loc[negative_values]/(1-proportions.loc[negative_values])
-            })
-            .assign(diff=lambda x: x["pos"]/x["neg"])
-            .rename_axis("vocabulary", axis=0)
-            .reset_index()
+        metric["diff"] = metric[self.positive_values]/metric[negative_values]
+
+        metric.reset_index(inplace=True, drop=True)
+        return metric
+
+    def _calculate_odds(self, raw_documents:list[str], y:list[str], negative_values: str) -> pd.DataFrame:
+        metric = self._calculate_proportions(raw_documents, y)
+
+        metric[[self.positive_values, negative_values]] = (
+            metric[[self.positive_values, negative_values]]
+            .applymap(
+                lambda x: x/(1-x)
+            )
         )
-
-        return count_difference
-    
-    def _calculate_proportions(self, raw_documents:list[str], y:list[str]):
-        total_frequencies = self._count_total_frequencies(raw_documents, y)
-        proportions = total_frequencies.div(total_frequencies.sum(axis=1), axis=0)
-        return proportions
-
-    def _count_total_frequencies(self, raw_documents, y=None):
-        X = super().fit_transform(raw_documents, y)
-        total_frequencies = (
-            pd.DataFrame(X.toarray(), columns=self.get_feature_names_out(), index=y)
-            .rename_axis("LABEL", axis=0)
-            .reset_index()
-            .groupby("LABEL")
-            .sum()
-        )
-        if (self.custom_stop_words == "zipf"):
-            total_frequencies = self._remove_zipf_stopwords(total_frequencies)
-        return total_frequencies
-    
-    def _set_stopwords(self, raw_documents) -> list:
-        if isinstance(self.custom_stop_words, str) and (self.custom_stop_words == "zipf"):
-            self.stop_words = self.get_zipf_stopwords(raw_documents)
-        elif isinstance(self.custom_stop_words, list):
-            self.stop_words = self.custom_stop_words
-        elif self.custom_stop_words == None:
-            self.stop_words = self.custom_stop_words
-        else:
-            raise ValueError("stop_words must be either string ('zipf'), a list of strings or None.")
-
-    def _remove_zipf_stopwords(self, frequencies):
-        stop_words = self.get_zipf_stop_words(frequencies)
-        return frequencies.drop(columns=stop_words)
-    
-    def get_zipf_stop_words(self, frequencies):
-        stop_words = (
-            frequencies
-            .sum(axis=0)
-            .sort_values(ascending=False)
-            .head(100)
-            .index
-            .tolist()
-        )
-        file = f"{self.__class__.__name__}_{self.dimension}_{self.custom_stop_words}_{self.n_custom_stop_words}_{self.positive_values}.txt"
-        file_path = os.path.join(STOPWORDS_PATH, file)
-        os.makedirs(STOPWORDS_PATH, exist_ok=True)
-        with open(file_path, "w") as f:
-            _ = f.write("\n".join(stop_words))
-        return stop_words
-    
-    def transform(self, raw_documents):
-        return super().transform(raw_documents)
+        return metric
 
 
-class CustomLogOddsRatioVectorizer(CountVectorizer):
+class CustomLogOddsRatioVectorizer(CustomOddsRatioVectorizer):
     def __init__(
         self,
         *,
@@ -497,111 +343,16 @@ class CustomLogOddsRatioVectorizer(CountVectorizer):
         self.custom_stop_words = custom_stop_words
         self.n_custom_stop_words = n_custom_stop_words
         self.positive_values = positive_values
+        self.split_value = 0
  
-    def fit(self, raw_documents, y=None):
-        super().fit(raw_documents)
-        return self
-
-    def fit_transform(self, raw_documents:list[str], y:list[str]):
-        difference = self.calculate_metric(raw_documents, y)
-
-        if (len(difference)*2) <= (self.dimension):
-            vocabulary = difference.vocabulary.to_list()
-        else:
-            n = math.ceil(int(self.dimension / 2))
-            pos_voc = (
-                difference[difference["diff"]>=0]
-                .sort_values(by=["diff", "pos", "neg"], ascending=[False, False, True])
-                .head(n)
-                .vocabulary
-                .to_list()
-            )
-            neg_voc = (
-                difference[difference["diff"]<0]
-                .sort_values(by=["diff", "neg", "pos"], ascending=[True, False, True])
-                .head(n)
-                .vocabulary
-                .to_list()
-            )
-            vocabulary = pos_voc+neg_voc
-        self.vocabulary = vocabulary
-        return super().fit_transform(raw_documents, y)
-
-    def calculate_metric(self, raw_documents:list[str], y:list[str]):
-        count_difference = self._calculate_odds(raw_documents, y)
+    def calculate_metric(self, raw_documents:list[str], y:list[str], negative_values: str):
+        count_difference = super().calculate_metric(raw_documents, y, negative_values)
         count_difference["diff"] = np.log(count_difference["diff"])
 
         return count_difference
-    
-    def _calculate_proportions(self, raw_documents:list[str], y:list[str]):
-        total_frequencies = self._count_total_frequencies(raw_documents, y)
-        proportions = total_frequencies.div(total_frequencies.sum(axis=1), axis=0)
-        return proportions
-    
-    def _calculate_odds(self, raw_documents:list[str], y:list[str]):
-        proportions = self._calculate_proportions(raw_documents, y)
-
-        negative_values = list(set(y).difference(set([self.positive_values])))[0]
-        
-        count_difference = (
-            pd.DataFrame({
-                "pos": proportions.loc[self.positive_values]/(1-proportions.loc[self.positive_values]),
-                "neg": proportions.loc[negative_values]/(1-proportions.loc[negative_values])
-            })
-            .assign(diff=lambda x: x["pos"]/x["neg"])
-            .rename_axis("vocabulary", axis=0)
-            .reset_index()
-        )
-
-        return count_difference
-
-    def _count_total_frequencies(self, raw_documents, y=None):
-        X = super().fit_transform(raw_documents, y)
-        total_frequencies = (
-            pd.DataFrame(X.toarray(), columns=self.get_feature_names_out(), index=y)
-            .rename_axis("LABEL", axis=0)
-            .reset_index()
-            .groupby("LABEL")
-            .sum()
-        )
-        if (self.custom_stop_words == "zipf"):
-            total_frequencies = self._remove_zipf_stopwords(total_frequencies)
-        return total_frequencies
-    
-    def _set_stopwords(self, raw_documents) -> list:
-        if isinstance(self.custom_stop_words, str) and (self.custom_stop_words == "zipf"):
-            self.stop_words = self.get_zipf_stopwords(raw_documents)
-        elif isinstance(self.custom_stop_words, list):
-            self.stop_words = self.custom_stop_words
-        elif self.custom_stop_words == None:
-            self.stop_words = self.custom_stop_words
-        else:
-            raise ValueError("stop_words must be either string ('zipf'), a list of strings or None.")
-
-    def _remove_zipf_stopwords(self, frequencies):
-        stop_words = self.get_zipf_stop_words(frequencies)
-        return frequencies.drop(columns=stop_words)
-    
-    def get_zipf_stop_words(self, frequencies):
-        stop_words = (
-            frequencies
-            .sum(axis=0)
-            .sort_values(ascending=False)
-            .head(100)
-            .index
-            .tolist()
-        )
-        file = f"{self.__class__.__name__}_{self.dimension}_{self.custom_stop_words}_{self.n_custom_stop_words}_{self.positive_values}.txt"
-        file_path = os.path.join(STOPWORDS_PATH, file)
-        os.makedirs(STOPWORDS_PATH, exist_ok=True)
-        with open(file_path, "w") as f:
-            _ = f.write("\n".join(stop_words))
-        return stop_words
-    
-    def transform(self, raw_documents):
-        return super().transform(raw_documents)
 
 
+"""
 class CustomSmoothLogOddsRatioVectorizer(CountVectorizer):
     def __init__(
         self,
@@ -652,10 +403,6 @@ class CustomSmoothLogOddsRatioVectorizer(CountVectorizer):
         self.n_custom_stop_words = n_custom_stop_words
         self.positive_values = positive_values
 
-    def fit(self, raw_documents, y=None):
-        super().fit(raw_documents)
-        return self
-    
     def fit_transform(self, raw_documents:list[str], y:list[str]):
         difference = self.calculate_metric(raw_documents, y)
 
@@ -712,52 +459,6 @@ class CustomSmoothLogOddsRatioVectorizer(CountVectorizer):
         proportions = total_frequencies.div(total_frequencies.sum(axis=1), axis=0)
         return proportions
 
-    def _count_total_frequencies(self, raw_documents, y=None):
-        X = super().fit_transform(raw_documents, y)
-        total_frequencies = (
-            pd.DataFrame(X.toarray(), columns=self.get_feature_names_out(), index=y)
-            .rename_axis("LABEL", axis=0)
-            .reset_index()
-            .groupby("LABEL")
-            .sum()
-        )
-        if (self.custom_stop_words == "zipf"):
-            total_frequencies = self._remove_zipf_stopwords(total_frequencies)
-        return total_frequencies
-    
-    def _set_stopwords(self, raw_documents) -> list:
-        if isinstance(self.custom_stop_words, str) and (self.custom_stop_words == "zipf"):
-            self.stop_words = self.get_zipf_stopwords(raw_documents)
-        elif isinstance(self.custom_stop_words, list):
-            self.stop_words = self.custom_stop_words
-        elif self.custom_stop_words == None:
-            self.stop_words = self.custom_stop_words
-        else:
-            raise ValueError("stop_words must be either string ('zipf'), a list of strings or None.")
-
-    def _remove_zipf_stopwords(self, frequencies):
-        stop_words = self.get_zipf_stop_words(frequencies)
-        return frequencies.drop(columns=stop_words)
-    
-    def get_zipf_stop_words(self, frequencies):
-        stop_words = (
-            frequencies
-            .sum(axis=0)
-            .sort_values(ascending=False)
-            .head(100)
-            .index
-            .tolist()
-        )
-        file = f"{self.__class__.__name__}_{self.dimension}_{self.custom_stop_words}_{self.n_custom_stop_words}_{self.positive_values}.txt"
-        file_path = os.path.join(STOPWORDS_PATH, file)
-        os.makedirs(STOPWORDS_PATH, exist_ok=True)
-        with open(file_path, "w") as f:
-            _ = f.write("\n".join(stop_words))
-        return stop_words
-    
-    def transform(self, raw_documents):
-        return super().transform(raw_documents)
-
 
 class CustomTfidfVectorizer(CountVectorizer):
     def __init__(
@@ -811,10 +512,6 @@ class CustomTfidfVectorizer(CountVectorizer):
         self.n_custom_stop_words = n_custom_stop_words
         self.positive_values = positive_values
 
-    def fit(self, raw_documents, y=None):
-        super().fit(raw_documents)
-        return self
-    
     def fit_transform(self, raw_documents:list[str], y:list[str]):
         difference = self.calculate_metric(raw_documents, y)
 
@@ -893,55 +590,6 @@ class CustomTfidfVectorizer(CountVectorizer):
         )
         return count_difference
     
-    def _calculate_proportions(self, raw_documents:list[str], y:list[str]):
-        total_frequencies = self._count_total_frequencies(raw_documents, y)
-        proportions = total_frequencies.div(total_frequencies.sum(axis=1), axis=0)
-        return proportions
-
-    def _count_total_frequencies(self, raw_documents, y=None):
-        X = super().fit_transform(raw_documents, y)
-        total_frequencies = (
-            pd.DataFrame(X.toarray(), columns=self.get_feature_names_out(), index=y)
-            .rename_axis("LABEL", axis=0)
-            .reset_index()
-            .groupby("LABEL")
-            .sum()
-        )
-        if (self.custom_stop_words == "zipf"):
-            total_frequencies = self._remove_zipf_stopwords(total_frequencies)
-        return total_frequencies
-    
-    def _set_stopwords(self, raw_documents) -> list:
-        if isinstance(self.custom_stop_words, str) and (self.custom_stop_words == "zipf"):
-            self.stop_words = self.get_zipf_stopwords(raw_documents)
-        elif isinstance(self.custom_stop_words, list):
-            self.stop_words = self.custom_stop_words
-        elif self.custom_stop_words == None:
-            self.stop_words = self.custom_stop_words
-        else:
-            raise ValueError("stop_words must be either string ('zipf'), a list of strings or None.")
-
-    def _remove_zipf_stopwords(self, frequencies):
-        stop_words = self.get_zipf_stop_words(frequencies)
-        return frequencies.drop(columns=stop_words)
-    
-    def get_zipf_stop_words(self, frequencies):
-        stop_words = (
-            frequencies
-            .sum(axis=0)
-            .sort_values(ascending=False)
-            .head(100)
-            .index
-            .tolist()
-        )
-        file = f"{self.__class__.__name__}_{self.dimension}_{self.custom_stop_words}_{self.n_custom_stop_words}_{self.positive_values}.txt"
-        file_path = os.path.join(STOPWORDS_PATH, file)
-        os.makedirs(STOPWORDS_PATH, exist_ok=True)
-        with open(file_path, "w") as f:
-            _ = f.write("\n".join(stop_words))
-        return stop_words
-    
-    def transform(self, raw_documents):
         return super().transform(raw_documents)
 
 
@@ -995,10 +643,6 @@ class CustomWordScoresVectorizer(CountVectorizer):
         self.n_custom_stop_words = n_custom_stop_words
         self.positive_values = positive_values
 
-    def fit(self, raw_documents, y=None):
-        super().fit(raw_documents)
-        return self
-
     def fit_transform(self, raw_documents:list[str], y:list[str]):
         difference = self.calculate_metric(raw_documents, y)
 
@@ -1049,48 +693,6 @@ class CustomWordScoresVectorizer(CountVectorizer):
         )
         return wkw_diff
 
-    def _count_total_frequencies(self, raw_documents, y=None):
-        X = super().fit_transform(raw_documents, y)
-        total_frequencies = (
-            pd.DataFrame(X.toarray(), columns=self.get_feature_names_out(), index=y)
-            .rename_axis("LABEL", axis=0)
-            .reset_index()
-            .groupby("LABEL")
-            .sum()
-        )
-        if (self.custom_stop_words == "zipf"):
-            total_frequencies = self._remove_zipf_stopwords(total_frequencies)
-        return total_frequencies
-    
-    def _set_stopwords(self, raw_documents) -> list:
-        if isinstance(self.custom_stop_words, str) and (self.custom_stop_words == "zipf"):
-            self.stop_words = self.get_zipf_stopwords(raw_documents)
-        elif isinstance(self.custom_stop_words, list):
-            self.stop_words = self.custom_stop_words
-        elif self.custom_stop_words == None:
-            self.stop_words = self.custom_stop_words
-        else:
-            raise ValueError("stop_words must be either string ('zipf'), a list of strings or None.")
-
-    def _remove_zipf_stopwords(self, frequencies):
-        stop_words = self.get_zipf_stop_words(frequencies)
-        return frequencies.drop(columns=stop_words)
-    
-    def get_zipf_stop_words(self, frequencies):
-        stop_words = (
-            frequencies
-            .sum(axis=0)
-            .sort_values(ascending=False)
-            .head(100)
-            .index
-            .tolist()
-        )
-        file = f"{self.__class__.__name__}_{self.dimension}_{self.custom_stop_words}_{self.n_custom_stop_words}_{self.positive_values}.txt"
-        file_path = os.path.join(STOPWORDS_PATH, file)
-        os.makedirs(STOPWORDS_PATH, exist_ok=True)
-        with open(file_path, "w") as f:
-            _ = f.write("\n".join(stop_words))
-        return stop_words
-    
-    def transform(self, raw_documents):
         return super().transform(raw_documents)
+
+"""

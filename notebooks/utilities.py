@@ -75,6 +75,7 @@ def list_words(
     )
     neg, pos = df_copy[df_copy["group"]=="neg"], df_copy[df_copy["group"]=="pos"]
     
+    result = dict()
     for col in ["pos", "neg"]:
         print(f"--- {col.upper()}")
         df = eval(col)
