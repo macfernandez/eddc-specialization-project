@@ -247,7 +247,8 @@ class CustomOddsRatioVectorizer(CustomProportionsVectorizer):
         dimension: int = 300,
         positive_values: str = "",
         custom_stop_words: str = "",
-        n_custom_stop_words: int = 100
+        n_custom_stop_words: int = 100,
+        smooth: float = None
         ) -> None:
         super().__init__(
             input=input,
@@ -273,6 +274,7 @@ class CustomOddsRatioVectorizer(CustomProportionsVectorizer):
             positive_values=positive_values
         )
         self.split_value = 1
+        self.smooth = smooth
 
     def calculate_metric(self, raw_documents:list[str], y:list[str], negative_values: str):
         metric = self._calculate_odds(raw_documents, y, negative_values)
@@ -284,6 +286,12 @@ class CustomOddsRatioVectorizer(CustomProportionsVectorizer):
 
     def _calculate_odds(self, raw_documents:list[str], y:list[str], negative_values: str) -> pd.DataFrame:
         metric = self._calculate_proportions(raw_documents, y)
+
+        if self.smooth:
+            metric[[self.positive_values, negative_values]] = (
+                metric[[self.positive_values, negative_values]]
+                .applymap(lambda x: x+self.smooth if x == 0 else x)
+            )
 
         metric[[self.positive_values, negative_values]] = (
             metric[[self.positive_values, negative_values]]
@@ -318,7 +326,8 @@ class CustomLogOddsRatioVectorizer(CustomOddsRatioVectorizer):
         dimension: int = 300,
         positive_values: str = "",
         custom_stop_words: str = "",
-        n_custom_stop_words: int = 1
+        n_custom_stop_words: int = 1,
+        smooth: float = None
         ) -> None:
         super().__init__(
             input=input,
@@ -338,11 +347,12 @@ class CustomLogOddsRatioVectorizer(CustomOddsRatioVectorizer):
             vocabulary=vocabulary,
             binary=binary,
             dtype=dtype,
+            dimension=dimension,
+            custom_stop_words=custom_stop_words,
+            n_custom_stop_words=n_custom_stop_words,
+            positive_values=positive_values,
+            smooth=smooth
         )
-        self.dimension = dimension
-        self.custom_stop_words = custom_stop_words
-        self.n_custom_stop_words = n_custom_stop_words
-        self.positive_values = positive_values
         self.split_value = 0
  
     def calculate_metric(self, raw_documents:list[str], y:list[str], negative_values: str):
@@ -352,115 +362,7 @@ class CustomLogOddsRatioVectorizer(CustomOddsRatioVectorizer):
         return count_difference
 
 
-"""
-class CustomSmoothLogOddsRatioVectorizer(CountVectorizer):
-    def __init__(
-        self,
-        *,
-        input="content",
-        encoding="utf-8",
-        decode_error="strict",
-        strip_accents=None,
-        lowercase=True,
-        preprocessor=None,
-        tokenizer=None,
-        stop_words=None,
-        token_pattern=r"(?u)\b\w\w+\b",
-        ngram_range=(1, 1),
-        analyzer="word",
-        max_df=1.0,
-        min_df=1,
-        max_features=None,
-        vocabulary=None,
-        binary=False,
-        dtype=np.int64,
-        dimension: int = 300,
-        positive_values: str = "",
-        custom_stop_words: str = "",
-        n_custom_stop_words: int = 1
-        ) -> None:
-        super().__init__(
-            input=input,
-            encoding=encoding,
-            decode_error=decode_error,
-            strip_accents=strip_accents,
-            lowercase=lowercase,
-            preprocessor=preprocessor,
-            tokenizer=tokenizer,
-            stop_words=stop_words,
-            token_pattern=token_pattern,
-            ngram_range=ngram_range,
-            analyzer=analyzer,
-            max_df=max_df,
-            min_df=min_df,
-            max_features=max_features,
-            vocabulary=vocabulary,
-            binary=binary,
-            dtype=dtype
-        )
-        self.dimension = dimension
-        self.custom_stop_words = custom_stop_words
-        self.n_custom_stop_words = n_custom_stop_words
-        self.positive_values = positive_values
-
-    def fit_transform(self, raw_documents:list[str], y:list[str]):
-        difference = self.calculate_metric(raw_documents, y)
-
-        if (len(difference)*2) <= (self.dimension):
-            vocabulary = difference.vocabulary.to_list()
-        else:
-            n = math.ceil(int(self.dimension / 2))
-            pos_voc = (
-                difference[difference["diff"]>=0]
-                .sort_values(by=["diff", "pos", "neg"], ascending=[False, False, True])
-                .head(n)
-                .vocabulary
-                .to_list()
-            )
-            neg_voc = (
-                difference[difference["diff"]<0]
-                .sort_values(by=["diff", "neg", "pos"], ascending=[True, False, True])
-                .head(n)
-                .vocabulary
-                .to_list()
-            )
-            vocabulary = pos_voc+neg_voc
-        self.vocabulary = vocabulary
-        return super().fit_transform(raw_documents, y)
-    
-    def calculate_metric(self, raw_documents:list[str], y:list[str]):
-        negative_values = list(set(y).difference(set([self.positive_values])))[0]
-
-        proportions = self._calculate_proportions(raw_documents, y)
-
-        proportions.loc[["positivo", "negativo"]] = (
-            proportions.loc[["positivo", "negativo"]]
-            .applymap(lambda x: x+0.5 if x == 0 else x)
-        )
-
-        f_smooth_log_odds_diff = (
-            pd
-            .DataFrame({
-                "pos": proportions.loc[self.positive_values]/(1-proportions.loc[self.positive_values]),
-                "neg": proportions.loc[negative_values]/(1-proportions.loc[negative_values])
-            })
-            .assign(
-                diff=lambda x: np.log(x["pos"]/x["neg"])
-            )
-            .rename_axis("vocabulary", axis=0)
-            .reset_index()
-        )
-
-        return f_smooth_log_odds_diff
-
-    
-    def _calculate_proportions(self, raw_documents:list[str], y:list[str]):
-        total_frequencies = self._count_total_frequencies(raw_documents, y)
-        proportions = total_frequencies.div(total_frequencies.sum(axis=1), axis=0)
-        return proportions
-
-
-class CustomTfidfVectorizer(CountVectorizer):
+class CustomTfidfVectorizer(CustomProportionsVectorizer):
     def __init__(
         self,
         *,
@@ -504,41 +406,17 @@ class CustomTfidfVectorizer(CountVectorizer):
             max_features=max_features,
             vocabulary=vocabulary,
             binary=binary,
-            dtype=dtype
+            dtype=dtype,
+            dimension=dimension,
+            custom_stop_words=custom_stop_words,
+            n_custom_stop_words=n_custom_stop_words,
+            positive_values=positive_values
         )
         self.log_idf = log_idf
-        self.dimension = dimension
-        self.custom_stop_words = custom_stop_words
-        self.n_custom_stop_words = n_custom_stop_words
-        self.positive_values = positive_values
-
-    def fit_transform(self, raw_documents:list[str], y:list[str]):
-        difference = self.calculate_metric(raw_documents, y)
-
-        if (len(difference)*2) <= (self.dimension):
-            vocabulary = difference.vocabulary.to_list()
-        else:
-            n = math.ceil(int(self.dimension / 2))
-            pos_voc = (
-                difference[difference["diff"]>=0]
-                .sort_values(by=["diff", "pos", "neg"], ascending=[False, False, True])
-                .head(n)
-                .vocabulary
-                .to_list()
-            )
-            neg_voc = (
-                difference[difference["diff"]<0]
-                .sort_values(by=["diff", "neg", "pos"], ascending=[True, False, True])
-                .head(n)
-                .vocabulary
-                .to_list()
-            )
-            vocabulary = pos_voc+neg_voc
-        self.vocabulary = vocabulary
-        return super().fit_transform(raw_documents, y)
+        self.split_value = 0
  
-    def calculate_metric(self, raw_documents:list[str], y:list[str]):
-        total_frequencies = self._calculate_proportions(raw_documents, y)
+    def calculate_metric(self, raw_documents:list[str], y:list[str], negative_values: str):
+        proportions = self._calculate_proportions(raw_documents, y)
 
         vectorizer = CountVectorizer(lowercase=True)
         X = vectorizer.fit_transform(raw_documents)
@@ -548,8 +426,8 @@ class CustomTfidfVectorizer(CountVectorizer):
             .sum(axis=0)
             .to_frame("df")
             .reset_index(names="vocabulary")
-            .merge(total_frequencies, on="vocabulary", how="right")
-            [["vocabulary", "pos", "neg", "df"]]
+            .merge(proportions, on="vocabulary", how="right")
+            [proportions.columns.to_list()+["df"]]
         )
         
         if self.log_idf:
@@ -557,43 +435,38 @@ class CustomTfidfVectorizer(CountVectorizer):
             tf_idf = (
                 tf_idf
                 .assign(
-                    pos=tf_idf.apply(lambda x: x.pos*x.log_idf, axis=1),
-                    neg=tf_idf.apply(lambda x: x.neg*x.log_idf, axis=1)
+                    **{
+                        self.positive_values: (
+                            tf_idf.apply(lambda x: x[self.positive_values]*x.log_idf, axis=1)
+                        ),
+                        negative_values: (
+                            tf_idf.apply(lambda x: x[negative_values]*x.log_idf, axis=1)
+                        ) 
+                    }
                 )
-                .assign(diff=lambda x: x.pos - x.neg)
+                .assign(diff=lambda x: x[self.positive_values] - x[negative_values])
             )
         else:
             tf_idf = (
                 tf_idf
                 .assign(
-                    pos=tf_idf.apply(lambda x: x.pos/x.df, axis=1),
-                    neg=tf_idf.apply(lambda x: x.neg/x.df, axis=1)
+                    **{
+                        self.positive_values: (
+                            tf_idf.apply(lambda x: x[self.positive_values]/x.df, axis=1)
+                        ),
+                        negative_values: (
+                            tf_idf.apply(lambda x: x[negative_values]/x.df, axis=1)
+                        ) 
+                    }
                 )
-                .assign(diff=lambda x: x.pos - x.neg)
+                .assign(diff=lambda x: x[self.positive_values] - x[negative_values])
             )
 
-        return tf_idf[["vocabulary", "diff", "pos", "neg"]]
-
-    def calculate_metric(self, raw_documents:list[str], y:list[str]):
-        proportions = self._calculate_proportions(raw_documents, y)
-        
-        negative_values = list(set(y).difference(set([self.positive_values])))[0]
-
-        count_difference = (
-            pd.DataFrame({
-                "diff": proportions.loc[self.positive_values]-proportions.loc[negative_values],
-                "pos": proportions.loc[self.positive_values],
-                "neg": proportions.loc[negative_values]
-            })
-            .rename_axis("vocabulary", axis=0)
-            .reset_index()
-        )
-        return count_difference
+        return tf_idf[proportions.columns.to_list()+["diff"]]
     
         return super().transform(raw_documents)
 
-
-class CustomWordScoresVectorizer(CountVectorizer):
+class CustomWordScoresVectorizer(CustomProportionsVectorizer):
     def __init__(
         self,
         *,
@@ -643,56 +516,24 @@ class CustomWordScoresVectorizer(CountVectorizer):
         self.n_custom_stop_words = n_custom_stop_words
         self.positive_values = positive_values
 
-    def fit_transform(self, raw_documents:list[str], y:list[str]):
-        difference = self.calculate_metric(raw_documents, y)
+    def calculate_metric(self, raw_documents:list[str], y:list[str], negative_values: str):
+        frequencies = self._calculate_absolute_frequencies(raw_documents, y)
 
-        if (len(difference)*2) <= (self.dimension):
-            vocabulary = difference.vocabulary.to_list()
-        else:
-            n = math.ceil(int(self.dimension / 2))
-            pos_voc = (
-                difference[difference["diff"]>=0]
-                .sort_values(by=["diff", "pos", "neg"], ascending=[False, False, True])
-                .head(n)
-                .vocabulary
-                .to_list()
-            )
-            neg_voc = (
-                difference[difference["diff"]<0]
-                .sort_values(by=["diff", "neg", "pos"], ascending=[True, False, True])
-                .head(n)
-                .vocabulary
-                .to_list()
-            )
-            vocabulary = pos_voc+neg_voc
-        self.vocabulary = vocabulary
-        return super().fit_transform(raw_documents, y)
-
-    def calculate_metric(self, raw_documents:list[str], y:list[str]):
-        total_frequencies = self._count_total_frequencies(raw_documents, y)
-
-        proportions = total_frequencies.div(total_frequencies.sum(axis=1), axis=0)
-        
-        negative_values = list(set(y).difference(set([self.positive_values])))[0]
+        proportions = self._calculate_proportions(raw_documents, y)
         
         wkw = (
-            (proportions.loc[self.positive_values]-proportions.loc[negative_values])/
-            (proportions.loc[self.positive_values]+proportions.loc[negative_values])
+            (proportions[self.positive_values]-proportions[negative_values])/
+            (proportions[self.positive_values]+proportions[negative_values])
         )
-        nkw = total_frequencies.sum(axis=0)
+        nkw = frequencies[[self.positive_values,negative_values]].sum(axis=1)
 
-        wkw_diff = (
+        metric = (
             pd
             .DataFrame({
+                "vocabulary": frequencies.vocabulary,
+                self.positive_values: wkw*nkw,
+                negative_values: wkw*nkw,
                 "diff": wkw*nkw,
-                "pos": wkw*nkw,
-                "neg": wkw*nkw,
             })
-            .rename_axis("vocabulary", axis=0)
-            .reset_index()
         )
-        return wkw_diff
-
-        return super().transform(raw_documents)
-
-"""
+        return metric

@@ -5,10 +5,11 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Debug vectorizers",
+            "name": "Test vectorizers",
             "type": "debugpy",
             "request": "launch",
-            "module": "notebooks.playground.test_vectorizers",
+            "console": "integratedTerminal",
+            "module": "pytest",
             "justMyCode": false
         }
     ]
