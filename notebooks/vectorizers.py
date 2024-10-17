@@ -426,35 +426,21 @@ class CustomTfidfVectorizer(CustomProportionsVectorizer):
         
         if self.log_idf:
             tf_idf["log_idf"] = tf_idf.df.apply(lambda x: math.log(1/x))
-            tf_idf = (
-                tf_idf
-                .assign(
-                    **{
-                        self.positive_values: (
-                            tf_idf.apply(lambda x: x[self.positive_values]*x.log_idf, axis=1)
-                        ),
-                        negative_values: (
-                            tf_idf.apply(lambda x: x[negative_values]*x.log_idf, axis=1)
-                        ) 
-                    }
-                )
-                .assign(diff=lambda x: x[self.positive_values] - x[negative_values])
+            tf_idf[self.positive_values] = (
+                tf_idf.apply(lambda x: x[self.positive_values]*x.log_idf, axis=1)
+            )
+            tf_idf[negative_values] = (
+                tf_idf.apply(lambda x: x[negative_values]*x.log_idf, axis=1)
             )
         else:
-            tf_idf = (
-                tf_idf
-                .assign(
-                    **{
-                        self.positive_values: (
-                            tf_idf.apply(lambda x: x[self.positive_values]/x.df, axis=1)
-                        ),
-                        negative_values: (
-                            tf_idf.apply(lambda x: x[negative_values]/x.df, axis=1)
-                        ) 
-                    }
-                )
-                .assign(diff=lambda x: x[self.positive_values] - x[negative_values])
+            tf_idf[self.positive_values] = (
+                tf_idf.apply(lambda x: x[self.positive_values]/x.df, axis=1)
             )
+            tf_idf[negative_values] = (
+                tf_idf.apply(lambda x: x[negative_values]/x.df, axis=1)
+            )
+        
+        tf_idf["diff"] = tf_idf[self.positive_values] - tf_idf[negative_values]
 
         return tf_idf[proportions.columns.to_list()+["diff"]]
     
