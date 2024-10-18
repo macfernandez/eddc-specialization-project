@@ -12,7 +12,7 @@ De ellas, se despreciaron 211 cadenas de caracteres ($1.86\percentsign$)
 \footnote{Remitirse a \ref{appendix-annotation} para un detalle de las palabras
 despreciadas.}. De las palabras que se persistieron para el análisis,
 el $12.35\percentsign$ requirió una corrección en la etiqueta gramatical.
-En algunos de estos casos ($71\percentsign$), el modelo predijo más de una etiqueta
+En la mayoría de estos casos ($71\percentsign$), el modelo predijo más de una etiqueta
 posible para determinada palabra y una de ellas resultó ser la adecuada, solo que no
 fue predicha de forma consistente. En el resto de los casos ($29\percentsign$)
 el modelo no fue capaz de identificar la etiqueta adecuada en ningún caso.
@@ -29,11 +29,14 @@ de los \textit{tokens} estaba dada por la igualdad en la secuencia de caracteres
 en la ocurrencia efectiva de la palabra: allí `suma' se considera
 una sola vez, independientemente de si, en sus distintas ocurrencias, refiere al
 verbo (en la tercera persona singular del verbo `sumar') o al nombre
-(\textit{Acción y efecto de sumar}\footnote{\Citeauthor{rae23diccionario}.}). Al
+(\textit{``acción y efecto de sumar''}\footnote{\Citeauthor{rae23diccionario}.}). Al
 agrupar los \textit{tokens} por lemas y etiqueta gramatical, estas dos
 ocurrencias son consideradas por separado, dado que se toma en cuenta
 `suma (\textit{NOUN})' y `sumar (\textit{VERB})'. La figura
-\ref{fig-distrib-unique-tokens} refleja el contraste entre ambos análisis:
+\ref{fig-distrib-unique-tokens} refleja el contraste en la longitud de
+discursos al ser medidos con ambos enfoques. Allí se puede observar que,
+como es deesperar, las longitudes medidas considerando lemas y etiquedas
+\textit{POS} reflejan valores menores.
 
 \begin{figure}[h!]
 \centering

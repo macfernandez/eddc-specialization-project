@@ -1,6 +1,13 @@
-La sesión analizada contó con un total de 70 senadores,
+La sesión analizada cuenta con un total de 70 senadores,
 pertenecientes a 27 partidos políticos, distribuidos del
-siguiente modo (figura \ref{fig-distrib-senators}):
+siguiente modo (figura \ref{fig-distrib-senators}): 
+solo uno de los partidos (Frente de todos) cuenta con 12
+senadores; también uno solo (Alianza frente para la victoria) es
+representado por 10 senadores; dos partidos (Alianza cambiemos y
+Juntos por el cambio) cuentan con 7 senadores, y el resto de los
+partidos tienen entre 3, 2 y un senador.
+En cuanto a las provincias (24 en total), todas tienen 3 senadores
+exceptuando a Tucumán y a La Rioja que tienen solo 2.
 
 \begin{figure}[h!]
 \centering
@@ -9,20 +16,12 @@ siguiente modo (figura \ref{fig-distrib-senators}):
 \label{fig-distrib-senators}
 \end{figure}
 
-Solo uno de los partidos (Frente de todos) cuenta con 12
-senadores; también uno solo (Alianza frente para la victoria) es
-representado por 10 senadores; dos partidos (Alianza cambiemos y
-Juntos por el cambio) cuentan con 7 senadores, y el resto de los
-partidos tienen entre 3, 2 y un senador.
-En cuanto a las provincias (24 en total), todas tienen 3 senadores
-exceptuando a Tucumán y a La Rioja, que tienen solo 2.
-
-De los votos emitidos, observamos que 38 son positivos; 29, negativos;
+De los votos emitidos, se observa que 38 son positivos; 29, negativos;
 2 son ausencias, y uno es una abstención.
 Como muestra la figura \ref{fig-distrib-vote}, la intención
 de voto no guarda una relación unívoca con los partidos a los cuales los
 senadores representan. A excepción de aquellos que cuentan con un único
-senador, la mayoría es representado con senadores que votaron a favor y senadores
+senador, la mayoría es representado por senadores que votaron a favor y senadores
 que votaron en contra de la ley para el acceso al aborto.
 
 \begin{figure}[h!]
@@ -32,11 +31,11 @@ que votaron en contra de la ley para el acceso al aborto.
 \label{fig-distrib-vote}
 \end{figure}
 
-Respecto de las intervenciones discursivas, se obeservan 112 discursos
+Respecto de las intervenciones discursivas, se encuentran 112 discursos
 por parte de los senadores que votaron a favor de la ley; 95 discursos por parte
-de quienes votaron en contra; 2 discursos de parte de quienes estuvieron ausentes
+de quienes votaron en contra; 2 discursos de quienes estuvieron ausentes
 durante la votación, y 1 de quien se abstuvo de votar.
-Si ponemos en relación estos datos absolutos con la cantidad de senadores en cada
+Si se se pone en relación estos datos absolutos con la cantidad de senadores en cada
 conjunto, vemos que, en promedio, se emitieron
 2.87 discursos por senador, con un desvío estándar de 6.23 y una mediana de 1,
 coincidente además
@@ -45,14 +44,14 @@ Estas medidas de centralidad incluyen a 9 senadores que no intervinieron en
 la sesión.
 %, 7 de ellos votaron en contra de la despenalización del aborto; uno, a favor,
 %y uno estuvo ausente durante la votación.
-Al desagregar los datos según elección en la votación, vemos que las
+Al desagregar los datos según elección en la votación, es posible ver que las
 abstenciones no presentan
 dispersión y su media se ubica en el valor 1. Esto se debe a que solo un senador
 se abstuvo de votar y, a su vez, solo emitió un discurso.
 Una situación similar se da en las ausencias, donde también se observa un único discurso.
 Pero dado que dos senadores estuvieron ausentes, la media se ubica hacia el valor 0.5 y
 el desvío, hacia el 0.7.
-En cuanto a los votos positivos y negativos, ambos presentan una moda de 1,
+En cuanto a los votos negativos y positivos, ambos presentan una moda de 1,
 pero los negativos
 exhiben una media y un desvío estándar mayor que los positivos
 ($3.03\pm8.43$ \textit{versus} $2.92\pm4.26$, respectivamente).
@@ -70,15 +69,15 @@ distribución varía dependiendo de si los medimos en \textit{tokens} totales o 
 Un \textit{token} es una secuencia de caracteres que queremos considerar como un
 grupo\footnote{\citet*{bird2009natural}.}. Aquí este grupo constituye lo que denominamos
 `palabra'. En promedio, los discursos emitidos tienen 418 palabras, con un desvío
-estándar de 714 palabras; la mediana es de 11 y la moda, de 7. Sin embargo, estas medidas
+estándar de 714; la mediana es de 11 y la moda, de 7. Sin embargo, estas medidas
 reflejan las palabras totales utilizadas en cada intervención, sin considerar si se repiten
 o no: cada ocurrencia de una palabra cuenta, sin importar si ya fue pronunciada en el mismo
 discurso. Es por eso que, a fines comparativos, se tomaron también las medidas de centralidad
 de los \textit{tokens} únicos, las cuales mostraron una media de 161 palabras por discurso
-con un desvío de 245, una mediana de 11 y una moda de 1. La figura \ref{fig-distrib-tokens}
+con un desvío de 245, una mediana de 11 y una moda de 2. La figura \ref{fig-distrib-tokens}
 refleja este contraste. Como es posible observar, si bien en ambos casos los discursos
 muestran \textit{outliers} respecto de su longitud, cuando esta se mide en palabras
-totales, presenta una mayor cantidad de casos atípicos con valores más extremos que
+totales presenta una mayor cantidad de casos atípicos con valores más extremos que
 al medirla en \textit{tokens} únicos. En este último caso, un
 $20\percentsign$ de los registros son \textit{outliers}, de los cuales solo el
 $17\percentsign$ constituyen casos extremos, mientras que, al considerar
@@ -87,7 +86,7 @@ de ellos, el $32\percentsign$ son extremos\footnote{Para este análisis se utili
 test de Tukey, que toma el rango intercuartil o \textit{IQR} (\textit{Q3-Q1}, donde
 \textit{Q1} refiere al primer cuartil y \textit{Q3}, al terceo) y considera
 valores atípicos leves a aquellos que se encuentran entre
-$Q1 - (1.5 * IQR) < x < Q3 - (1.5 * IQR)$ y como extremos a los que están entre
+$Q1 - (1.5 * IQR) < x < Q3 - (1.5 * IQR)$ y, como extremos a los que están entre
 $Q1 - (3 * IQR) < x < Q3 - (3 * IQR)$.}.
 
 \begin{figure}[h!]%
