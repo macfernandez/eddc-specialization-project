@@ -1,8 +1,10 @@
+import os
+
 import pandas as pd
 import pytest
 
 from notebooks.config import DATA_PATH
-from notebooks.vectorizers import *
+from notebooks.src.vectorizers import *
 
 
 X_train_index = (
