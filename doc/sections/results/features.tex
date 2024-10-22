@@ -1,0 +1,31 @@
+\begin{table}[ht]
+    \centering
+    \begin{tabular}{ |c|c|c|c|c|c|c| }
+        \hline
+        Vectorizador & \textit{Accuracy} & \textit{Precision} & \textit{Recall} & \textit{F1} & \textit{F1-micro} & \textit{F1-macro} \\
+        \hline\hline
+        \makecell{Frecuencias\\absolutas} & 0.610 & 0.663 & 0.618 & 0.635 & 0.610 & 0.605 \\
+        \hline
+        Proporciones & 0.623 & 0.663 & 0.653 & 0.654 & 0.623 & 0.617 \\
+        \hline
+        \makecell{Proporciones\\($NLTK$)} & 0.623 & 0.663 & 0.653 & 0.654 & 0.623 & 0.617 \\
+        \hline
+        \makecell{Proporciones\\($Zipf$)} & 0.636 & \cellcolor{highlight-table!60}0.726 & 0.576 & 0.619 & 0.636 & 0.625 \\
+        \hline
+        \makecell{Ratio de\\\textit{odds}} & 0.560 & 0.587 & 0.698 & 0.611 & 0.560 & 0.506 \\
+        \hline
+        \makecell{Ratio de\\\textit{log-odds}} & 0.560 & 0.587 & 0.698 & 0.611 & 0.560 & 0.506 \\
+        \hline
+        \makecell{Ratio de\\\textit{log-odds}\\(suavizado)} & 0.541 & 0.555 & \cellcolor{highlight-table!60}0.887 & 0.682 & 0.541 & 0.419 \\
+        \hline
+        \textit{TF-IDF} & 0.572 & 0.595 & 0.731 & 0.630 & 0.572 & 0.506 \\
+        \hline
+        \makecell{\textit{TF-IDF}\\($log(IDF)$)} & \cellcolor{highlight-table!60}0.667 & 0.699 & 0.721 & \cellcolor{highlight-table!60}0.702 & \cellcolor{highlight-table!60}0.667 & \cellcolor{highlight-table!60}0.657 \\
+        \hline
+        \textit{Word scores} & 0.623 & 0.655 & 0.697 & 0.671 & 0.623 & 0.611 \\
+        \hline
+    \end{tabular}
+    %\caption{Técnicas estadísticas testeadas para la vectorización de los
+    %discursos utilizados en el entrenamiento del modelo de Regresión Logísitca.}
+    %\label{table-methods-vectorizers}
+\end{table}
