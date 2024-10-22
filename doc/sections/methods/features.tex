@@ -1,0 +1,219 @@
+Tomando como referencia las técnicas estadísticas descriptas por
+\cite{monroe2008fightin}, se implementaron vectorizadores que, a partir de
+recibir una lista de documentos, devolviesen una matriz donde cada fila
+representase un documento y cada columna, una palabra. Los valores
+reflejados en las celdas de esa matriz corresponden a la frecuencia absoluta
+de la palabra en el docuemnto en cuestión. Lo que diferencia a cada matriz del resto
+es el conjunto de palabras seleccionadas para usar como componentes del vector
+que caracteriza a los documentos. En cada caso, ese conjunto de palabras
+fue obtenido a partir de calcular, utilizando una técnica estadística determinada,
+las \textit{N} palabras más representativas del grupo de votantes a favor y
+en contra de la legalización del aborto. Los detalles particulares de cada
+técnica pueden encontrarse en la sección \ref{subsubsec-methods-vectorizers}.
+\par
+Para la implementación se tomó como base el estimador \texttt{CountVectorizer}
+de la librería \textit{scikit-learn}, de modo que las clases resultantes contaron
+con los mismos métodos y, luego, pudieron ser utilizadas en un \textit{pipeline}
+de trabajo definido con clases y métodos de la misma librería.
+\par
+En primer lugar, se separó el \textit{dataset} en un conjunto de entrenamiento
+y otro de testo ($80\percentsign$ y $20\percentsign$ de los datos, respectivamente).
+En esta división se tuvo en cuenta la variable \textit{target} \texttt{voto} de modo
+que los subconjuntos obtenidos reflejasen la misma proporción de votos a favor
+y en contra. Asimismo, se usó una semilla para garantizar que los resultados
+fuesen replicables. La variable objetivo, además, fue codificada a valores
+numéricos para poder ser utilizada por los algoritmos de predicción.
+\par
+Luego, tomando solamente el conjunto de entrenamiento y vectorizando
+previamente los datos con cada uno de los vectorizadores desarrollados,
+se entrenó una Regresión Logística utilizando los parámetros por defecto
+de la librería \textit{scikit-learn}\todo[color=pink]{Especificar parámetros
+por defecto en RL}. En cada entrenamiento se utilizó el método
+de validacón cruzada con 5 subconjuntos: 4 para entrenamiento y 1 para testeo.
+Para esto, al igual que en la primera división, se cuidó de realizar
+una segmentación estratificada, utilizar una semilla y
+aplicar la misma segmentación en cada vectorizador,
+de modo que las circunstancias de evaluación fuesen lo más semejantes posible
+y eso permitiese comparar qué vectorizadores conducían a un mejor entrenamiento.
+La tabla \ref{table-methods-vectorizers} resume las combinaciones testeadas
+en la experimentación. En todos los casos se generaron vectores de trescientas
+($300$) dimensiones.
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{ |c|c|c|c|c| }
+    \hline
+    Técnica & \textit{Remoción de stopwords} & \textit{Log} & Suavizado \\
+    \hline\hline
+    Frecuencias absolutas & No & No & No \\
+    \hline
+    Proporciones & No & No & No \\
+    \hline
+    Proporciones & Sí (NLTK) & No & No \\
+    \hline
+    Proporciones & Sí (Zipf) & No & No \\
+    \hline
+    Ratio de \textit{odds} & No & No & No \\
+    \hline
+    Ratio de \textit{odds} & No & Sí (\textit{odds}) & No \\
+    \hline
+    Ratio de \textit{odds} & No & Sí (\textit{odds}) & Sí ($0.5$) \\
+    \hline
+    \textit{TF-IDF} & No & No & No \\
+    \hline
+    \textit{TF-IDF} & No & Sí (\textit{IDF}) & No \\
+    \hline
+    \textit{Word scores} & No & No & No \\
+    \hline
+\end{tabular}
+\caption{Técnicas estadísticas testeadas para la vectorización de los
+discursos utilizados en el entrenamiento del modelo de Regresión Logísitca.}
+\label{table-methods-vectorizers}
+\end{table}
+
+\subsubsection{Métodos estadísticos utilizados en la vectorización de documentos}
+\label{subsubsec-methods-vectorizers}
+
+De los métodos aplicados, dos (\textit{TF-IDF} y \textit{Word Scores}) consisten
+en algoritmos para la asignaci\'on de puntuaciones o \textit{scores} a los
+palabras dentro de un \textit{corpus}. El resto de las t\'ecnicas emplean
+m\'etricas estad\'isticas sencillas. Para la aplicación de estos procedimientos
+se utilizó como \textit{token} a las lematizaciones de las palabras incluyendo
+su categoría gramatical.
+
+
+\paragraph{Diferencia de frecuencias absolutas}
+\label{paragraph-methods-freq-abs}
+Este método utiliza la diferencia de frecuencias absolutas de los \textit{tokens} entre
+los discursos de ambos grupos para extraer el conjunto más representativo de
+cada uno:
+
+\begin{equation}
+y_t = y_{t}^{(P)}-y_{t}^{(N)}
+\end{equation}
+
+donde $y_{t}^{(X)}$ refiere a la cantidad de ocurrencias absolutas del \textit{token}
+\textit{w} en los discursos que votaron de manera positiva
+(si $X=P$) y negativa (cuando $X=N$).
+En los casos en los que $y_{t}$ sea mayor o igual a $0$, el \textit{token} $t$
+ser\'a caracter\'istico del discurso de los senadores que votaron a favor de
+la legalizaci\'on. En caso contrario, ser\'a caracter\'istica de quienes votaron
+en contra.
+De este modo,se seleccionaron las trescientas dimensiones más representativas de
+ambos grupos cuidando que hubiese igual cantidad de \textit{tokens} para cada grupo.
+Un procedimiento análogo es aplicado en el resto de las técnicas pero utilizando
+un criterio de contrastación distinto en cada caso.
+
+\paragraph{Diferencia de proporciones}
+\label{paragraph-methods-proportions}
+El segundo contraste utiliza la proporci\'on de los \textit{tokens}
+en cada conjunto de discursos.
+
+\begin{equation}
+    f_t = f_{t}^{(P)}-f_{t}^{(N)}
+\end{equation}
+
+
+donde $f_{t}^{(X)}$ se define como $y_{t}^{(X)} / n^{(X)}$, siendo $y_{t}^{(X)}$
+la frecuencia absoluta del \textit{token} $t$ en el cojunto los discursos de $X$
+y $n^{(X)}$, la cantidad de \textit{tokens} totales en esos discursos.
+
+\subparagraph{Remoción de \textit{stopwords}}
+\label{paragraph-methods-proportions-stopwords}
+También se intentó calcular la diferencia de proporciones removiendo
+previamente los \textit{tokens} considerados \textit{stopwords}.
+Para esto se probaron dos alternativas.
+Por un lado, se utiliz\'o el conjunto predefinido de la librer\'ia \textit{NLTK}
+\footnote{\url{https://raw.githubusercontent.com/nltk/nltk_data/gh-pages/packages/corpora/stopwords.zip}}
+y, por otro, se utilizó la Ley de Zipf.
+Este último procedimiento consiste en calcular la frecuencia absoluta de aparición de
+cada \textit{token} y, en virtud de ella, establecer un \textit{ranking}
+ordenándolos de manera decreciente.
+Luego, se contrasta dicha frecuencia con el orden asignado y se define
+un umbral a partir del cual una palabra es considerada \textit{stopword}.
+Resulta pertinente notar que, dado que la frecuencia absoluta de aparición
+de una palabra se determina en relación al conjunto de documentos en el cual
+esta frecuencia es medida, las diferentes iteraciones de la validación cruzada
+generaron distintos conjuntos de \textit{stopwrods}.
+En todas las iteraciones se removieron $100$ \textit{tokens} seleccionados
+con este método. Este número fue seleccionado tras realizar un análisis del
+conjunto de datos completo como primera aproximación general (ver sección
+\ref{appendix-plots-zipf-law}.)
+
+\paragraph{Ratio de \textit{Odds}}
+Se utilizan \textit{odds} de ambos conjuntos de discursos como
+técnica de selección. En este caso, los \textit{tokens} más característicos
+no resultan de una diferencia sino del cociente:
+
+\begin{equation}
+    O_{t} = \frac{O_{t}^{(P)}}{O_{t}^{(N)}}
+\end{equation}
+
+aqu\'i, $O_{t}^{(X)}$ consiste en $f_{t}^{(X)}/(1-f_{t}^{(X)})$.
+
+\paragraph{Ratio \textit{Log-odds}}
+Sobre los \textit{odds}, tambi\'en se calcul\'o el \textit{ratio log-odds}.
+Para este c\'alculo se utiliz\'o el logaritmo natural: $\ln{O_w}$.
+Asimismo, se realizó un suavizado sobre las frecuencias en los casos
+en los que las palabras solo se encontraban en uno de los grupos
+discursivos. Dicho suavizado consistió en agregar un peso predefinido a las
+frecuencias relativas, $\tilde{f}^{i}_{w} = f^{i}_{w}+\epsilon$, y tomar
+este valor en el cálculo del ratio. Siguiendo a \cite{monroe2008fightin},
+se utilizó $\epsilon=0.5$.
+
+\paragraph{\textit{TF-IDF}}
+\label{paragraph-methods-tfidf}
+Si bien la librería \textit{scikit-learn} cuenta con un vectorizador
+que permite calcular los \textit{scores} de \textit{TF-IDF}
+\footnote{Para m\'as informaci\'on sobre las f\'ormulas
+implementadas por \textit{scikit-learn}, visitar:
+\url{https://scikit-learn.org/stable/modules/feature_extraction.html\#tfidf-term-weighting}},
+dado que el cálculo propuesto por \Citeauthor{monroe2008fightin} plantea
+algunas modificaciones, se decidió reimplementarlo para obtener un resultado
+más aproximado al planteado por los autores, quiens indican haber usado
+dos fórmulas diferentes: ambas emplean la frecuencia
+de término natural y sin normalizar, pero una con la frecuencia de documentos
+con logaritmo (fórmula \ref{equation-tfidf-ntn}) y la otra, con la frecuencia
+de documento natural (fórmula \ref{equation-tfidf-nnn}).
+
+\begin{equation}
+\label{equation-tfidf-ntn}
+    tf.idf_{t}^{(X)}(ntn) = f_{t}^{(X)} \times \ln\bigg({\frac{1}{df_{t}}}\bigg)
+\end{equation}
+
+\begin{equation}
+\label{equation-tfidf-nnn}
+    tf.idf_{t}^{(X)}(nnn) = \frac{f_{t}^{(X)}}{df_{t}}
+\end{equation}
+
+donde $f_{t}^{X}$ refiere a la proporci\'on del \textit{token} $t$
+en el discurso perteneciente a $X$
+(con $X \in \lbrace P,N \rbrace$) y $df_t$ refiere a la cantidad
+de documentos totales en los que aparece el \textit{token} $t$.
+\par
+Lo que los autores no mencionan es qu\'e tipo de comparaci\'on realizan
+entre los \textit{tokens} pertenecientes a los distintos discursos.
+Siguiendo los procedimientos anteriores, en este trabajo se opt\'o por usar
+la sustracci\'on, por lo que:\todo[color=pink]{en resultados, recordar hablar
+de lo pol\'emico de este abordaje para}
+
+\begin{equation*}
+    tf.idf_{t} = tf.idf_{t}^{P}-tf.idf_{t}^{N}
+\end{equation*}
+
+\paragraph{\textit{Word Scores}}
+\label{paragraph-methods-wordscores}
+Por \'ultimo, este procedimiento le asigna un peso a los \textit{tokens}
+a partir del siguiente c\'alculo:\todo[color=pink]{checkear si es de ellos o de qui\'en}
+
+\begin{equation*}
+    W_{t}^{^*(P-N)} = \frac{
+        y_{t}^{(P)}/n^{(P)}-y_{t}^{(N)}/n^{(N)}
+        }{
+            y_{t}^{(P)}/n^{(P)}+y_{t}^{(N)}/n^{(N)}
+        }n_{t}
+\end{equation*}\todo[color=pink]{leer lowe 2008, understanding wordscores y demostar
+this is nearly identical to the difference of proportions measure (correlate at over +0.998)}
+
+donde $y_{t}^{(X)}$ refiere a la frecuencia absoluta
+del grupo $X$ y $n^{(X)}$, a la cantidad de \textit{tokens} totales en $X$
