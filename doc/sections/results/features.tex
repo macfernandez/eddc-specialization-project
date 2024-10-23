@@ -1,34 +1,102 @@
+Durante la validación cruzada realizada para evaluar el rendimiento de los
+distintos vectorizadores se fueron registrando varias métricas de evaluación
+para cada iteración como así también el tiempo de ajuste necesario en cada caso.
+La figura \ref{fig-results-features-fit-time} muetra el promedio y el desvío
+estándar de este último en las cinco iteraciones realizadas. Como es posible
+apreciar, el vectorizado de proporciones con remoción de \textit{stopwords}
+provenientes de \textit{NLTK} es el que presenta un tiempo de ajuste promedio
+menor, y también un menor desvío. El vectorizador de \textit{TF-IDF} con
+frecuencia de documentos natural, por otro lado, es el que mayores valores
+exhibe tanto en la media como en el desvío. La tabla \ref{table-appendix-fit-time}
+presente en la sección \ref{appendix-table-vectorizers} del Anexo detalla una
+a una las medidas de centralidad.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[scale=0.6]{../visualizations/features/fit_time.png}
+    \caption{Media y desvió estándar del tiempo de ajuste requerido
+    para el entrenamiento de una Regresión Logística \textit{baseline}
+    al utilizar distintos vecotrizadores siguiendo una estrategia de
+    validación cruzada con cinco iteraciones.}
+    \label{fig-results-features-fit-time}
+\end{figure}
+
+La tabla \ref{table-results-vectorizers-val} exhibe el promedio de los \textit{scores}
+obtenidos en la validación cruzada, para cada vectorizador. Allí se puede ver que,
+en la mayoría de los casos, fue el vectorizador de \textit{TF-IDF} con logaritmo
+de la frecuencia de documentos el que presentó mejores resultados. Si bien el
+vectorizador de proporciones con remoción de \textit{stopwords} obtenidas por el
+método de Zipf se muestra superior a este en términos de precisión, solo
+lo hace a expensas de perder cobertura, lo que se conoce como la compensación o el
+\textit{trade-off} entre ambas métricas. De hecho, esta vectorización es la que
+presenta la peor cobertura de todos los métodos evaluados. Y algo semejante ocurre
+con el vectorizador basado en el \textit{ratio} de los \textit{log-odds}, que
+presenta una mejor cobertura que el resto de los vectorizadores, pero una peor
+precisión, \textit{accuracy} y \textit{f1-macro}.
+
 \begin{table}[h!]
     \centering
-    \begin{tabular}{ |c|c|c|c|c|c|c| }
+    \begin{adjustbox}{max width=\textwidth}
+    \begin{tabular}{ *{7}{|c}| }
         \hline
-        Vectorizador & \textit{Accuracy} & \textit{Precision} & \textit{Recall} & \textit{F1} & \textit{F1-micro} & \textit{F1-macro} \\
+        Vectorizador & \textit{Accuracy} & \textit{Precision} & \textit{Recall} & \textit{F1} & \textit{F1-weighted} & \textit{F1-macro} \\
         \hline\hline
-        \makecell{Frecuencias\\absolutas} & 0.610 & 0.663 & 0.618 & 0.635 & 0.610 & 0.605 \\
+        \makecell{Frecuencias\\absolutas} & 0.610 & 0.663 & 0.618 & 0.635 & 0.608 & 0.605 \\
         \hline
-        Proporciones & 0.623 & 0.663 & 0.653 & 0.654 & 0.623 & 0.617 \\
+        Proporciones & 0.623 & 0.663 & 0.653 & 0.654 & 0.622 & 0.617 \\
         \hline
-        \makecell{Proporciones\\($NLTK$)} & 0.623 & 0.663 & 0.653 & 0.654 & 0.623 & 0.617 \\
+        \makecell{Proporciones\\($NLTK$)} & 0.623 & 0.663 & 0.653 & 0.654 & 0.622 & 0.617 \\
         \hline
-        \makecell{Proporciones\\($Zipf$)} & 0.636 & \cellcolor{highlight-table!60}0.726 & 0.576 & 0.619 & 0.636 & 0.625 \\
+        \makecell{Proporciones\\($Zipf$)} & 0.636 & \cellcolor{highlight-blue!60}0.726 & \cellcolor{highlight-orange!60}0.576 & 0.619 & 0.624 & 0.625 \\
         \hline
-        \makecell{Ratio de\\\textit{odds}} & 0.560 & 0.587 & 0.698 & 0.611 & 0.560 & 0.506 \\
+        \makecell{Ratio de\\\textit{odds}} & 0.560 & 0.587 & 0.698 & \cellcolor{highlight-orange!60}0.611 & 0.518 & 0.506 \\
         \hline
-        \makecell{Ratio de\\\textit{log-odds}} & 0.560 & 0.587 & 0.698 & 0.611 & 0.560 & 0.506 \\
+        \makecell{Ratio de\\\textit{log-odds}} & 0.560 & 0.587 & 0.698 & \cellcolor{highlight-orange!60}0.611 & \cellcolor{highlight-orange!60}0.451 & 0.506 \\
         \hline
-        \makecell{Ratio de\\\textit{log-odds}\\(suavizado)} & 0.541 & 0.555 & \cellcolor{highlight-table!60}0.887 & 0.682 & 0.541 & 0.419 \\
+        \makecell{Ratio de\\\textit{log-odds}\\(suavizado)} & \cellcolor{highlight-orange!60}0.541 & \cellcolor{highlight-orange!60}0.555 & \cellcolor{highlight-blue!60}0.887 & 0.682 & 0.518 & \cellcolor{highlight-orange!60}0.419 \\
         \hline
-        \textit{TF-IDF} & 0.572 & 0.595 & 0.731 & 0.630 & 0.572 & 0.506 \\
+        \textit{TF-IDF} & 0.572 & 0.595 & 0.731 & 0.630 & 0.521 & 0.506 \\
         \hline
-        \makecell{\textit{TF-IDF}\\($log(IDF)$)} & \cellcolor{highlight-table!60}0.667 & 0.699 & 0.721 & \cellcolor{highlight-table!60}0.702 & \cellcolor{highlight-table!60}0.667 & \cellcolor{highlight-table!60}0.657 \\
+        \makecell{\textit{TF-IDF}\\($log IDF$)} & \cellcolor{highlight-blue!60}0.667 & 0.699 & 0.721 & \cellcolor{highlight-blue!60}0.702 & \cellcolor{highlight-blue!60}0.663 & \cellcolor{highlight-blue!60}0.657 \\
         \hline
-        \textit{Word scores} & 0.623 & 0.655 & 0.697 & 0.671 & 0.623 & 0.611 \\
+        \textit{Word scores} & 0.623 & 0.655 & 0.697 & 0.671 & 0.618 & 0.611 \\
         \hline
     \end{tabular}
-    \caption{Resultados obtenidos tras vectorizar los discursos analizados
-    con las distintas técnicas estadísticas y luego entrenar un modelo de
-    Regresión Logística \textit{baseline}. Las celdas resaltadas en azul corresponden
-    a la estategia de vectorización que obetuvo un mejor rendimiento en cada
-    métrica de evaluación.}
-    \label{table-methods-vectorizers}
+    \end{adjustbox}
+    \caption{Resultados obtenidos tras evaluar un modelo de
+    Regresión Logística \textit{baseline} utilizando
+    vectorizadores basados en las distintas técnicas estadísticas.
+    Los valores reflejan el rendimiento promedio de las cinco iteraciones
+    de la validación cruzada.
+    Las celdas resaltadas en azul corresponden a la estategia de vectorización
+    que obtuvo un mejor rendimiento promedio en cada
+    métrica de evaluación y las resaltadas en naranja, a la
+    que obtuvo el peor rendimiento.}
+    \label{table-results-vectorizers-val}
 \end{table}
+
+El vectorizador basado en \textit{TF-IDF (log IDF)} no solo presenta un mayor
+\textit{accuracy} que el resto de las técnicas de vectorización, sino que
+también muestra un mejor \textit{$F_{\beta}$ score} (con $\beta=1$).
+Esta métrica ofrece una representación simétrica de la precisión y la cobertura,
+lo que nos indica que, si bien este vectorizador no es el que mejores valores
+exhibe en dichas métricas, sí es el que mejor maneja la compensación
+entre ambas. En este trabajo se decidió utilizar $\beta=1$ porque no se busca
+privilegiar ninguna de las dos métricas por sobre la otra.
+\par
+Adicionalmente, se reportan el \textit{F1-macro} y \textit{F1-weighted}.
+El primero consiste en un promedio del \textit{F1} calculado para ambas clases
+predichas, lo que nos da una idea de la compensación de la \textit{precision} y la
+\textit{recall} tomado en cuenta la clase $1$ (discursos positivos), por un lado, y
+la clase $0$ (discursos negativos), por otro. No obstante, dado que ambas clases no
+están balancedas\footnote{Como se mencionó en la sección
+\ref{subsection-data-description}, el \textit{dataset} presenta un $56\percentsign$
+de discursos a favor y un $44\percentsign$ de discursos en contra.}, podría ser que,
+al calcular el promedio, el buen rendimiento en la predicción de una de las clases
+enmascare una mala \textit{performance} en la predicción de la otra. Es por esto
+que también se recurre al \textit{F1-weighted}, que multiplica la precisión de cada
+clase por proporción de casos que presenta en el conjunto de datos,
+de mod que el valor resultante es una medida ``pesada'' en relación a la representación
+de cada clase. En la sección \ref{appendix-plots-vectorizers} del Anexo pueden
+apreciarse los gráficos de estas métricas para cada \textit{split} de la validación
+cruzada.

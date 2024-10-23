@@ -1,0 +1,39 @@
+\subsubsection{Selección de vectorizador}
+\label{appendix-table-vectorizers}
+
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{ |c|c|c|c|c|c|c| }
+    \hline
+    Vectorizador & Media & Mediana & Desvío & Máximo \\
+    \hline\hline
+    Frecuencias absolutas & 0.190 & 0.153 & 0.063 & 0.284 \\
+    \hline
+    Proporciones & 0.198 & 0.144 & 0.128 & 0.428 \\
+    \hline
+    Proporciones ($NLTK$) & \cellcolor{highlight-blue!60}0.142 & \cellcolor{highlight-blue!60}0.142 & \cellcolor{highlight-blue!60}0.009 & \cellcolor{highlight-blue!60}0.155 \\
+    \hline
+    Proporciones ($Zipf$) & 0.249 & 0.170 & 0.147 & 0.449 \\
+    \hline
+    Ratio de log odds & 0.184 & 0.148 & 0.088 & 0.341 \\
+    \hline
+    Ratio de log odds (suavizado) & 0.286 & 0.258 & 0.141 & 0.470 \\
+    \hline
+    Ratio de odds & 0.189 & 0.148 & 0.094 & 0.355 \\
+    \hline
+    TF-IDF & \cellcolor{highlight-orange!60}0.494 & \cellcolor{highlight-orange!60}0.316 & \cellcolor{highlight-orange!60}0.285 & \cellcolor{highlight-orange!60}0.867 \\
+    \hline
+    TF-IDF ($log IDF$) & 0.422 & 0.289 & 0.199 & 0.644 \\
+    \hline
+    Word scores & 0.304 & 0.228 & 0.143 & 0.484 \\
+    \hline
+\end{tabular}
+\caption{Resultados obtenidos tras vectorizar los discursos analizados
+con las distintas técnicas estadísticas y luego entrenar un modelo de
+Regresión Logística \textit{baseline}. Las celdas resaltadas en azul corresponden
+a la estategia de vectorización que obetuvo un mejor rendimiento en cada
+métrica de evaluación.}
+\label{table-appendix-fit-time}
+\end{table}
+
+   
