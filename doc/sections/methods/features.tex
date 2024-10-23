@@ -194,8 +194,7 @@ de documentos totales en los que aparece el \textit{token} $t$.
 Lo que los autores no mencionan es qu\'e tipo de comparaci\'on realizan
 entre los \textit{tokens} pertenecientes a los distintos discursos.
 Siguiendo los procedimientos anteriores, en este trabajo se opt\'o por usar
-la sustracci\'on, por lo que:\todo[color=pink]{en resultados, recordar hablar
-de lo pol\'emico de este abordaje para}
+la sustracci\'on, por lo que:
 
 \begin{equation*}
     tf.idf_{t} = tf.idf_{t}^{P}-tf.idf_{t}^{N}
@@ -204,7 +203,7 @@ de lo pol\'emico de este abordaje para}
 \paragraph{\textit{Word Scores}}
 \label{paragraph-methods-wordscores}
 Por \'ultimo, este procedimiento le asigna un peso a los \textit{tokens}
-a partir del siguiente c\'alculo:\todo[color=pink]{checkear si es de ellos o de qui\'en}
+a partir del siguiente c\'alculo:
 
 \begin{equation*}
     W_{t}^{^*(P-N)} = \frac{
@@ -212,8 +211,7 @@ a partir del siguiente c\'alculo:\todo[color=pink]{checkear si es de ellos o de 
         }{
             y_{t}^{(P)}/n^{(P)}+y_{t}^{(N)}/n^{(N)}
         }n_{t}
-\end{equation*}\todo[color=pink]{leer lowe 2008, understanding wordscores y demostar
-this is nearly identical to the difference of proportions measure (correlate at over +0.998)}
+\end{equation*}
 
 donde $y_{t}^{(X)}$ refiere a la frecuencia absoluta
 del grupo $X$ y $n^{(X)}$, a la cantidad de \textit{tokens} totales en $X$.
