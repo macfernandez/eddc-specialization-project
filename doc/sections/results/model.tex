@@ -31,7 +31,7 @@ Con valores más moderados, los demás modelos logran un mejor balance entre
     \hline
 \end{tabular}
 \end{adjustbox}
-\caption{esultados obtenidos tras evaluar un modelo de Regresión Logística con
+\caption{Resultados obtenidos tras evaluar un modelo de Regresión Logística con
 distintos hiperparámetos. Los valores reflejan el rendimiento promedio de las
 cinco iteraciones de la validación cruzada. Las celdas resaltadas en azul
 corresponden a conjunto de hiperparámetros que obtuvo un mejor rendimiento
@@ -39,12 +39,42 @@ promedio en cada móetrica de evaluación y las resaltadas en naranja, al
 que obtuvo el peor rendimiento.}
 \end{table}
 
+Adicionalmente, se graficó la media, el desvío estándar y el valor
+obtenido en cada \textit{split} de la métrica \textit{F1}
+para cada conjunto de hiperparámetros. Aquí podemos observar que el conjunto
+de mejores hiperparámetros no solo presenta un desvío menor que los otros
+conjuntos sino que, además, su rendimiento es mejor al resto en todas las
+iteraciones.
+
 \begin{figure}[h!]
     \centering
     \includegraphics[scale=0.5]{../visualizations/parameters_selection/f1_by_split.png}
     \caption{Contraste}
     \label{fig}
 \end{figure}
+
+\begin{table}[h!]
+    \centering
+    \begin{adjustbox}{max width=\textwidth}
+    \begin{tabular}{ *{5}{|c}| }
+    \hline
+    Clase & Precisión & Cobertura & \textit{F1} & \textit{Soport} \\
+    \hline\hline
+    0 (en contra) & 0.80 & 0.67 & 0.73 & 18 \\
+    \hline
+    1 (a favor) & 0.76 & 0.86 & 0.81  & 22 \\
+    \hline\hline
+    \textit{Accuray} & & & 0.78 & 40 \\
+    \hline
+    \textit{Macro AVG} & 0.78 & 0.77 & 0.77 & 40 \\
+    \hline
+    \textit{Weighted AVG} & 0.78 & 0.78 & 0.77 & 40 \\
+    \hline
+\end{tabular}
+\end{adjustbox}
+\caption{Resultado.}
+\end{table}
+
 
 \begin{figure}[h!]
     \centering
