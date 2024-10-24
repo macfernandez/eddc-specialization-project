@@ -1,0 +1,31 @@
+Una vez elegido el vectorizador a utilizar, se realizo una selección
+de hiperparámetros para entrenar el modelo de Regresión Logística.
+Utilizando el método de búsqueda exhaustiva o \textit{grid search}, se
+exploraron distintas combinaciones que afectan a la regularización,
+un procedimiento que permite penalizar el aprendizaje de modo tal que
+el modelo no resulte con un sobreajuste a los datos de entrenamiento que
+le dificulten las correctas predicciones sobre datos no vistos. Las
+alternativas evaluadas conisten en:
+
+\begin{itemize}
+    \item Regularización (\textit{penalty}): sin regularización; regularización \textit{L1}
+    o de \textit{Lasso}; regularización \textit{L2} o de \textit{Ridge}.
+    \item Intensidad inversa de la regularización (\textit{C})\footnote{
+    La implementación de \textit{scikit-learn} para la Regresión
+    Logística no emplea el parámetro $\lambda$ sino el parámetro \textit{C},
+    el cual refiere a la intensidad inversa de la regularización y puede
+    calcularese mediante la fórmula $\frac{1}{C}$, por lo que valores
+    más pequeños conllevan a una regularización más fuerte y valores más
+    grandes, a una más débil.}: $0.1$; $0.5$; $2$; $1$,
+\end{itemize}
+
+Durante la búsqueda exhaustiva se realizó una validación cruzada del mismo
+modo que al seleccionar el vectorizador: colocando una semilla para que los
+resultados fuesen replicables, con una segmentación del conjunto de datos
+estratificada según la variables objetivo y con cinco \textit{folds} o
+iteraciones.
+\par
+Luego, con los mejores hiperparámetros hallados, se entrenó un nuevo modelo
+con el conjunto de entrenamiento completo, reservando solamente el
+conjunto de testeo o \textit{held-out} separado al principio del trabajo
+para realizar el testeo final.
