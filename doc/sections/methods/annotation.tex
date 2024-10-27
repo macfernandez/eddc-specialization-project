@@ -1,83 +1,81 @@
-Dado que la intención de este trabajo consiste en utilizar los datos textuales
-obtenidos de la sesión del Congreso en cuestión para realizar una selección
-de rasgos a fin de entrenar distintos modelos, resulta crucial procesar dichos
-datos de forma tal que el proceso de extracción de información por parte
-de un algoritmo de aprendizaje automático se vea faciliado. En concreto, palabras
-como `aceptaron', `acepta', `aceptó' se vinculan gramatical y semánticamente:
-las tres pertenecen a la categoría de los verbos y refieren a la misma acción (`aceptar').
+Dado que la intenci\'on de este trabajo consiste en utilizar los datos textuales
+obtenidos de la sesi\'on del Congreso en cuesti\'on para realizar una selecci\'on
+de rasgos a fin de entrenar un modelo de clasificaci\'on, resulta crucial procesar dichos
+datos de forma tal que el proceso de extracci\'on de informaci\'on por parte
+de un algoritmo de aprendizaje autom\'atico se vea faciliado. En concreto, palabras
+como `aceptaron', `acepta', `acept\'o' se vinculan gramatical y sem\'anticamente:
+las tres pertenecen a la categor\'ia de los verbos y refieren a la misma acci\'on (`aceptar').
 Sin embargo, a la hora de extraer los rasgos a partir de los discursos prounciados,
-estas palabras serán consideradas como tres rasgos distintos si no se las convierte
-previamente a una forma única o base.
+estas palabras ser\'an consideradas como tres rasgos distintos si no se las convierte
+previamente a una forma \'unica o base.
 \par
 El \textbf{lema} es la forma de una palabra que se utiliza para hacer referencia a ella
-en la entrada de un diccionario y varía según la convención en cada lengua. En español
-y en inglés, por ejemplo, los verbos se enuncian en infinitivo, pero en latín lo hacen
+en la entrada de un diccionario y var\'ia seg\'un la convenci\'on en cada lengua. En español
+y en ingl\'es, por ejemplo, los verbos se enuncian en infinitivo, pero en lat\'in lo hacen
 utilizando la primera persona del singular del presente en modo indicativo, la segunda
-del mismo tiempo y la primera del pretérito perfecto. Por otro lado, el
+del mismo tiempo y la primera del pret\'erito perfecto. Por otro lado, el
 \textbf{\textit{stemizado}} es el proceso por el cual se le remueven los sufijos
 a una palabra, persistiendo solamente su primer o primeros morfemas y utilizando
-esto como forma base\footnote{\citet[Capítulo~3]{bird2009natural}.}.
+esto como forma base\footnote{\citet[Cap\'itulo~3]{bird2009natural}.}.
 \par
 En este trabajo se exploraron ambas opciones de procesamiento. Cuestiones que se tuvieron
-en cuenta particularmente fueron la preservación de la marcación de género, puesto que
-no resulta menor respecto del tema en consideración, y la minimización de formas a las
-cuales se transformaron los verbos. Para el \textit{stemizado} se utilizó la
-libería NLTK\footnote{\url{https://www.nltk.org/} [último acceso: 15--10--2024]},
-la cual proporciona distintos algoritmos posibles. Aquí, se optó por la
-implementación de \textit{SnowballStemmer}\footnote{Sobre la implementación de la
-librería, consultar la documentación en
+en cuenta particularmente fueron la preservaci\'on de la marcaci\'on de g\'enero, puesto que
+no resulta menor respecto del tema en consideraci\'on, y la minimizaci\'on de formas a las
+cuales se transformaron los verbos. Para el \textit{stemizado} se utiliz\'o la
+liber\'ia NLTK\footnote{\url{https://www.nltk.org/} [\'ultimo acceso: 15--10--2024]},
+la cual proporciona distintos algoritmos posibles. Aqu\'i, se opt\'o por la
+implementaci\'on de \textit{SnowballStemmer}\footnote{Sobre la implementaci\'on de la
+librer\'ia, consultar la documentaci\'on en
 \url{https://www.nltk.org/api/nltk.stem.SnowballStemmer.html}
-[último acceso: 15--10--2024]. Y, para más información
+[\'ultimo acceso: 15--10--2024]. Y, para m\'as informaci\'on
 sobre el algoritmo en español, dirigirse a
 \url{https://snowballstem.org/algorithms/spanish/stemmer.html}
-[último acceso: 15--10--2024].}, que permite elegir
-la lengua sobre la cual se quiere trabajar. Respecto del lematizado, se recurrió
-a la librería spaCy\footnote{\url{https://spacy.io/}
-[último acceso: 15--10--2024]}, que cuenta con modelos
-pre-entrenados para la predicción de lemas en distintos idiomas. El modelo aquí
+[\'ultimo acceso: 15--10--2024].}, que permite elegir
+la lengua sobre la cual se quiere trabajar. Respecto del lematizado, se recurri\'o
+a la librer\'ia spaCy\footnote{\url{https://spacy.io/}
+[\'ultimo acceso: 15--10--2024]}, que cuenta con modelos
+pre-entrenados para la predicci\'on de lemas en distintos idiomas. El modelo aqu\'i
 utilizado es el \textit{es-core-news-md}, entrenado con textos
-proveniendtes de noticias y textos de los medios de
-comunicación\footnote{\url{https://spacy.io/models/es\#es_core_news_md}
-[último acceso: 15--10--2024]}.
+proveniendtes de noticias y medios de
+comunicaci\'on\footnote{\url{https://spacy.io/models/es\#es_core_news_md}
+[\'ultimo acceso: 15--10--2024]}.
 \par
-En lo que refiere a la marcación de género, ninguno de los procedimientos se mostró
-superiro por sobre el otro para los propósitos de este trabajo, dado que ambos
-remueven la marcación de este accidente, ya sea eliminando el sufijo que lo
-representa (`-o' y `-a' en la mayoría de los casos) como lo hace el
-\textit{stemizado}, ya transformando la palabra completa a su forma canónica
+En lo que refiere a la marcaci\'on de g\'enero, ninguno de los procedimientos se mostr\'o
+superiro por sobre el otro para los prop\'ositos de este trabajo, dado que ambos
+remueven la marcaci\'on de este accidente, ya sea eliminando el sufijo que lo
+representa (`-o' y `-a' en la mayor\'ia de los casos) como lo hace el
+\textit{stemizado}, ya transformando la palabra completa a su forma can\'onica
 (en masculino singular, en el español) como lo hace el lematizado. En el caso
-de la conversión de los verbos a una forma base, en cambio, el lematizado permitió
-una mejor reducción, dado que posibilitó transformar las distintas ocurrencias
-de un verbo a una única forma: el infinitivo. Al ser un procedimiento que se
-centra únicamente en la remoción de los sufijos, el \textit{stemizado} no permite
+de la conversi\'on de los verbos a una forma base, en cambio, el lematizado permiti\'o
+una mejor reducci\'on, dado que posibilit\'o transformar las distintas ocurrencias
+de un verbo a una \'unica forma: el infinitivo. Al ser un procedimiento que se
+centra \'unicamente en la remoci\'on de los sufijos, el \textit{stemizado} no permite
 lo mismo en el caso de una lengua como el español, que presenta una considerable
-variedad de verbos irregulares al nivel de la raíz\todo[color=pink]{Morfología
-irregularidad: pedir referecia a FerCa}, lo que conduce que, tras el
-\textit{stemizado}, las distintas ocurrencias de un mismo verbo sean reducidas
-a tantas formas como irregularidades presente su raíz. Ejemplo de esto es el
+variedad de verbos irregulares al nivel de la ra\'iz: tras el
+\textit{stemizado}, las distintas ocurrencias de un mismo verbo resultan reducidas
+a tantas formas como irregularidades presente su ra\'iz. Ejemplo de esto es el
 verbo `aprobar', que fue transformado en `aprob', para los casos como
 `aprobamos' o `aprobaron' y `aprueb', para aquellos como `aprueba',
-`apruebe'. Es por esto que, si bien ambos procesamientos requirieron una revisión
-y correcciómn ulteriores, se prefirió el lematizado por sobre el \textit{stemizado}
-dado que permitió una transformación de palabras más clara para el español.
+`apruebe'. Es por esto que, si bien ambos procesamientos requirieron una revisi\'on
+y correcci\'omn ulteriores, se prefiri\'o el lematizado por sobre el \textit{stemizado}
+dado que permiti\'o una transformaci\'on de los verbos m\'as clara para el español.
 \par
-En concreto, el flujo de trabajo consistió en procesar cada discurso emitido
-con los modelos pre-entrenados de la librería spaCy, los cuales permitieron
-predecir, para cada token, su lema y \textit{POS tag}\footnote{El
+En concreto, el flujo de trabajo consisti\'o en procesar cada discurso emitido
+con los modelos pre-entrenados de la librer\'ia spaCy, los cuales permitieron
+predecir, para cada \textit{token}, su lema y \textit{POS tag}\footnote{El
 \textit{POS tag}, por \textit{Part of Speech}, o etiquetado gramatical consiste
-en la asignación a cada palabra de su categoría gramatical o, en algunos casos,
-sintáctica. Los modelos de la
-librería spaCy emplean el sistema de etiquetas de \textit{Universal Dependencies}.
-Para más información, visitar
+en la asignaci\'on a cada palabra de su categor\'ia gramatical o, en algunos casos,
+sint\'actica. Los modelos de la
+librer\'ia \\textit{spaCy} emplean el sistema de etiquetas de \textit{Universal Dependencies}.
+Para m\'as informaci\'on, visitar
 \url{https://spacy.io/usage/linguistic-features\#pos-tagging}
-[último acceso: 15--10--2024]
+[\'ultimo acceso: 15--10--2024]
 y \url{https://universaldependencies.org/u/pos/}
-[último acceso: 15--10--2024].}\todo[color=pink]{Consltar con FerCa: POS es
-gramatical o sintáctico o mescolanza}. Luego, esta
-información fue volcada en una tabla con tres columnas: una para las ocurrencias
+[\'ultimo acceso: 15--10--2024].}. Luego, esta
+informaci\'on fue volcada en una tabla con tres columnas: una para las ocurrencias
 reales de las palabras, otra para los lemas asignados y una tercera con las etiquetas predichas. En un paso siguiente, estas asignaciones fueron corregidas
 manualemente, y los lemas y etiquetas obtenidos fueron utilizados para la
-extracción de rasgos en el entrenamiento de modelos que se detalla a continuación.
-Los criterios de corrección utilizados pueden encontrarse en el apéndice
-\ref{appendix-annotation}, y la sección \ref{subsec-results-annotation}
-proporciona un breve análisis de los resultados de este proceso.
+extracci\'on de rasgos en el entrenamiento de modelos que se detalla a continuaci\'on.
+Los criterios de correcci\'on utilizados pueden encontrarse en el Anexo
+\ref{appendix-annotation}, y la secci\'on \ref{subsec-results-annotation}
+proporciona un breve an\'alisis de los resultados de este proceso.

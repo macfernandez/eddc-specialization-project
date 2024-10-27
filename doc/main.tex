@@ -43,8 +43,8 @@
     {\small\textbf{Especializaci\'on en Exploraci\'on de Datos\\y Descubrimiento del Conocimiento}\vspace{16pt}}\\
     {\includegraphics[scale=0.5]{images/master.eps}}\\
     {
-        Selecci\'on de técnicas estadísticos\\
-        para la vectorización de discursos políticos\\
+        Selecci\'on de t\'ecnicas estad\'isticos\\
+        para la vectorizaci\'on de discursos pol\'iticos\\
         referidos a la reglamentaci\'on del acceso al aborto
     }
 }
@@ -61,15 +61,17 @@
 \newpage
 
 \begin{abstract}
-En este trabajo se aborda la selección y evaluación de rasgos para el
+En este trabajo se aborda la selecci\'on y evaluaci\'on de rasgos para el
 entrenamiento de modelos de aprendizaje automatizado aplicado sobre datos textuales.
-El \textit{corpus} con el que se trabajó pertenece a la transcripción taquigráfica
-de la sesión del Senado de la Nación Argentina para la reglamentación del acceso
-al aborto, la cual fue obtenida mediante la técnica de \textit{scraping}. Durante el
-procesamiento de los datos se recurrió a una lematización automatizada sobre la que
-luego se realizó una corrección manual. Los datos fueron vectorizados empleando
-métodos estadísticos tomados de \cite{monroe2008fightin}, que permitieron la selección
-de rasgos y el posterior entrenamiento de un modelo de Regresión Logísitca.
+El \textit{corpus} con el que se trabaja pertenece a la transcripci\'on taquigr\'afica
+de la sesi\'on del Senado de la Naci\'on Argentina para la reglamentaci\'on del acceso
+al aborto, la cual fue obtenida mediante la t\'ecnica de \textit{scraping}. Durante el
+procesamiento de los datos se recurre a una lematizaci\'on automatizada sobre la que
+luego se realiza una correcci\'on manual. Para la vectorizaci\'on se emplean
+m\'etodos estad\'isticos tomados de \cite{monroe2008fightin}, los cuales son
+evaluados respecto de su rendimiento para el entrenamiento de un modelo de
+Regresi\'on Log\'isitca. El mejor vectorizador hallado es utilizado para el
+entrenamiento final.
 \end{abstract}
 
 \section{Introducci\'on}\label{section-intro}
@@ -92,35 +94,28 @@ de rasgos y el posterior entrenamiento de un modelo de Regresión Logísitca.
 
 \section{Metodolog\'ia}\label{section-methods}
 
-\subsection{Anotación}\label{subsection-methods-annotation}
+\subsection{Anotaci\'on}\label{subsection-methods-annotation}
 \input{sections/methods/annotation.tex}
 
-\subsection{Selección de rasgos}\label{subsection-methods-features}
+\subsection{Selecci\'on de rasgos}\label{subsection-methods-features}
 \input{sections/methods/features.tex}
 
-\subsection{Entrenamiento y evaluación}\label{subsection-methods-models}
+\subsection{Entrenamiento y evaluaci\'on}\label{subsection-methods-models}
 \input{sections/methods/model.tex}
-
-%\subsection{Evaluaci\'on}\label{subsection-methods-evaluation}
-%\input{sections/methods/evaluation.tex}
-
 
 \section{Resultados}\label{section-results}
 
-\subsection{Anotación}\label{subsec-results-annotation}
+\subsection{Anotaci\'on}\label{subsec-results-annotation}
 \input{sections/results/annotation.tex}
 
-\subsection{Selección de rasgos}\label{subsection-results-features}
+\subsection{Selecci\'on de rasgos}\label{subsection-results-features}
 \input{sections/results/features.tex}
 
-\subsection{Entrenamiento y evaluación}\label{subsection-results-models}
+\subsection{Entrenamiento y evaluaci\'on}\label{subsection-results-models}
 \input{sections/results/model.tex}
 
-%\subsection{Evaluaci\'on}\label{subsection-results-evaluation}
-%\input{sections/results/evaluation.tex}
-
-
 \section{Discusi\'on y conclusiones}\label{section-discussion}
+\input{sections/conclusion.tex}
 
 \bibliographystyle{linquiry3}
 \bibliography{bibliography}
@@ -129,15 +124,14 @@ de rasgos y el posterior entrenamiento de un modelo de Regresión Logísitca.
 \appendix
 \section{Anexo}\label{appendix}
 
-\subsection{Guía de anotación}\label{appendix-annotation}
+\subsection{Gu\'ia de anotaci\'on}\label{appendix-annotation}
 \input{sections/appendix/annotation.tex}
+
+\subsection{Gr\'aficos adicionales}\label{appendix-plots}
+\input{sections/appendix/plots.tex}
 
 \subsection{Tablas adicionales}\label{appendix-tables}
 \input{sections/appendix/tables.tex}
-
-\subsection{Gráficos adicionales}\label{appendix-plots}
-\input{sections/appendix/plots.tex}
-
 
 
 %\listoftodos%

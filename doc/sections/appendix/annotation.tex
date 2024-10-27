@@ -1,28 +1,28 @@
-Para todas las categorías de palabras se prefiere la lematización. A continuación
+Para todas las categor\'ias de palabras se prefiere la lematizaci\'on. A continuaci\'on
 se detallan las decisiones tomadas en casos particulares.
 
 \subsubsection{Conectores}
-Clases de palabra como preposiciones (`según'), pronombres relativos (`que') o
+Clases de palabra como preposiciones (`seg\'un'), pronombres relativos (`que') o
 conjunciones (`si') que suelen funcionar como conectores subordinantes son
-etiquetados con la categoría \textit{SCONJ}.
+etiquetados con la categor\'ia \textit{SCONJ}.
 
 \subsubsection{Nombres}
-Por cuestiones de relevancia para el estudio, se mantiene la marca de género (femenino
-o masculino), pero se omite la marca de número (singular o plural). Ejemplo: `abuelas'
+Por cuestiones de relevancia para el estudio, se mantiene la marca de g\'enero (femenino
+o masculino), pero se omite la marca de n\'umero (singular o plural). Ejemplo: `abuelas'
 $\rightarrow$ `abuela'.
 
-\subsubsection{Números}
-Se omiten todos, aquellos que aparecen en dígitos (`1', `10', etc.) y los que aparecen
+\subsubsection{N\'umeros}
+Se omiten todos, aquellos que aparecen en d\'igitos (`1', `10', etc.) y los que aparecen
 en caracters (`cuarenta').
 
-\subsubsection{Puntuación}
-Se omiten todas los signos etiquetados como signos de puntuación (\textit{PUNCT}).
+\subsubsection{Puntuaci\'on}
+Se omiten todas los signos etiquetados como signos de puntuaci\'on (\textit{PUNCT}).
 Ejemplos: `¿', `?', `;'.
 
 \subsubsection{Verbos}
 \begin{itemize}
-    \item Se omiten los clíticos (`la', `lo', `le' y sus formas plurales). En caso de
-    que el verbo presente una forma con clítico, se lo omite y se lo convierte a su
+    \item Se omiten los cl\'iticos (`la', `lo', `le' y sus formas plurales). En caso de
+    que el verbo presente una forma con cl\'itico, se lo omite y se lo convierte a su
     forma infinitiva. Ejemplo: `consierar\textit{la}' $\rightarrow$ `consierar'.
     \item Se omiten las formas reflexivas (`se'). En caso de que el verbo presente
     una forma reflexiva, se lo omite y se lo convierte a su forma infinitiva.
@@ -31,12 +31,12 @@ Ejemplos: `¿', `?', `;'.
 
 \subsubsection{Verbos auxiliares}
 \begin{itemize}
-    \item La categoría \textit{AUX} es despreciada.
+    \item La categor\'ia \textit{AUX} es despreciada.
     \item Aquellos verbos catalogados con la etiqueta \textit{AUX} fueron
     recatalogados como verbos (\textit{VERB}) si pertenecen a ese tipo de
     palabra, y transformados a la forma en infinitivo. Ejemplo: `seamos' $\rightarrow$ `ser'.
 \end{itemize}
 
-\subsubsection{Palabras con tokenizados erróneos}
+\subsubsection{Palabras con tokenizados err\'oneos}
 Se omiten las cadenas de caracteres que al ser tokenizadas quedaron unidas a un
-signo de puntuación. Ejemplos: `¡negando', `¿por'.
+signo de puntuaci\'on. Ejemplos: `¡negando', `¿por'.

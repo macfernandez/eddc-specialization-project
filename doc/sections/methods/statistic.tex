@@ -3,8 +3,8 @@ no basadas en modelos probabil\'isticos para la selecci\'on de rasgos.
 Dos de los m\'etodos aplicados (\textit{TF-IDF} y \textit{Word Scores}) consisten
 en algoritmos para la asignaci\'on de puntuaciones o \textit{scores} a las
 palabras dentro de un \textit{corpus}. El resto de las t\'ecnicas utilizan
-m\'etricas estad\'isticas sencillas. Para la aplicación de estos procedimientos
-se utilizaron las lematizaciones de las palabras incluyendo su categoría
+m\'etricas estad\'isticas sencillas. Para la aplicaci\'on de estos procedimientos
+se utilizaron las lematizaciones de las palabras incluyendo su categor\'ia
 gramatical.
 
 \subsubsection{Diferencia de frecuencias absolutas}
@@ -42,10 +42,10 @@ El mismo abordaje se intent\'o removiendo previamente las palabras consideradas
 \textit{stopwords}. Para esto se probaron dos alternativas. Por un lado, se
 utiliz\'o el conjunto predefinido de la librer\'ia \textit{NLTK}
 \footnote{\url{https://raw.githubusercontent.com/nltk/nltk_data/gh-pages/packages/corpora/stopwords.zip}}
-y, por otro, se utilizó la Ley de Zipf. Este último procedimiento consiste en
-calcular la frecuencia absoluta de aparición de
+y, por otro, se utiliz\'o la Ley de Zipf. Este \'ultimo procedimiento consiste en
+calcular la frecuencia absoluta de aparici\'on de
 cada token y, en virtud de ella, establecer un \textit{ranking} de palabras
-ordenándolas de manera decreciente según su frecuencia de aparición.
+orden\'andolas de manera decreciente seg\'un su frecuencia de aparici\'on.
 Luego, se contrasta dicha frecuencia con el orden asignado y se define
 un umbral a partir del cual una palabra es considerada \textit{stopword}.
 
@@ -61,12 +61,12 @@ aqu\'i, $O_{w}^{(X)}$ consiste en $f_{w}^{(X)}/(1-f_{w}^{(X)})$.
 \subsubsection{Ratio \textit{Log-odds}}
 Sobre los \textit{odds}, tambi\'en se calcul\'o el \textit{ratio log-odds}.
 Para este c\'alculo se utiliz\'o el logaritmo natural: $\ln{O_w}$.
-Asimismo, se realizó un suavizado sobre las frecuencias en los casos
+Asimismo, se realiz\'o un suavizado sobre las frecuencias en los casos
 en los que las palabras solo se encontraban en uno de los grupos
-discursivos. Dicho suavizado consistió en agregar un peso predefinido a las
+discursivos. Dicho suavizado consisti\'o en agregar un peso predefinido a las
 frecuencias relativas, $\tilde{f}^{i}_{w} = f^{i}_{w}+\epsilon$, y tomar
-este valor en el cálculo del ratio. Siguiendo a \cite{monroe2008fightin},
-se utilizó $\epsilon=0.5$.
+este valor en el c\'alculo del ratio. Siguiendo a \cite{monroe2008fightin},
+se utiliz\'o $\epsilon=0.5$.
 
 \subsubsection{\textit{TF-IDF}}
 \label{subsubsec-methods-tfidf}
@@ -79,10 +79,10 @@ por \textit{scikit-learn}, la librer\'ia usual para extraer
 este tipo de \textit{scores}.\footnote{Para m\'as informaci\'on sobre las f\'ormulas
 implementadas por \textit{scikit-learn}, visitar:
 \url{https://scikit-learn.org/stable/modules/feature_extraction.html\#tfidf-term-weighting}}\par
-Los autores indican haber usado dos fórmulas diferentes: ambas utilizando la frecuencia
-de término natural y sin normalizar, pero una con la frecuencia de documentos
-con logaritmo (fórmula \ref{equation-tfidf-ntn}) y la otra, con frecuencia de documento
-natural (fórmula \ref{equation-tfidf-nnn}).
+Los autores indican haber usado dos f\'ormulas diferentes: ambas utilizando la frecuencia
+de t\'ermino natural y sin normalizar, pero una con la frecuencia de documentos
+con logaritmo (f\'ormula \ref{equation-tfidf-ntn}) y la otra, con frecuencia de documento
+natural (f\'ormula \ref{equation-tfidf-nnn}).
 
 \begin{equation}
 \label{equation-tfidf-ntn}

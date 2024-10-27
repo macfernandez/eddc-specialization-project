@@ -1,38 +1,40 @@
-Durante la validación cruzada realizada para evaluar el rendimiento de los
-distintos vectorizadores se fueron registrando varias métricas de evaluación
-para cada iteración como así también el tiempo de ajuste necesario en cada caso.
-La figura \ref{fig-results-features-fit-time} muetra el promedio y el desvío
-estándar de este último en las cinco iteraciones realizadas. Como es posible
-apreciar, el vectorizado de proporciones con remoción de \textit{stopwords}
+Durante la validaci\'on cruzada realizada para evaluar el rendimiento de los
+distintos vectorizadores se fueron registrando varias m\'etricas de evaluaci\'on
+para cada iteraci\'on como as\'i tambi\'en el tiempo de ajuste necesario en cada caso.
+La figura \ref{fig-results-features-fit-time} muetra el promedio y el desv\'io
+est\'andar de este \'ultimo en las cinco iteraciones realizadas. Como es posible
+apreciar, el vectorizado de proporciones con remoci\'on de \textit{stopwords}
 provenientes de \textit{NLTK} es el que presenta un tiempo de ajuste promedio
-menor, y también un menor desvío. El vectorizador de \textit{TF-IDF} con
+menor, y tambi\'en un menor desv\'io. El vectorizador de \textit{TF-IDF} con
 frecuencia de documentos natural, por otro lado, es el que mayores valores
-exhibe tanto en la media como en el desvío. La tabla \ref{table-appendix-fit-time}
-presente en la sección \ref{appendix-table-vectorizers} del Anexo detalla una
+exhibe tanto en la media como en el desv\'io est\'andar. La tabla \ref{table-appendix-fit-time}
+presente en la secci\'on \ref{appendix-table-vectorizers} del Anexo detalla una
 a una las medidas de centralidad.
 
 \begin{figure}[h!]
     \centering
     \includegraphics[scale=0.6]{../visualizations/features/fit_time.png}
-    \caption{Media y desvió estándar del tiempo de ajuste requerido
-    para el entrenamiento de una Regresión Logística \textit{baseline}
+    \caption{Media y desvi\'o est\'andar del tiempo de ajuste requerido
+    para el entrenamiento de una Regresi\'on Log\'istica \textit{baseline}
     al utilizar distintos vecotrizadores siguiendo una estrategia de
-    validación cruzada con cinco iteraciones.}
+    validaci\'on cruzada con cinco iteraciones.}
     \label{fig-results-features-fit-time}
 \end{figure}
 
-La tabla \ref{table-results-vectorizers-val} exhibe el promedio de los \textit{scores}
-obtenidos en la validación cruzada, para cada vectorizador. Allí se puede ver que,
-en la mayoría de los casos, fue el vectorizador de \textit{TF-IDF} con logaritmo
-de la frecuencia de documentos el que presentó mejores resultados. Si bien el
-vectorizador de proporciones con remoción de \textit{stopwords} obtenidas por el
-método de Zipf se muestra superior a este en términos de precisión, solo
-lo hace a expensas de perder cobertura, lo que se conoce como la compensación o el
-\textit{trade-off} entre ambas métricas. De hecho, esta vectorización es la que
-presenta la peor cobertura de todos los métodos evaluados. Y algo semejante ocurre
-con el vectorizador basado en el \textit{ratio} de los \textit{log-odds}, que
-presenta una mejor cobertura que el resto de los vectorizadores, pero una peor
-precisión, \textit{accuracy} y \textit{f1-macro}.
+En cuanto a las m\'etricas de rendimiento,
+la tabla \ref{table-results-vectorizers-val} ofrece el promedio de los \textit{scores}
+obtenidos en la validaci\'on cruzada para cada vectorizador. All\'i se puede ver que,
+en la mayor\'ia de los casos, fue el vectorizador de \textit{TF-IDF} con logaritmo
+de la frecuencia de documentos el que present\'o mejores resultados. Si bien el
+vectorizador de proporciones con remoci\'on de \textit{stopwords} obtenidas por el
+m\'etodo de Zipf se muestra superior a este en t\'erminos de precisi\'on, solo
+lo hace a expensas de perder cobertura, lo que se conoce como la compensaci\'on o el
+\textit{trade-off} entre ambas m\'etricas. De hecho, esta vectorizaci\'on es la que
+presenta la peor cobertura de todos los m\'etodos evaluados. Y algo semejante ocurre
+con el vectorizador basado en el \textit{ratio} de los \textit{log-odds} con
+suavizado, que
+muestra una mejor cobertura que el resto de los vectorizadores, pero una peor
+precisi\'on, \textit{accuracy} y \textit{f1-macro}.
 
 \begin{table}[h!]
     \centering
@@ -64,39 +66,39 @@ precisión, \textit{accuracy} y \textit{f1-macro}.
     \end{tabular}
     \end{adjustbox}
     \caption{Resultados obtenidos tras evaluar un modelo de
-    Regresión Logística \textit{baseline} utilizando
-    vectorizadores basados en las distintas técnicas estadísticas.
+    Regresi\'on Log\'istica \textit{baseline} utilizando
+    vectorizadores basados en las distintas t\'ecnicas estad\'isticas.
     Los valores reflejan el rendimiento promedio de las cinco iteraciones
-    de la validación cruzada.
-    Las celdas resaltadas en azul corresponden a la estategia de vectorización
+    de la validaci\'on cruzada.
+    Las celdas resaltadas en azul corresponden a la estategia de vectorizaci\'on
     que obtuvo un mejor rendimiento promedio en cada
-    métrica de evaluación y las resaltadas en naranja, a la
+    m\'etrica de evaluaci\'on y las resaltadas en naranja, a la
     que obtuvo el peor rendimiento.}
     \label{table-results-vectorizers-val}
 \end{table}
 
 El vectorizador basado en \textit{TF-IDF (log IDF)} no solo presenta un mayor
-\textit{accuracy} que el resto de las técnicas de vectorización, sino que
-también muestra un mejor \textit{$F_{\beta}$ score} (con $\beta=1$).
-Esta métrica ofrece una representación simétrica de la precisión y la cobertura,
-lo que nos indica que, si bien este vectorizador no es el que mejores valores
-exhibe en dichas métricas, sí es el que mejor maneja la compensación
-entre ambas. En este trabajo se decidió utilizar $\beta=1$ porque no se busca
-privilegiar ninguna de las dos métricas por sobre la otra.
+\textit{accuracy} que el resto de las t\'ecnicas de vectorizaci\'on, sino que
+tambi\'en muestra un mejor \textit{$F_{\beta}$ score} (con $\beta=1$).
+Esta m\'etrica ofrece una representaci\'on sim\'etrica de la precisi\'on y la cobertura,
+lo que nos indica que, si bien dicho vectorizador no es el que mejores valores
+exhibe en estas m\'etricas, s\'i es el que mejor maneja la compensaci\'on
+entre ambas. En este trabajo se decidi\'o utilizar $\beta=1$ porque no se busca
+privilegiar ninguna de las dos m\'etricas por sobre la otra.
 \par
 Adicionalmente, se reportan el \textit{F1-macro} y \textit{F1-weighted}.
 El primero consiste en un promedio del \textit{F1} calculado para ambas clases
-predichas, lo que nos da una idea de la compensación de la \textit{precision} y la
+predichas, lo que da una idea de la compensaci\'on de la \textit{precision} y la
 \textit{recall} tomado en cuenta la clase $1$ (discursos positivos), por un lado, y
 la clase $0$ (discursos negativos), por otro. No obstante, dado que ambas clases no
-están balancedas\footnote{Como se mencionó en la sección
+est\'an balancedas\footnote{Como se mencion\'o en la secci\'on
 \ref{subsection-data-description}, el \textit{dataset} presenta un $56\percentsign$
-de discursos a favor y un $44\percentsign$ de discursos en contra.}, podría ser que,
-al calcular el promedio, el buen rendimiento en la predicción de una de las clases
-enmascare una mala \textit{performance} en la predicción de la otra. Es por esto
-que también se recurre al \textit{F1-weighted}, que multiplica la precisión de cada
-clase por proporción de casos que presenta en el conjunto de datos,
-de mod que el valor resultante es una medida ``pesada'' en relación a la representación
-de cada clase. En la sección \ref{appendix-plots-vectorizers} del Anexo pueden
-apreciarse los gráficos de estas métricas para cada \textit{split} de la validación
+de discursos a favor y un $44\percentsign$ de discursos en contra.}, podr\'ia ser que,
+al calcular el promedio, el buen rendimiento en la predicci\'on de una de las clases
+enmascare una mala \textit{performance} en la predicci\'on de la otra. Es por esto
+que tambi\'en se recurre al \textit{F1-weighted}, que multiplica el \textit{F1}
+de cada clase por la proporci\'on de casos que esta presenta en el conjunto de datos,
+de modo que el valor resultante es una medida ``pesada'' en relaci\'on a la representaci\'on
+de cada clase. En la secci\'on \ref{appendix-plots-vectorizers} del Anexo pueden
+apreciarse los gr\'aficos de estas m\'etricas para cada \textit{split} de la validaci\'on
 cruzada.

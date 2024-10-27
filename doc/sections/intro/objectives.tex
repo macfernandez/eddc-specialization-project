@@ -1,53 +1,53 @@
-En este trabajo, y a partir del acceso a los datos de la Cámara de Senadores,
-se retoman las técnicas estadísticas detalladas por
+En este trabajo y a partir del acceso a los datos de la C\'amara de Senadores,
+se retoman las t\'ecnicas estad\'isticas detalladas por
 \citeauthor{monroe2008fightin} y se las utiliza para vectorizar los
-discursos emitidos por los senadores en la vigésimo tercera sesión
-del Congreso Nacional, en la cual se discutió la ley para el acceso a
-la interrupción voluntaria del embarazo.
+discursos emitidos por los legisldores en la vig\'esimo tercera sesi\'on,
+en la cual se discuti\'o la ley para el acceso a
+la interrupci\'on voluntaria del embarazo.
 Se intenta, con esto, evaluar alternativas posibles al tradicional \textit{TF-IDF}
-y comparar su desempeño en la selección de rasgos y entrenamiento de modelos.
+y comparar su desempeño en la selecci\'on de rasgos y entrenamiento de modelos.
 
-Como objetivos generales este trabajo persique:
+Como objetivos generales, este trabajo persique:
 
 \begin{itemize}
     \item{Comparar distintos m\'etodos estad\'isticos que permitan representar
     discursos en t\'erminos num\'ericos.}
-    \item{Seleccionar uno o más m\'etodos estad\'isticos que permitan
-    generar una representación vectorial de los discursos a favor y en
-    contra de la ley de la interrupción voluntaria del embarazo y entrenar
-    con ella un modelo predictivo de clasificación.}
+    \item{Seleccionar uno o m\'as m\'etodos estad\'isticos que posibiliten
+    generar una representaci\'on vectorial de los discursos a favor y en
+    contra de la ley de la interrupci\'on voluntaria del embarazo y entrenar
+    con ella un modelo predictivo de clasificaci\'on.}
 \end{itemize}
 
-Para lograr dichos objetivos, este trabajo se propone, en términos
+Para lograr dichos objetivos, este trabajo se propone, en t\'erminos
 particulares:
 
 \begin{itemize}
     \item{Obtener un \textit{corpus} de datos con discursos a favor y en contra
-    de la legislación del aborto sobre el cual se puedan aplicar las técnicas de
-    vecotrización y, luego, entrenar un modelo de predicción.}
-    \item{En los casos necesarios, implementar los métodos estadísticos detallados
-    por \cite{monroe2008fightin} en un código ejecutable de \textit{python} que
+    de la legislaci\'on del aborto sobre el cual se puedan aplicar las t\'ecnicas de
+    vecotrizaci\'on y, luego, entrenar un modelo de predicci\'on.}
+    \item{En los casos necesarios, implementar los m\'etodos estad\'isticos detallados
+    por \cite{monroe2008fightin} en un c\'odigo ejecutable de \textit{python} que
     luego pueda ser aplicado al \textit{corpus} de discursos.}
-    \item{Comparar el rendimiento de los distintos métodos de vectorización utilizando
-    métodos propias del aprendizaje automático, tales como la validación
-    cruzada, y métricas igualmente acordes, como el \textit{accuracy}, la precisión,
+    \item{Comparar el rendimiento de los distintos m\'etodos de vectorizaci\'on utilizando
+    t\'ecnicas propias del aprendizaje autom\'atico, tales como la validaci\'on
+    cruzada, y m\'etricas igualmente acordes, como el \textit{accuracy}, la precisi\'on,
     la cobertura y el \textit{score F1}.}
-    \item{Entrenar un modelo predictivo de clasificación, como la Regresión Logística,
-    y evaluar su rendimiento al utilizar el método de vectoriazión seleccionado.}
+    \item{Entrenar un modelo predictivo de clasificaci\'on, como la Regresi\'on Log\'istica,
+    y evaluar su rendimiento al utilizar el m\'etodo de vectoriazi\'on seleccionado.}
 \end{itemize}
 
-A continuación, el lector podrá encontrar, en el apartado \ref{section-data},
-una descripción sobre la descarga y obtención de los datos utilizados en este
-trabajo, como así también de las características generales que presenta. Las
-secciones \ref{section-methods} y \ref{section-results} presentan, respectivamente,
-los métodos empleados y los resultados obtenidos a partir de su implementación.
+A continuaci\'on, el lector podr\'a encontrar, en el apartado \ref{section-data},
+una descripci\'on sobre la descarga y obtenci\'on de los datos utilizados en este
+trabajo, como as\'i tambi\'en de las caracter\'isticas generales que presenta. Las
+secciones \ref{section-methods} y \ref{section-results} exponen, respectivamente,
+los m\'etodos empleados y los resultados obtenidos a partir de su implementaci\'on.
 Ambas poseen la misma estructura: en primer lugar hacen referencia
-al proceso de anotación automático con supervisión y corrección manual utilizado
-para pre-procesar el \textit{corpus}; luego presentan la selección de rasgos
-para vectorizar los discursos y lo referido a la comparación de estos métodos, y
-finalmente se detienen en el entrenamiento de un modelo de clasificación (la
-Regresión Logísitca) y su correspondiente evaluación. La sección
+al proceso de anotaci\'on autom\'atico con supervisi\'on y correcci\'on manual utilizado
+para pre-procesar el \textit{corpus}; luego presentan la selecci\'on de rasgos
+para vectorizar los discursos y lo referido a la comparaci\'on de estos m\'etodos, y
+finalmente se detienen en el entrenamiento de un modelo de clasificaci\'on (la
+Regresi\'on Log\'isitca) y su correspondiente evaluaci\'on. La secci\'on
 \ref{section-discussion} concluye con algunas reflexiones finales y
-discusión al respecto. Hacia el final de este trabajo es posible encontrar el
-Anexo, donde se detallan las pautas de anotación adoptadas y algunos gráficos
+discusi\'on al respecto. Hacia el final de este trabajo es posible encontrar el
+Anexo, donde se detallan las pautas de anotaci\'on adoptadas y tablas y gr\'aficos
 adicionales.
