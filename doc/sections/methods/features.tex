@@ -37,7 +37,7 @@ o \texttt{penalty=l2}, intensidad inversa de la regularizaci\'on o \texttt{C=1},
 ajuste de \textit{bias} o \texttt{fit\_intercept=True} y peso de cada clases
 o \texttt{class\_weight=None}.
 Para m\'as informaci\'on sobre los par\'ametros por defecto, consultar:
-\url{https://scikit-learn.org/1.5/modules/generated/sklearn.linear_model.LogisticRegression.html}}.
+\url{https://scikit-learn.org/1.5/modules/generated/sklearn.linear_model.LogisticRegression.html} [\'ultimo acceso: 15--10--2024]}.
 En cada entrenamiento se aplic\'o el m\'etodo
 de validac\'on cruzada con 5 subconjuntos: 4 para entrenamiento y 1 para testeo
 en cada iteraci\'on.
@@ -140,7 +140,7 @@ Tambi\'en se intent\'o calcular la diferencia de proporciones removiendo
 previamente los \textit{tokens} considerados \textit{stopwords}.
 Para esto se probaron dos alternativas.
 Por un lado, se utiliz\'o el conjunto predefinido de la librer\'ia \textit{NLTK}
-\footnote{\url{https://raw.githubusercontent.com/nltk/nltk_data/gh-pages/packages/corpora/stopwords.zip}}
+\footnote{\url{https://raw.githubusercontent.com/nltk/nltk_data/gh-pages/packages/corpora/stopwords.zip} [\'ultimo acceso: 15--10--2024]}
 y, por otro, la Ley de Zipf.
 Este \'ultimo procedimiento consiste en calcular la frecuencia absoluta de aparici\'on de
 cada \textit{token} y, en virtud de ella, establecer un \textit{ranking}
@@ -187,7 +187,7 @@ Si bien la librer\'ia \textit{scikit-learn} cuenta con un vectorizador
 que permite calcular los \textit{scores} de \textit{TF-IDF}
 \footnote{Para m\'as informaci\'on sobre las f\'ormulas
 implementadas por \textit{scikit-learn}, visitar:
-\url{https://scikit-learn.org/stable/modules/feature_extraction.html\#tfidf-term-weighting}},
+\url{https://scikit-learn.org/stable/modules/feature_extraction.html\#tfidf-term-weighting} [\'ultimo acceso: 15--10--2024].},
 dado que la f\'ormula propuesta por \Citeauthor{monroe2008fightin} plantea
 algunas modificaciones a dicha implementaci\'on, se decidi\'o
 desarrollar un vectorizador propio para obtener un resultado

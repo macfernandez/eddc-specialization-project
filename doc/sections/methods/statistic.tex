@@ -41,7 +41,7 @@ y $n^{(X)}$, la cantidad de lemas totales en esos discursos.
 El mismo abordaje se intent\'o removiendo previamente las palabras consideradas
 \textit{stopwords}. Para esto se probaron dos alternativas. Por un lado, se
 utiliz\'o el conjunto predefinido de la librer\'ia \textit{NLTK}
-\footnote{\url{https://raw.githubusercontent.com/nltk/nltk_data/gh-pages/packages/corpora/stopwords.zip}}
+\footnote{\url{https://raw.githubusercontent.com/nltk/nltk_data/gh-pages/packages/corpora/stopwords.zip} [\'ultimo acceso: 15--10--2024].}
 y, por otro, se utiliz\'o la Ley de Zipf. Este \'ultimo procedimiento consiste en
 calcular la frecuencia absoluta de aparici\'on de
 cada token y, en virtud de ella, establecer un \textit{ranking} de palabras
@@ -78,7 +78,7 @@ la f\'ormula utilizada en el \textit{paper} no era la misma que la implementada
 por \textit{scikit-learn}, la librer\'ia usual para extraer
 este tipo de \textit{scores}.\footnote{Para m\'as informaci\'on sobre las f\'ormulas
 implementadas por \textit{scikit-learn}, visitar:
-\url{https://scikit-learn.org/stable/modules/feature_extraction.html\#tfidf-term-weighting}}\par
+\url{https://scikit-learn.org/stable/modules/feature_extraction.html\#tfidf-term-weighting} [\'ultimo acceso: 15--10--2024].}\par
 Los autores indican haber usado dos f\'ormulas diferentes: ambas utilizando la frecuencia
 de t\'ermino natural y sin normalizar, pero una con la frecuencia de documentos
 con logaritmo (f\'ormula \ref{equation-tfidf-ntn}) y la otra, con frecuencia de documento

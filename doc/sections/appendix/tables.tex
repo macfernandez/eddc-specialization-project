@@ -3,6 +3,7 @@
 
 \begin{table}[!htb]
     \centering
+    \scalebox{0.8}{
     \begin{tabular}{ |c|c|c|c|c|c|c| }
     \hline
     Vectorizador & Media & Mediana & Desv\'io & M\'aximo \\
@@ -27,7 +28,7 @@
     \hline
     Word scores & 0.304 & 0.228 & 0.143 & 0.484 \\
     \hline
-\end{tabular}
+\end{tabular}}
 \caption{Resultados obtenidos tras vectorizar los discursos analizados
 con las distintas t\'ecnicas estad\'isticas y luego entrenar un modelo de
 Regresi\'on Log\'istica \textit{baseline}. Las celdas resaltadas en azul corresponden
@@ -35,7 +36,8 @@ a la estategia de vectorizaci\'on que obetuvo un mejor rendimiento en cada
 m\'etrica de evaluaci\'on.}
 \label{table-appendix-fit-time}
 \end{table}
-\FloatBarrier
+%\FloatBarrier
+
 
 
    

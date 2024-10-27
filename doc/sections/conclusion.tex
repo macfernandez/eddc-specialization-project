@@ -1,0 +1,89 @@
+En el trabajo llevado a cabo, se ha accedido de manera automatizada
+a una fuente de datos p\'ublicos del Estado argentino como es
+la base de sesiones taquigr\'aficas del Senado de la Naci\'on. Por medio
+del uso de librer\'ias disponibles en el lenguaje de programaci\'on
+\textit{Python 3} se ha transformado tales datos, se los ha etiquetado
+recurriendo a modelos pre{--}entrenados y se los ha vectorizado
+para entrenar un modelo de clasificación capaz de predecir si un
+documento constituye un discurso a favor o en contra de la legalizaci\'on
+del aborto, t\'opico tratado en la sesi\'on del Senado descargada.
+\par
+Durante el proceso de etiquetado, se halló que el modelo para
+predecir lemas y etiquetas \textit{POS} mostr\'o un mejor rendimiento
+en la predicción de estas últimas que en las primeras. No solo
+porque fue necesario corregir manualmente una mayor cantidad de lemas
+que de etiquetas \textit{POS}, sino porque, adem\'as, el porcentaje
+de palabras en las cuales el modelo no acertó a predecir el lema
+correcto en ninguna ocurrencia fue mayor al caso an\'alogo de etiquetas
+\textit{POS}. 
+\par
+Por limitaciones de tiempo y recursos disponibles para el etiquetado,
+se decidió simplificar casos como verbos reflexivos y cl\'iticos. En
+estas situaciones los verbos fueron transcriptos en infnitivos y las
+marcas reflexivas y de cliticidad fueron omitidas.
+Una posible mejora a este procedimiento consiste en repensar si esas
+decisiones fueron las mejores y qu\'e impacto tienen sobre los datos
+(cu\'antos verbos se ven afectados y en qu\'e medida). Del mismo modo,
+podr\'ia ser de inter\'es contar con m\'as de una anotaci\'on que
+permitiera validar de forma m\'as robusta la calidad de las etiquetas
+obtenidas. Para esto, lo \'optimo ser\'ia contar con anotaciones
+humanas que siguieran un protocolo estandarizado\footnote{Las gu\'ias
+de anotaci\'on elaboradas en este trabajo persiguen un prop\'osito
+semejante. Si bien aqu\'i las anotaciones fueron realizadas por una sola
+persona, estas gu\'ias proporcionaron uns forma de fijar reglas que
+pudieran ser recordadas en las distintas sesiones de anotaci\'on.}, dado
+que esto permite un mejor control de los criterios de etiquetas, las 
+etiquetas a utilizar y la fiabilidad del procedimiento. Sin embargo,
+contar con anotaciones provenientes de distintos algoritmos de etiquetado
+también puede ser provechoso, y los resultados podr\'ian ser usados
+para comparar estos algoritmos.
+\par
+Para la vectorizaci\'on, se evaluaron distintas t\'ecnicas posibles,
+tomadas de \cite{monroe2008fightin}, con las cuales se procedi\'o
+a seleccionar un conjunto de \textit{tokens} o palabras que luego
+se usaron como rasgos para caracterizar los documentos a clasificar.
+Si bien, en principio, se busc\'o hallar alternativas al usual
+\textit{TF-IDF}, finalmente fue este
+método el que arroj\'o mejores resultados, específicamente con la
+versi\'on que emplea logaritmo sobre la frecuencia inversa en los
+documentos.
+\par
+Durante la evaluaci\'on de los vectorizadores, se fij\'o en $300$
+el n\'umero de dimensiones a generar, que no es otra cosa que la
+cantidad de palabras consideradas como relevantes para caracterizar
+ambos grupos de discursos a predecir. Podr\'ia ser se inter\'es
+contrastar si se observan los mismos resultados al disminuir o
+incrementar el n\'umero de dimensiones. Asimismo, en la implementación
+desarrollada, las t\'ecnicas estad\'isticas se emplean solamente
+para la selecci\'on de palabras pero, una vez seleccionadas, todos
+los vectorizadores siguen el mismo procedimiento: cuentan la frecuencia
+absoluta de tales palabras en los documentos. En una futura iteraci\'on
+sobre este trabajo, se podr\'ian implementar vectorizadores que
+no solo utilizasen tales t\'ecnicas estad\'isticas en la selecci\'on
+de palabras sino tambi\'en en la asignación de pesos asignados
+en los vectores.
+\par
+Respecto del modelo de clasificaci\'on entrenado, se opt\'o
+por una Regresi\'on Log\'istica, la cual mostr\'o un buen
+rendimiento y un ajuste a los datos de entrenamiento lo suficientemente
+flexible como para no quedar muy circunscripta a ellos y poder
+generalizar ante casos no vistos previamente. Los modelos de
+Regresi\'on Log\'istica constituyen modelos discriminativos, es decir
+que aprenden rasgos que les permiten diferenciar entre las clases
+a predecir, aunque estos rasgosno sean necesariamente intrínsecos
+a las clases mismas. De ser posible, sería de interés probar
+un entrenamiento similar en algún modelo generativo como, por ejemplo
+Naïve Bayes, y contrastar qu\'e rasgos resultan seleccionados en ese caso.
+\par
+Por \'ultimo, cabe notar que los datos utilizados en este trabajo
+no han sido voluminosos. Esto se debe a que, tras la obtenci\'on
+de la versi\'on taquigr\'afica de la sesi\'on, fue necesario un
+meticuloso procedimiento de limpieza y preprocesamiento que permitiese
+hacer uso de esos datos. Incluir otras sesiones hubiese implicado
+una labor mucho mayor y las limitaciones de tiempo y recursos no
+lo permitieron. Sin embargo, ser\'ia deseable aumentar, en trabajos
+futuros, los datos sobre los cuales se han desarrollados los procedimientos
+hasta aqu\'i detallados, de modo que los resultados puedan verificarse en
+\textit{corpora} que no solo sean mayores en tamaño sino que, adem\'as,
+aborden otras tem\'aticas y, en ese sentido, presenten una mayor
+diversidad.
