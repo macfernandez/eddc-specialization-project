@@ -1,5 +1,7 @@
 import os
+
 import requests
+
 
 def download(url: str, output: str) -> str:
     response = requests.get(url)
