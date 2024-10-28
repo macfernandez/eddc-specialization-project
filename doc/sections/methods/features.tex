@@ -64,11 +64,11 @@ en la experimentaci\'on. En todos los casos se generaron vectores de trescientas
     \hline
     Proporciones & S\'i (Zipf) & No & No \\
     \hline
-    Ratio de \textit{odds} & No & No & No \\
+    \textit{Ratio} de \textit{odds} & No & No & No \\
     \hline
-    Ratio de \textit{odds} & No & S\'i (\textit{odds}) & No \\
+    \textit{Ratio} de \textit{odds} & No & S\'i (\textit{odds}) & No \\
     \hline
-    Ratio de \textit{odds} & No & S\'i (\textit{odds}) & S\'i ($0.5$) \\
+    \textit{Ratio} de \textit{odds} & No & S\'i (\textit{odds}) & S\'i ($0.5$) \\
     \hline
     \textit{TF-IDF} & No & No & No \\
     \hline
@@ -156,7 +156,7 @@ con este m\'etodo. Este n\'umero fue seleccionado tras realizar un an\'alisis de
 conjunto de datos completo como primera aproximaci\'on general (ver secci\'on
 \ref{appendix-plots-zipf-law}.).
 
-\paragraph{Ratio de \textit{Odds}}
+\paragraph{\textit{Ratio} de \textit{Odds}}
 Se utilizan \textit{odds} de ambos conjuntos de discursos como
 t\'ecnica de selecci\'on. En este caso, los \textit{tokens} m\'as caracter\'isticos
 no resultan de una diferencia sino de un cociente:
@@ -171,14 +171,14 @@ corte para considerar a un \textit{token} como caracter\'istico de
 determinado grupo de discursos no es el $0$ sino el $1$, por la misma
 definici\'on de la funci\'on.
 
-\paragraph{Ratio \textit{Log-odds}}
+\paragraph{\textit{Ratio} \textit{Log-odds}}
 Sobre los \textit{odds}, tambi\'en se calcul\'o el \textit{ratio log-odds}.
 Para este c\'alculo se utiliz\'o el logaritmo natural: $\ln{O_t}$.
 Asimismo, se realiz\'o un suavizado sobre las frecuencias en los casos
 en los que los \textit{tokens} solo se encontraban en uno de los grupos
 discursivos. Dicho suavizado consisti\'o en agregar un peso predefinido a las
 frecuencias relativas, $\tilde{f}^{i}_{w} = f^{i}_{w}+\epsilon$, y tomar
-este valor en el c\'alculo del ratio. Siguiendo a \cite{monroe2008fightin},
+este valor en el c\'alculo del \textit{ratio}. Siguiendo a \cite{monroe2008fightin},
 se utiliz\'o $\epsilon=0.5$.
 
 \paragraph{\textit{TF-IDF}}
