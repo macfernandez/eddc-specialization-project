@@ -9,7 +9,13 @@ $class\_weight=\lbrace1:0.56,0:0.44\rbrace$\footnote{Los valores
 reportados en el par\'ametros \texttt{class\_weight} corresponden a
 las proporciones de cada clase halladas en el \textit{dataset}.}
 arrojaron los mejores valores promedios considerando las cinco iteraciones
-de la validaci\'on cruzada, sin importar el valor de $C$.
+de la validaci\'on cruzada, sin importar el valor de $C$\footnote{
+Lógicamente, este par\'ametro no tiene nig\'un efecto al no realizar ninguna
+penalizaci\'on. La clase proporcionada por librer\'a \textit{scikit-learn},
+sin embargo, no permite fijar este valor en \texttt{None} en ning\'un caso.
+Para un detalle m\'as fiel de los resultados obtenidos,
+la tabla \ref{table-results-models-params} lista el conjunto completo de
+hiperpar\'ametros que fueron testeados.}.
 Las \'unicas excepciones a esto son el resultado en la
 m\'etrica de precisi\'on y de cobertura. En la primera, el modelo entrenado con
 $C=0.1$, $penalty=l2$ y $class\_weight=balanced$
@@ -103,11 +109,10 @@ no logra superar en ning\'un \textit{split} al resto, tampoco exhibe
 una variaci\'on tan grande y, en ning\'un caso, posee el peor valor
 obtenido.
 \par
-Por cuestiones de simplicidad, dado que el c\'alculo de la intensidad inversa
-de la regularizaci\'on se vuelve m\'as sencillo si se toma $C=1$ y que este es
-adem\'as el valor tomado por la librería por defecto, se decide usar el conjunto
-de hiperparámetros $C=1$, $penalty=None$ y
-$class\_weight=\lbrace1:0.56,0:0.44\rbrace$ para entrenar el modelo final.
+Por cuestiones de simplicidad, la librería \textit{scikit-learn} toma
+por defecto $C=1$, se decide usar el conjunto de hiperparámetros
+$C=1$, $penalty=None$ y $class\_weight=\lbrace1:0.56,0:0.44\rbrace$
+para entrenar el modelo final.
 Para esta instancia, se usa el conjunto completo de datos de entrenamiento y luego
 se lo eval\'ua con el \textit{held-out} separado para este fin. La tabla
 \ref{table-results-models-held-out} muestra los resultados obtenidos en
