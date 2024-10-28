@@ -7,13 +7,13 @@ Argentina\footnote{\url{https://www.senado.gob.ar/parlamentario/sesiones/29-12-2
 [\'ultimo acceso: 15--10--2024].}
 utilizando el m\'etodo de \textit{scraping}.\par
 Todo el c\'odigo de programaci\'on implementado fue desarrollado en el lenguaje
-de programaci\'on \textit{Python 3}. En primer lugar, se descarg\'o la transcripci\'on en formato \textit{PDF} y luego, por
+\textit{Python 3}. En primer lugar, se descarg\'o la transcripci\'on en formato \textit{PDF} y luego, por
 medio de la librer\'ia \textit{pdfminer}\footnote{\url{https://pdfminersix.readthedocs.io/en/latest/}
 [\'ultimo acceso: 15--10--2024].},
-se la convirti\'o a texto plano, de manera que fuese procesable. Dado que la librer\'ia
+se la convirti\'o a texto plano de manera que fuese procesable. Dado que la librer\'ia
 empleada en la conversi\'on no arroj\'o una transcripci\'on limpia y que, {adem\'as}, no todo el texto
 result\'o de relevancia para el presente trabajo, se {realiz\'o} una tarea de
-pre-procesamiento con el fin de limpiar y organizar los datos de forma \'util a los
+preprocesamiento con el fin de limpiar y organizar los datos de forma \'util a los
 objetivos aqu\'i perseguidos.\par
 Una vez convertida a \textit{.txt}, la transcripci\'on ya no present\'o separaci\'on de
 {p\'aginas}, por lo que los encabezados y pies se convertieron en l\'ineas de texto que
@@ -47,7 +47,7 @@ cada fragmento fue etiquetado con la siguiente informaci\'on:
 \par
 Adicionalmente, como resultado del preprocesamiento, se extrajo la lista de
 asistentes a la sesi\'on en formato tabular, con el objetivo de poder
-enriquecerla con especificaci\'ones como la filiaci\'on partidaria y la
+enriquecerla con especificaciones como la filiaci\'on partidaria y la
 decisi\'on de voto. En el caso de la filiaci\'on partidaria, se utiliz\'o la
 librer\'ia \textit{selenium}\footnote{\url{https://selenium-python.readthedocs.io/index.html}
 [\'ultimo acceso: 15--10--2024].}
@@ -85,10 +85,10 @@ se prestan a confusi\'on, o m\'as de uno en caso contrario). As\'i tambi\'en, ut
 el apellido y luego el nombre es como se hace referencia a los senadores en la p\'agina
 destinada a proporcionar su lugar de origen y filiaci\'on partidaria. Para lidiar con esta
 diversidad en la enunciaci\'on, se realiz\'o un proceso de estandarizaci\'on h\'ibrido en el
-cual, tomando como base los nombres y apellidos en un \textit{dataset}, se explor\'o
-exhaustivamente su correspondencia con con aquellos presentes en otro \textit{datset}.
+cual, tomando como base los nombres y apellidos en un conjunto de datos, se explor\'o
+exhaustivamente su correspondencia con con aquellos presentes en otro.
 Para esto, se consider\'o cada cadena de nombre/s y apellido/s como un conjunto
 y se evalu\'o la existencia de coincidencia
-o de relaci\'on de subconjunto entre ambos. En la mayor\'ia de los casos,
+o de relaci\'on de subconjunto entre las distintas cadenas posibles. En la mayor\'ia de los casos,
 este mecanismo permiti\'o la desambiguaci\'on. Los pocos casos que no pudieron ser estandarizados
 de esta manera por darse relaci\'on entre m\'as de dos conjuntos fueron desambiguados manualmente.

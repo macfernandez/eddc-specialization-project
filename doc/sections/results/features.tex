@@ -15,14 +15,14 @@ a una las medidas de centralidad.
     \centering
     \includegraphics[scale=0.6]{../visualizations/features/fit_time.png}
     \caption{Media y desvi\'o est\'andar del tiempo de ajuste (medido en segundos)
-    requerido para el entrenamiento de una Regresi\'on Log\'istica \textit{baseline}
+    requerido para el entrenamiento de una regresi\'on log\'istica \textit{baseline}
     al utilizar distintos vecotrizadores siguiendo una estrategia de
     validaci\'on cruzada con cinco iteraciones.}
     \label{fig-results-features-fit-time}
 \end{figure}
 
 En cuanto a las m\'etricas de rendimiento,
-la tabla \ref{table-results-vectorizers-val} ofrece el promedio de los \textit{scores}
+la tabla \ref{table-results-vectorizers-val} ofrece el promedio de los valores
 obtenidos en la validaci\'on cruzada para cada vectorizador. All\'i se puede ver que,
 en la mayor\'ia de los casos, fue el vectorizador de \textit{TF-IDF} con logaritmo
 de la frecuencia de documentos el que present\'o mejores resultados. Si bien el
@@ -41,7 +41,7 @@ precisi\'on, \textit{accuracy} y \textit{f1-macro}.
     \begin{adjustbox}{max width=\textwidth}
     \begin{tabular}{ *{7}{|c}| }
         \hline
-        Vectorizador & \textit{Accuracy} & \textit{Precision} & \textit{Recall} & \textit{F1} & \textit{F1-weighted} & \textit{F1-macro} \\
+        Vectorizador & \textit{Accuracy} & Precisi\'on & Cobertura & \textit{F1} & \textit{F1-weighted} & \textit{F1-macro} \\
         \hline\hline
         \makecell{Frecuencias\\absolutas} & 0.610 & 0.663 & 0.618 & 0.635 & 0.608 & 0.605 \\
         \hline
@@ -66,7 +66,7 @@ precisi\'on, \textit{accuracy} y \textit{f1-macro}.
     \end{tabular}
     \end{adjustbox}
     \caption{Resultados obtenidos tras evaluar un modelo de
-    Regresi\'on Log\'istica \textit{baseline} utilizando
+    regresi\'on log\'istica base utilizando
     vectorizadores basados en las distintas t\'ecnicas estad\'isticas.
     Los valores reflejan el rendimiento promedio de las cinco iteraciones
     de la validaci\'on cruzada.
@@ -84,21 +84,21 @@ Esta m\'etrica ofrece una representaci\'on sim\'etrica de la precisi\'on y la co
 lo que nos indica que, si bien dicho vectorizador no es el que mejores valores
 exhibe en estas m\'etricas, s\'i es el que mejor maneja la compensaci\'on
 entre ambas. En este trabajo se decidi\'o utilizar $\beta=1$ porque no se busca
-privilegiar ninguna de las dos m\'etricas por sobre la otra.
+privilegiar ninguna de las dos por sobre la otra.
 \par
 Adicionalmente, se reportan el \textit{F1-macro} y \textit{F1-weighted}.
 El primero consiste en un promedio del \textit{F1} calculado para ambas clases
-predichas, lo que da una idea de la compensaci\'on de la \textit{precision} y la
-\textit{recall} tomado en cuenta la clase $1$ (discursos positivos), por un lado, y
+predichas, lo que da una idea de la compensaci\'on de la precisi\'on y la
+cobertura tomado en cuenta la clase $1$ (discursos positivos), por un lado, y
 la clase $0$ (discursos negativos), por otro. No obstante, dado que ambas clases no
 est\'an balancedas\footnote{Como se mencion\'o en la secci\'on
-\ref{subsection-data-description}, el \textit{dataset} presenta un $56\percentsign$
+\ref{subsection-data-description}, el conjunto de datos presenta un $56\percentsign$
 de discursos a favor y un $44\percentsign$ de discursos en contra.}, podr\'ia ser que,
 al calcular el promedio, el buen rendimiento en la predicci\'on de una de las clases
-enmascare una mala \textit{performance} en la predicci\'on de la otra. Es por esto
+enmascare la imperfecta predicci\'on de la otra. Es por esto
 que tambi\'en se recurre al \textit{F1-weighted}, que multiplica el \textit{F1}
 de cada clase por la proporci\'on de casos que esta presenta en el conjunto de datos,
 de modo que el valor resultante es una medida ``pesada'' en relaci\'on a la representaci\'on
 de cada clase. En la secci\'on \ref{appendix-plots-vectorizers} del Anexo pueden
-apreciarse los gr\'aficos de estas m\'etricas para cada \textit{split} de la validaci\'on
+apreciarse los gr\'aficos de estas m\'etricas para cada iteraci\'on de la validaci\'on
 cruzada.

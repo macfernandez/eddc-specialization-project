@@ -20,9 +20,9 @@ esto como forma base\footnote{\citet[Cap\'itulo~3]{bird2009natural}.}.
 \par
 En este trabajo se exploraron ambas opciones de procesamiento. Cuestiones que se tuvieron
 en cuenta particularmente fueron la preservaci\'on de la marcaci\'on de g\'enero, puesto que
-no resulta menor respecto del tema en consideraci\'on, y la minimizaci\'on de formas a las
+no resulta menor respecto del tema en consideraci\'on, y la minimizaci\'on en la cantidad de formas a las
 cuales se transformaron los verbos. Para el \textit{stemizado} se utiliz\'o la
-liber\'ia NLTK\footnote{\url{https://www.nltk.org/} [\'ultimo acceso: 15--10--2024].},
+liber\'ia \textit{NLTK}\footnote{\url{https://www.nltk.org/} [\'ultimo acceso: 15--10--2024].},
 la cual proporciona distintos algoritmos posibles. Aqu\'i, se opt\'o por la
 implementaci\'on de \textit{SnowballStemmer}\footnote{Sobre la implementaci\'on de la
 librer\'ia, consultar la documentaci\'on en
@@ -32,16 +32,16 @@ sobre el algoritmo en español, dirigirse a
 \url{https://snowballstem.org/algorithms/spanish/stemmer.html}
 [\'ultimo acceso: 15--10--2024].}, que permite elegir
 la lengua sobre la cual se quiere trabajar. Respecto del lematizado, se recurri\'o
-a la librer\'ia spaCy\footnote{\url{https://spacy.io/}
+a la librer\'ia \textit{spaCy}\footnote{\url{https://spacy.io/}
 [\'ultimo acceso: 15--10--2024].}, que cuenta con modelos
 pre-entrenados para la predicci\'on de lemas en distintos idiomas. El modelo aqu\'i
 utilizado es el \textit{es-core-news-md}, entrenado con textos
-proveniendtes de noticias y medios de
+provenientes de noticias y medios de
 comunicaci\'on\footnote{\url{https://spacy.io/models/es\#es_core_news_md}
 [\'ultimo acceso: 15--10--2024].}.
 \par
 En lo que refiere a la marcaci\'on de g\'enero, ninguno de los procedimientos se mostr\'o
-superiro por sobre el otro para los prop\'ositos de este trabajo, dado que ambos
+superior por sobre el otro para los prop\'ositos de este trabajo, dado que ambos
 remueven la marcaci\'on de este accidente, ya sea eliminando el sufijo que lo
 representa (`-o' y `-a' en la mayor\'ia de los casos) como lo hace el
 \textit{stemizado}, ya transformando la palabra completa a su forma can\'onica
@@ -61,12 +61,12 @@ y correcci\'omn ulteriores, se prefiri\'o el lematizado por sobre el \textit{ste
 dado que permiti\'o una transformaci\'on de los verbos m\'as clara para el español.
 \par
 En concreto, el flujo de trabajo consisti\'o en procesar cada discurso emitido
-con los modelos pre-entrenados de la librer\'ia spaCy, los cuales permitieron
+con los modelos pre-entrenados de la librer\'ia \textit{spaCy}, los cuales permitieron
 predecir, para cada \textit{token}, su lema y \textit{POS tag}\footnote{El
 \textit{POS tag}, por \textit{Part of Speech}, o etiquetado gramatical consiste
 en la asignaci\'on a cada palabra de su categor\'ia gramatical o, en algunos casos,
 sint\'actica. Los modelos de la
-librer\'ia \\textit{spaCy} emplean el sistema de etiquetas de \textit{Universal Dependencies}.
+librer\'ia \textit{spaCy} emplean el sistema de etiquetas de \textit{Universal Dependencies}.
 Para m\'as informaci\'on, visitar
 \url{https://spacy.io/usage/linguistic-features\#pos-tagging}
 [\'ultimo acceso: 15--10--2024]

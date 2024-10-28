@@ -9,13 +9,6 @@ partidos tienen entre 3, 2 y un senador.
 En cuanto a las provincias (24 en total), todas tienen 3 senadores
 exceptuando a Tucum\'an y a La Rioja que tienen solo 2.
 
-\begin{figure}[h!]
-\centering
-\includegraphics[scale=0.7]{../visualizations/distrib_histplot_senators_parties.png}
-\caption{Distribuci\'on de senadores en partidos pol\'iticos.}
-\label{fig-distrib-senators}
-\end{figure}
-
 De los votos emitidos, se observa que 38 son positivos; 29, negativos;
 2 son ausencias, y uno es una abstenci\'on.
 Como muestra la figura \ref{fig-distrib-vote}, la intenci\'on
@@ -23,6 +16,13 @@ de voto no guarda una relaci\'on un\'ivoca con los partidos a los cuales los
 senadores representan. A excepci\'on de aquellos que cuentan con un \'unico
 senador, la mayor\'ia es representado por senadores que votaron a favor y senadores
 que votaron en contra de la ley para el acceso al aborto.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[scale=0.7]{../visualizations/distrib_histplot_senators_parties.png}
+    \caption{Distribuci\'on de senadores en partidos pol\'iticos.}
+    \label{fig-distrib-senators}
+\end{figure}
 
 \begin{figure}[h!]
 \centering
@@ -33,10 +33,10 @@ que votaron en contra de la ley para el acceso al aborto.
 
 Respecto de las intervenciones discursivas, se encuentran 111 discursos
 por parte de los senadores que votaron a favor de la ley; 88 discursos por parte
-de quienes votaron en contra; 1 discurso de quienes estuvieron ausentes
-durante la votaci\'on, y 1 de quien se abstuvo de votar.
-Si se se pone en relaci\'on estos datos absolutos con la cantidad de senadores en cada
-conjunto, se ve que, en promedio, se emitieron
+de quienes votaron en contra; un discurso de quienes estuvieron ausentes
+durante la votaci\'on, y uno de quien se abstuvo de votar.
+Si se ponen en relaci\'on estos datos absolutos con la cantidad de senadores,
+se ve que, en promedio, se emitieron
 2.87 discursos por senador, con un desv\'io est\'andar de 6.23 y una mediana de 1,
 coincidente adem\'as
 con la moda, lo que nos indicar\'ia que se trata de una distribuci\'on asim\'etrica a derecha.
@@ -74,18 +74,18 @@ discurso. Es por eso que, a fines comparativos, se tomaron tambi\'en las medidas
 de los \textit{tokens} \'unicos, las cuales mostraron una media de 161 palabras por discurso
 con un desv\'io de 245, una mediana de 11 y una moda de 2. La figura \ref{fig-distrib-tokens}
 refleja este contraste. Como es posible notar, si bien en ambos casos los discursos
-muestran \textit{outliers} respecto de su longitud, cuando esta se mide en palabras
-totales presenta una mayor cantidad de casos at\'ipicos con valores m\'as extremos que
+muestran valores at\'ipicos respecto de su longitud, cuando esta se mide en palabras
+totales se observa una mayor cantidad con valores m\'as extremos que
 al medirla en \textit{tokens} \'unicos. En este \'ultimo caso, un
-$20\percentsign$ de los registros son \textit{outliers}, de los cuales solo el
+$20\percentsign$ de los registros son valores at\'ipicos, de los cuales solo el
 $17\percentsign$ constituyen casos extremos, mientras que, al considerar
-el total de palabras, un $22\percentsign$ de los datos resultan at\'ipicos y,
-de ellos, el $32\percentsign$ son extremos\footnote{Para este an\'alisis se utiliz\'o el
+el total de palabras, se observan un $22\percentsign$ y $32\percentsign$
+respectivamente.\footnote{Para este an\'alisis se utiliz\'o el
 test de Tukey, que toma el rango intercuartil o \textit{IQR} (\textit{Q3-Q1}, donde
 \textit{Q1} refiere al primer cuartil y \textit{Q3}, al terceo) y considera
 valores at\'ipicos leves a aquellos que se encuentran entre
 $Q1 - (1.5 * IQR) < x < Q3 - (1.5 * IQR)$ y, como extremos a los que est\'an entre
-$Q1 - (3 * IQR) < x < Q3 - (3 * IQR)$.}.
+$Q1 - (3 * IQR) < x < Q3 - (3 * IQR)$.}
 
 \begin{figure}[h!]%
     \centering%
@@ -95,23 +95,3 @@ $Q1 - (3 * IQR) < x < Q3 - (3 * IQR)$.}.
     ($IQR*1.5$) y la naranja, el l\'imite a partir del cual se la considera at\'ipica extrema ($IQR*3$).}%
     \label{fig-distrib-tokens}%
 \end{figure}%
-
-
-%\begin{table}[ht]
-%\centering
-%\begin{tabular}{ |c|c|c|c|c| }
-%    \hline
-%    Voto & Media & Desv\'io & Mediana & Moda \\
-%    \hline\hline
-%    Abstenci\'on & 1.00 & 0.00 & 1.00 & 1 \\
-%    \hline
-%    Ausente & 0.50 & 0.71 & 0.50 & 0 \\
-%    \hline
-%    Negativo & 3.03 & 8.43 & 1.00 & 1 \\
-%    \hline
-%    Positivo & 2.92 & 4.26 & 2.00 & 1 \\
-%    \hline
-%\end{tabular}
-%\caption{Medidas de centralidad de la cantidad de discursos emitidos}
-%\label{table-tokens}
-%\end{table}

@@ -7,19 +7,19 @@ Acorde a lo estipulado en la ley 27.275, que garantiza el acceso a la
 informaci\'on p\'ublica, las sesiones de la C\'amara de Sendores son
 transcriptas y disponibilizadas en la p\'agina del Senado de la Naci\'on.
 \par
-En el trabajo llevad a cabo, se utilizado el lenguaje de
+En el trabajo llevado a cabo, se utiliz\'o el lenguaje de
 programaci\'on \textit{Python 3} para acceder, mediante la t\'ecnica
-\textit{scraping} a los datos proporcionados por el Estado. Se los ha
-pre{--}procesado de manera que la informaci\'on proveniente de
+\textit{scraping}, a los datos proporcionados por el Estado. Se los ha
+pre-procesado de manera que la informaci\'on proveniente de
 distintas fuentes pudiese ser relacionada, y se los ha etiquetado
 siguiendo un procedimiento h\'ibrido que comprendi\'o el uso de modelos
-pre{--}entrnados por librer\'ias de c\'odigo abierto y la correci\'on y
+pre-entrnados por librer\'ias de c\'odigo abierto y la correci\'on y
 anotaci\'on manual. Estos datos fueron utilizados luego para entrenar modelos
-de Regresi\'on Log\'istica con distintos vectorizadores que se desarrollaron
+de regresi\'on log\'istica con distintos vectorizadores que se desarrollaron
 para para este trabajo y cuya implementaci\'on estuvo basada en aquellos
 reseñados por \cite{monroe2008fightin}. Dichos vectorizadores fueron
 contrastados respecto de su rendimiento y el mejor fue utilizado para entrenar
-un modelo final de Regresi\'on Log\'istica, para el que previamente fueron
+un modelo final de regresi\'on log\'istica, para el que previamente fueron
 seleccionados los mejores hiperpar\'ametros.
 \par
 Durante el proceso de etiquetado, se hall\'o que el modelo para
@@ -46,7 +46,7 @@ de anotaci\'on elaboradas en este trabajo persiguen un prop\'osito
 semejante. Si bien aqu\'i las anotaciones fueron realizadas por una sola
 persona, estas gu\'ias proporcionaron uns forma de fijar reglas que
 pudieran ser recordadas en las distintas sesiones de anotaci\'on.}, dado
-que esto permite un mejor control de los criterios de etiquetas, las 
+que esto permite un mejor control de los criterios de las 
 etiquetas a utilizar y la fiabilidad del procedimiento. Sin embargo,
 contar con anotaciones provenientes de distintos algoritmos de etiquetado
 tambi\'en puede ser provechoso, y los resultados podr\'ian ser usados
@@ -58,7 +58,7 @@ y en \textit{TF-IDF} son los que mayor tiempo de ajuste requirieron. No
 obstante, el encontrarse todos los vectorizadores en un rango de tiempo
 de ajuste muy similar y, adem\'as, casi despreciable, este dato no
 constituy\'o una variable de peso a la hora de seleccionar el mejor vectorizador.
-Puesto que, fue la implementaci\'on basada en \textit{TF-IDF} con
+Puesto que fue la implementaci\'on basada en \textit{TF-IDF} con
 logaritmo sobre la frecuencia inversa en los documentos la que
 mejores resultados mostr\'o respecto de las m\'etricas de evaluaci\'on consideradas,
 se opt\'o por esta vectorizador para el modelo final. Cabe destacar que, si bien
@@ -81,7 +81,7 @@ sobre este trabajo, se podr\'ian implementar vectorizadores que
 no solo utilizasen tales t\'ecnicas estad\'isticas en la selecci\'on
 de palabras sino tambi\'en en la asignaci\'on de pesos a los vectores resultantes.
 \par
-Previo al entrenamiento del modelo de Regresi\'on Log\'istica, se
+Previo al entrenamiento del modelo de regresi\'on log\'istica, se
 realiz\'o una validaci\'on cruzada para estimar los mejores hiperpar\'ametros
 para el ajuste. Se encontr\'o que cualquier conjunto de hiperpar\'ametros
 que no implicase regularizaci\'on ($penalty=None$) y utilizase
@@ -89,21 +89,21 @@ la proporci\'on de la clase objetivo en la estimaci\'on
 ($class\_weight=\lbrace0:0.56, 1:0.44\rbrace$). El par\'ametro que define
 la intensidad inversa de la regularizaci\'on a aplicar es desestimado
 puesto que no se aplica tal regularizaci\'on. El modelo final entrenado
-mostr\'o un mejor rendimiento que aquellos pre{--}entrenados
+mostr\'o un mejor rendimiento que aquellos pre-entrenados
 durante la selecci\'on del vectorizador y los hiperpar\'ametros, resultado que
 puede ser asociado al incremento en los datos durante el entrenamiento,
 puesto que esta versi\'on fue ajustada utilizando todos los datos
-de entrenamiento y no con el $0.75\percentsign$ de los mismos,
+de entrenamiento y no con el $75\percentsign$ de los mismos,
 como se hizo previamente.
 \par
-La experimentaci\'on realizada en este trabajo, conduce as\'i a elegir
-la vecorizaci\'on mediante \textit{TF-IDF} con logaritmo sobre la
-frecuancia inversa en los documentos como la mejor t\'ecnica para
-realizar una selecci\'on de rasgos que puedan ser utilizados en la
-vectorizaci\'on de documentos. En futuros trabajos ser\'ia de inter\'es
+La experimentaci\'on realizada en este trabajo conduce as\'i a elegir
+la t\'ecnica basada en \textit{TF-IDF} con logaritmo sobre la
+frecuencia inversa de los documentos como la mejor para
+realizar una selecci\'on de rasgos que puedan ser utilizados al
+vectorizar los documentos. En futuros trabajos ser\'ia de inter\'es
 contrastar los resultados aqu\'i observados con los que pudieran obtenerse
 al seguir un experimento similar en otro tipo de modelos.
-La Regresi\'on Log\'istica constituye un modelo discriminativo, es decir
+La regresi\'on log\'istica constituye un modelo discriminativo, es decir
 que aprende rasgos que le permiten diferenciar entre las clases
 a predecir, aunque estos rasgos no sean necesariamente intr\'insecos
 a las clases mismas. Los modelos generativos como Naïve Bayes, en cambio, estiman un
@@ -111,10 +111,10 @@ modelo posible que podr\'ia haber dado lugar a las clases observadas y
 luego, ante una nueva observaci\'on, calculan las probabilidades de que
 las distintas clases puedan ser generadas por esa observaci\'on.
 Evaluar las t\'ecnicas aqu\'i estudiadas con este tipo de modelos podr\'ia
-conducir a la obtenici\'on de resultados m\'as robustos.
+conducir a la obtenci\'on de resultados m\'as robustos.
 \par
 Por \'ultimo, cabe notar que los datos utilizados en este trabajo
-no han sido voluminosos. Esto se debe a que, tras la obtenci\'on
+no han sido voluminosos. Esto se debe a que, tras la descarga
 de la versi\'on taquigr\'afica de la sesi\'on, fue necesario un
 meticuloso procedimiento de limpieza y preprocesamiento que permitiese
 hacer uso de esos datos. Incluir otras sesiones hubiese implicado
