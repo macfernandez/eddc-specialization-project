@@ -49,7 +49,7 @@ orden\'andolas de manera decreciente seg\'un su frecuencia de aparici\'on.
 Luego, se contrasta dicha frecuencia con el orden asignado y se define
 un umbral a partir del cual una palabra es considerada \textit{stopword}.
 
-\subsubsection{Ratio de \textit{Odds}}
+\subsubsection{\textit{Ratio} de \textit{Odds}}
 Asimismo, se compararon los \textit{odds} de ambos conjuntos de discursos:
 
 \begin{equation}
@@ -58,14 +58,14 @@ Asimismo, se compararon los \textit{odds} de ambos conjuntos de discursos:
 
 aqu\'i, $O_{w}^{(X)}$ consiste en $f_{w}^{(X)}/(1-f_{w}^{(X)})$.
 
-\subsubsection{Ratio \textit{Log-odds}}
+\subsubsection{\textit{Ratio} \textit{Log-odds}}
 Sobre los \textit{odds}, tambi\'en se calcul\'o el \textit{ratio log-odds}.
 Para este c\'alculo se utiliz\'o el logaritmo natural: $\ln{O_w}$.
 Asimismo, se realiz\'o un suavizado sobre las frecuencias en los casos
 en los que las palabras solo se encontraban en uno de los grupos
 discursivos. Dicho suavizado consisti\'o en agregar un peso predefinido a las
 frecuencias relativas, $\tilde{f}^{i}_{w} = f^{i}_{w}+\epsilon$, y tomar
-este valor en el c\'alculo del ratio. Siguiendo a \cite{monroe2008fightin},
+este valor en el c\'alculo del \textit{ratio}. Siguiendo a \cite{monroe2008fightin},
 se utiliz\'o $\epsilon=0.5$.
 
 \subsubsection{\textit{TF-IDF}}

@@ -1,24 +1,38 @@
-En el trabajo llevado a cabo, se ha accedido de manera automatizada
-a una fuente de datos p\'ublicos del Estado argentino como es
-la base de sesiones taquigr\'aficas del Senado de la Naci\'on. Por medio
-del uso de librer\'ias disponibles en el lenguaje de programaci\'on
-\textit{Python 3} se ha transformado tales datos, se los ha etiquetado
-recurriendo a modelos pre{--}entrenados y se los ha vectorizado
-para entrenar un modelo de clasificación capaz de predecir si un
-documento constituye un discurso a favor o en contra de la legalizaci\'on
-del aborto, t\'opico tratado en la sesi\'on del Senado descargada.
+Como parte de la vida pol\'itica de una naci\'on, los ciudadanos y
+agrupaciones sociales tienen la posibilidad de presentar proyectos
+de ley ante los legisladores. En caso de contar con un aval suficiente,
+estos proyectos pueden ser abordados en las c\'amaras de diputados
+y senadores y llegar a constituirse como ley efectivamente.
+Acorde a lo estipulado en la ley 27.275, que garantiza el acceso a la
+informaci\'on p\'ublica, las sesiones de la C\'amara de Sendores son
+transcriptas y disponibilizadas en la p\'agina del Senado de la Naci\'on.
 \par
-Durante el proceso de etiquetado, se halló que el modelo para
+En el trabajo llevado a cabo, se utiliz\'o el lenguaje de
+programaci\'on \textit{Python 3} para acceder, mediante la t\'ecnica
+\textit{scraping}, a los datos proporcionados por el Estado. Se los ha
+pre-procesado de manera que la informaci\'on proveniente de
+distintas fuentes pudiese ser relacionada, y se los ha etiquetado
+siguiendo un procedimiento h\'ibrido que comprendi\'o el uso de modelos
+pre-entrnados por librer\'ias de c\'odigo abierto y la correci\'on y
+anotaci\'on manual. Estos datos fueron utilizados luego para entrenar modelos
+de regresi\'on log\'istica con distintos vectorizadores que se desarrollaron
+para para este trabajo y cuya implementaci\'on estuvo basada en aquellos
+reseñados por \cite{monroe2008fightin}. Dichos vectorizadores fueron
+contrastados respecto de su rendimiento y el mejor fue utilizado para entrenar
+un modelo final de regresi\'on log\'istica, para el que previamente fueron
+seleccionados los mejores hiperpar\'ametros.
+\par
+Durante el proceso de etiquetado, se hall\'o que el modelo para
 predecir lemas y etiquetas \textit{POS} mostr\'o un mejor rendimiento
-en la predicción de estas últimas que en las primeras. No solo
+en la predicci\'on de estas \'ultimas que en las primeras. No solo
 porque fue necesario corregir manualmente una mayor cantidad de lemas
 que de etiquetas \textit{POS}, sino porque, adem\'as, el porcentaje
-de palabras en las cuales el modelo no acertó a predecir el lema
+de palabras en las cuales el modelo no acert\'o a predecir el lema
 correcto en ninguna ocurrencia fue mayor al caso an\'alogo de etiquetas
 \textit{POS}. 
 \par
 Por limitaciones de tiempo y recursos disponibles para el etiquetado,
-se decidió simplificar casos como verbos reflexivos y cl\'iticos. En
+se decidi\'o simplificar casos como verbos reflexivos y cl\'iticos. En
 estas situaciones los verbos fueron transcriptos en infnitivos y las
 marcas reflexivas y de cliticidad fueron omitidas.
 Una posible mejora a este procedimiento consiste en repensar si esas
@@ -32,58 +46,84 @@ de anotaci\'on elaboradas en este trabajo persiguen un prop\'osito
 semejante. Si bien aqu\'i las anotaciones fueron realizadas por una sola
 persona, estas gu\'ias proporcionaron uns forma de fijar reglas que
 pudieran ser recordadas en las distintas sesiones de anotaci\'on.}, dado
-que esto permite un mejor control de los criterios de etiquetas, las 
+que esto permite un mejor control de los criterios de las 
 etiquetas a utilizar y la fiabilidad del procedimiento. Sin embargo,
 contar con anotaciones provenientes de distintos algoritmos de etiquetado
-también puede ser provechoso, y los resultados podr\'ian ser usados
+tambi\'en puede ser provechoso, y los resultados podr\'ian ser usados
 para comparar estos algoritmos.
 \par
-Para la vectorizaci\'on, se evaluaron distintas t\'ecnicas posibles,
-tomadas de \cite{monroe2008fightin}, con las cuales se procedi\'o
-a seleccionar un conjunto de \textit{tokens} o palabras que luego
-se usaron como rasgos para caracterizar los documentos a clasificar.
-Si bien, en principio, se busc\'o hallar alternativas al usual
-\textit{TF-IDF}, finalmente fue este
-método el que arroj\'o mejores resultados, específicamente con la
-versi\'on que emplea logaritmo sobre la frecuencia inversa en los
-documentos.
+Respecto de la vectorizaci\'on, la figura \ref{fig-results-features-fit-time}
+muestra que los vectorizadores basados en \textit{ratio} de \textit{odds}
+y en \textit{TF-IDF} son los que mayor tiempo de ajuste requirieron. No
+obstante, el encontrarse todos los vectorizadores en un rango de tiempo
+de ajuste muy similar y, adem\'as, casi despreciable, este dato no
+constituy\'o una variable de peso a la hora de seleccionar el mejor vectorizador.
+Puesto que fue la implementaci\'on basada en \textit{TF-IDF} con
+logaritmo sobre la frecuencia inversa en los documentos la que
+mejores resultados mostr\'o respecto de las m\'etricas de evaluaci\'on consideradas,
+se opt\'o por esta vectorizador para el modelo final. Cabe destacar que, si bien
+sus resultads respecto de la precisi\'on y la cobertura no fueron los \'optimos,
+s\'i mostr\'o un mejor balance entre estas dos medidas, tanto en el promedio
+general, como en el balance por clase (ver tabla \ref{table-results-vectorizers-val}).
 \par
-Durante la evaluaci\'on de los vectorizadores, se fij\'o en $300$
+Para la evaluaci\'on de los vectorizadores, se fij\'o en $300$
 el n\'umero de dimensiones a generar, que no es otra cosa que la
 cantidad de palabras consideradas como relevantes para caracterizar
-ambos grupos de discursos a predecir. Podr\'ia ser se inter\'es
-contrastar si se observan los mismos resultados al disminuir o
-incrementar el n\'umero de dimensiones. Asimismo, en la implementación
-desarrollada, las t\'ecnicas estad\'isticas se emplean solamente
+ambos grupos de discursos a predecir. Podr\'ia
+ser se inter\'es contrastar si se observan los mismos resultados al
+disminuir o incrementar el n\'umero de dimensiones. Asimismo, en la
+implementaci\'on desarrollada, las t\'ecnicas estad\'isticas reseñadas por
+\cite{monroe2008fightin} se emplean solamente
 para la selecci\'on de palabras pero, una vez seleccionadas, todos
 los vectorizadores siguen el mismo procedimiento: cuentan la frecuencia
 absoluta de tales palabras en los documentos. En una futura iteraci\'on
 sobre este trabajo, se podr\'ian implementar vectorizadores que
 no solo utilizasen tales t\'ecnicas estad\'isticas en la selecci\'on
-de palabras sino tambi\'en en la asignación de pesos asignados
-en los vectores.
+de palabras sino tambi\'en en la asignaci\'on de pesos a los vectores resultantes.
 \par
-Respecto del modelo de clasificaci\'on entrenado, se opt\'o
-por una Regresi\'on Log\'istica, la cual mostr\'o un buen
-rendimiento y un ajuste a los datos de entrenamiento lo suficientemente
-flexible como para no quedar muy circunscripta a ellos y poder
-generalizar ante casos no vistos previamente. Los modelos de
-Regresi\'on Log\'istica constituyen modelos discriminativos, es decir
-que aprenden rasgos que les permiten diferenciar entre las clases
-a predecir, aunque estos rasgosno sean necesariamente intrínsecos
-a las clases mismas. De ser posible, sería de interés probar
-un entrenamiento similar en algún modelo generativo como, por ejemplo
-Naïve Bayes, y contrastar qu\'e rasgos resultan seleccionados en ese caso.
+Previo al entrenamiento del modelo de regresi\'on log\'istica, se
+realiz\'o una validaci\'on cruzada para estimar los mejores hiperpar\'ametros
+para el ajuste. Se encontr\'o que cualquier conjunto de hiperpar\'ametros
+que no implicase regularizaci\'on ($penalty=None$) y utilizase
+la proporci\'on de la clase objetivo en la estimaci\'on
+($class\_weight=\lbrace0:0.56, 1:0.44\rbrace$). El par\'ametro que define
+la intensidad inversa de la regularizaci\'on a aplicar es desestimado
+puesto que no se aplica tal regularizaci\'on. El modelo final entrenado
+mostr\'o un mejor rendimiento que aquellos pre-entrenados
+durante la selecci\'on del vectorizador y los hiperpar\'ametros, resultado que
+puede ser asociado al incremento en los datos durante el entrenamiento,
+puesto que esta versi\'on fue ajustada utilizando todos los datos
+de entrenamiento y no con el $75\percentsign$ de los mismos,
+como se hizo previamente.
+\par
+La experimentaci\'on realizada en este trabajo conduce as\'i a elegir
+la t\'ecnica basada en \textit{TF-IDF} con logaritmo sobre la
+frecuencia inversa de los documentos como la mejor para
+realizar una selecci\'on de rasgos que puedan ser utilizados al
+vectorizar los documentos. En futuros trabajos ser\'ia de inter\'es
+contrastar los resultados aqu\'i observados con los que pudieran obtenerse
+al seguir un experimento similar en otro tipo de modelos.
+La regresi\'on log\'istica constituye un modelo discriminativo, es decir
+que aprende rasgos que le permiten diferenciar entre las clases
+a predecir, aunque estos rasgos no sean necesariamente intr\'insecos
+a las clases mismas. Los modelos generativos como Naïve Bayes, en cambio, estiman un
+modelo posible que podr\'ia haber dado lugar a las clases observadas y
+luego, ante una nueva observaci\'on, calculan las probabilidades de que
+las distintas clases puedan ser generadas por esa observaci\'on.
+Evaluar las t\'ecnicas aqu\'i estudiadas con este tipo de modelos podr\'ia
+conducir a la obtenci\'on de resultados m\'as robustos.
 \par
 Por \'ultimo, cabe notar que los datos utilizados en este trabajo
-no han sido voluminosos. Esto se debe a que, tras la obtenci\'on
+no han sido voluminosos. Esto se debe a que, tras la descarga
 de la versi\'on taquigr\'afica de la sesi\'on, fue necesario un
 meticuloso procedimiento de limpieza y preprocesamiento que permitiese
 hacer uso de esos datos. Incluir otras sesiones hubiese implicado
 una labor mucho mayor y las limitaciones de tiempo y recursos no
 lo permitieron. Sin embargo, ser\'ia deseable aumentar, en trabajos
-futuros, los datos sobre los cuales se han desarrollados los procedimientos
+venideros, los datos sobre los cuales se han desarrollados los procedimientos
 hasta aqu\'i detallados, de modo que los resultados puedan verificarse en
 \textit{corpora} que no solo sean mayores en tamaño sino que, adem\'as,
 aborden otras tem\'aticas y, en ese sentido, presenten una mayor
-diversidad.
+diversidad. La mejora en los resultados observados en el entrenamiento
+final constituyen un primer indicio del beneficio que tal aumento podr\'ia
+significar.

@@ -7,9 +7,15 @@ En este caso, se encontr\'o que todos los modelos
 entrenados con $penalty=None$ y
 $class\_weight=\lbrace1:0.56,0:0.44\rbrace$\footnote{Los valores
 reportados en el par\'ametros \texttt{class\_weight} corresponden a
-las proporciones de cada clase halladas en el \textit{dataset}.}
+las proporciones de cada clase halladas en el conjunto de datos.}
 arrojaron los mejores valores promedios considerando las cinco iteraciones
-de la validaci\'on cruzada, sin importar el valor de $C$.
+de la validaci\'on cruzada, sin importar el valor de $C$\footnote{
+Lógicamente, el no realizar ninguna penalizaci\'on, este par\'ametro no tiene
+nig\'un efecto. La clase proporcionada por la librer\'ia \textit{scikit-learn},
+sin embargo, no permite fijar este valor en \texttt{None} en ning\'un caso.
+Para un detalle m\'as fiel de los resultados obtenidos,
+la tabla \ref{table-results-models-params} lista el conjunto completo de
+hiperpar\'ametros que fueron testeados.}.
 Las \'unicas excepciones a esto son el resultado en la
 m\'etrica de precisi\'on y de cobertura. En la primera, el modelo entrenado con
 $C=0.1$, $penalty=l2$ y $class\_weight=balanced$
@@ -22,7 +28,7 @@ entrenado con $C=0.1$, $class\_weight=\lbrace1:0.56,0:0.44\rbrace$ y
 $penalty=l2$ consigue el mejor rendimiento a costas de tener la peor precici\'on
 observada.
 Con valores m\'as moderados, los dem\'as modelos logran un mejor balance entre
-\textit{precision} y \textit{recall} (ver tabla \ref{table-results-models-params}).
+ambas m\'etricas (ver tabla \ref{table-results-models-params}).
 
 \begin{table}[h!]
     \centering
@@ -79,7 +85,7 @@ Con valores m\'as moderados, los dem\'as modelos logran un mejor balance entre
     \hline
 \end{tabular}
 \end{adjustbox}
-\caption{Resultados obtenidos tras evaluar un modelo de Regresi\'on Log\'istica con
+\caption{Resultados obtenidos tras evaluar un modelo de regresi\'on log\'istica con
 distintos hiperpar\'ametros. Los valores reflejan el rendimiento promedio de las
 cinco iteraciones de la validaci\'on cruzada. Las celdas resaltadas en azul
 corresponden a conjunto de hiperpar\'ametros que obtuvo un mejor rendimiento
@@ -89,7 +95,7 @@ que obtuvo el peor rendimiento.}
 \end{table}
 
 Adicionalmente, se grafic\'o la media, el desv\'io est\'andar y el valor
-obtenido en cada \textit{split} de la m\'etrica \textit{F1}
+obtenido en cada iteraci\'on de la m\'etrica \textit{F1}
 para los mejores 4 conjuntos de hiperpar\'ametros
 (ver figura \ref{fig-results-features-fit-time})\footnote{Dado
 que cuatro modelos presentaron el mismo rendimiento, se grafic\'o uno solo
@@ -99,17 +105,16 @@ y $class\_weight=\lbrace1:0.56,0:0.44\rbrace$
 presentan una media mayor y desv\'io menor que los otros
 conjuntos, lo cual es consistente con el gr\'afico que muestra
 los valores por iteraci\'on: si bien el modelo entrenado con estos hiperpar\'ametros
-no logra superar en ning\'un \textit{split} al resto, tampoco exhibe
+no logra superar en ninguna iteraci\'on al resto, tampoco exhibe
 una variaci\'on tan grande y, en ning\'un caso, posee el peor valor
 obtenido.
 \par
-Por cuestiones de simplicidad, dado que el c\'alculo de la intensidad inversa
-de la regularizaci\'on se vuelve m\'as sencillo si se toma $C=1$ y que este es
-adem\'as el valor tomado por la librería por defecto, se decide usar el conjunto
-de hiperparámetros $C=1$, $penalty=None$ y
-$class\_weight=\lbrace1:0.56,0:0.44\rbrace$ para entrenar el modelo final.
+A la vista de los resultados obtenidos y dado que la librería \textit{scikit-learn} toma
+por defecto $C=1$, se decide usar el conjunto de hiperparámetros
+$C=1$, $penalty=None$ y $class\_weight=\lbrace1:0.56,0:0.44\rbrace$
+para entrenar el modelo final.
 Para esta instancia, se usa el conjunto completo de datos de entrenamiento y luego
-se lo eval\'ua con el \textit{held-out} separado para este fin. La tabla
+se lo eval\'ua con los datos de testeo separados para este fin. La tabla
 \ref{table-results-models-held-out} muestra los resultados obtenidos en
 esta evaluaci\'on y la figura \ref{fig-results-models-held-out}, la matriz
 de confusi\'on.
@@ -155,14 +160,14 @@ de confusi\'on.
         \label{fig-results-models-held-out}
     \end{minipage}
     \caption*{Resultados obtenidos a partir de entrenar un modelo de
-    Regresi\'on Log\'istica con los mejores hiperpar\'ametros hallados
+    regresi\'on log\'istica con los mejores hiperpar\'ametros hallados
     ($C=1$, $penalty=None$ y $class\_weight=\lbrace1:0.56,0:0.44\rbrace$)
     y el conjunto completo de datos de entrenamiento,
     y luego evaluarlo con el \textit{dataset} de testeo.}
   \end{figure}
 
 Se observa que el modelo final obtuvo un mejor \textit{accuracy} que sus
-versiones pre{--}entrenadas durante la validaci\'on cruzada. Posiblemente
+versiones pre-entrenadas durante la validaci\'on cruzada. Posiblemente
 esto se deba al incremento de los datos durante el entrenamiento.
 Mientras que, en la selecci\'on de hiperpar\'ametros, se entren\'o con $127$ discursos
 y se teste\'o con $32$ en cada iteraci\'on; en la versi\'on final, el modelo fue entrenado
@@ -178,11 +183,11 @@ una leve tendencia a predecir mayormente discursos `a favor': la cobertura
 de esta clase es mayor, pero su precisi\'on es menor; lo que indica que el modelo
 predice mayormente esta clase aunque no en todos los casos acierta. Lo inverso
 ocurre con los documentos `en contra'. Este fen\'omeno podr\'ia estar influido
-por el hecho de tener clases levemente desbalanceadas y que sea la clase `a favor'
+por el hecho de tener clases levemente desbalanceadas y que es la clase `a favor'
 la mayoritaria, pese a que entre los hiperpar\'ametros seleccionados, se intentó
 mitigar este desbalanceo.
 \par
-Por \'ultimo, se grafic\'o las $50$ palabras asociadas a los coeficientes positivos
+Por \'ultimo, se graficaron las $50$ palabras asociadas a los coeficientes positivos
 y las $50$ asociadas a coeficientes negativos con mayor peso, aquellas que m\'as
 fuertemente conducen a predicciones de la clase `a favor' y `en contra' respectivamente.
 La figura \ref{fig-results-models-feature-importance} nos permite conjeturar qu\'e
@@ -193,7 +198,10 @@ discursos `a favor' se encuentran con \textit{tokens} como `mujer\_noun', `embar
 `muerte\_noun', `voluntaria\_adj'. Y, por el lado de los
 documentos `en contra', se ven `madre\_noun', `vida\_noun', `ley\_noun', `norma\_noun',
 `constituci\'on\_noun', `concepci\'on\_noun', `nacer\_verb',
-`humano\_adj', `problema\_noun', `niña\_noun.
+`humano\_adj', `problema\_noun', `niña\_noun. Esta selecci\'on no se pretende exhaustiva
+sino que intenta recuperar algunas de las palabras con contenido sem\'antico que aparecen
+asociadas a coeficientes mayores y, de all\'i, que puedan presumirse representativas
+de cada clase. 
 
 \begin{figure}[h!]
     \centering

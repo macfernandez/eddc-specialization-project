@@ -17,12 +17,11 @@ t\'ecnica pueden encontrarse en la secci\'on \ref{subsubsec-methods-vectorizers}
 Para la implementaci\'on se tom\'o como base el estimador \texttt{CountVectorizer}
 de la librer\'ia \textit{scikit-learn}, de modo que las clases u objetos resultantes
 contasen con los mismos m\'etodos y, luego, pudieran ser utilizadas en un
-\textit{pipeline}
-de trabajo definido con clases y m\'etodos de la misma librer\'ia.
+flujo de trabajo definido con clases y m\'etodos de la misma librer\'ia.
 \par
-En primer lugar, se separ\'o el \textit{dataset} en un conjunto de entrenamiento
+En primer lugar, se separaron los datos en un conjunto de entrenamiento
 y otro de testeo ($80\percentsign$ y $20\percentsign$ de los datos, respectivamente).
-En esta divisi\'on se tuvo en cuenta la variable \textit{target} \texttt{voto} de modo
+En esta divisi\'on se tuvo en cuenta la variable objetivo \texttt{voto} de modo
 que los subconjuntos obtenidos reflejasen la misma proporci\'on de votos a favor
 y en contra. Asimismo, se us\'o una semilla para garantizar que los resultados
 fuesen replicables. La variable objetivo, adem\'as, fue codificada a valores
@@ -30,7 +29,7 @@ num\'ericos para poder ser utilizada por los algoritmos de predicci\'on.
 \par
 Luego, tomando solamente el conjunto de entrenamiento y vectorizando
 previamente los datos con cada uno de los vectorizadores desarrollados,
-se entren\'o una Regresi\'on Log\'istica utilizando los par\'ametros por defecto
+se entren\'o una regresi\'on log\'istica utilizando los par\'ametros por defecto
 de la librer\'ia \textit{scikit-learn}
 \footnote{Entre los m\'as relevantes para este trabajo, destacamos: regularizaci\'on
 o \texttt{penalty=l2}, intensidad inversa de la regularizaci\'on o \texttt{C=1},
@@ -43,12 +42,12 @@ de validac\'on cruzada con 5 subconjuntos: 4 para entrenamiento y 1 para testeo
 en cada iteraci\'on.
 Para esto, al igual que en la primera divisi\'on, se cuid\'o de realizar
 una segmentaci\'on estratificada, utilizar una semilla y
-aplicar la misma segmentaci\'on en cada vectorizador,
+aplicar la misma divisi\'on en cada vectorizador,
 de modo que las circunstancias de evaluaci\'on fuesen lo m\'as semejantes posible
 y eso permitiese comparar qu\'e vectorizadores conducen a un mejor entrenamiento.
 La tabla \ref{table-methods-vectorizers} resume las combinaciones testeadas
 en la experimentaci\'on. En todos los casos se generaron vectores de trescientas
-($300$) dimensiones.
+dimensiones.
 
 \begin{table}[ht]
 \centering
@@ -64,11 +63,11 @@ en la experimentaci\'on. En todos los casos se generaron vectores de trescientas
     \hline
     Proporciones & S\'i (Zipf) & No & No \\
     \hline
-    Ratio de \textit{odds} & No & No & No \\
+    \textit{Ratio} de \textit{odds} & No & No & No \\
     \hline
-    Ratio de \textit{odds} & No & S\'i (\textit{odds}) & No \\
+    \textit{Ratio} de \textit{odds} & No & S\'i (\textit{odds}) & No \\
     \hline
-    Ratio de \textit{odds} & No & S\'i (\textit{odds}) & S\'i ($0.5$) \\
+    \textit{Ratio} de \textit{odds} & No & S\'i (\textit{odds}) & S\'i ($0.5$) \\
     \hline
     \textit{TF-IDF} & No & No & No \\
     \hline
@@ -86,12 +85,12 @@ discursos utilizados en el entrenamiento del modelo de Regresi\'on Log\'isitca.}
 \label{subsubsec-methods-vectorizers}
 
 De los m\'etodos aplicados, dos (\textit{TF-IDF} y \textit{Word Scores}) consisten
-en algoritmos para la asignaci\'on de puntuaciones o \textit{scores} a los
+en algoritmos para la asignaci\'on de puntuaciones o \textit{scores} a las
 palabras dentro de un \textit{corpus}. El resto de las t\'ecnicas emplean
 m\'etricas estad\'isticas sencillas. Para la aplicaci\'on de estos procedimientos
 se utiliz\'o como \textit{token} las lematizaciones de las palabras incluyendo
 su categor\'ia gramatical\footnote{Para esto, todos los documentos fueron
-pre{--}procesados de modo tal que cada palabra fue reemplazada por un
+pre-procesados de modo tal que cada palabra fue reemplazada por un
 \textit{token} construido de la siguiente forma:
 $\langle lema \rangle\_ \langle \textit{POS tag} \rangle$, donde
 $\langle lema \rangle$ refiere al lema de la palabra y
@@ -156,7 +155,7 @@ con este m\'etodo. Este n\'umero fue seleccionado tras realizar un an\'alisis de
 conjunto de datos completo como primera aproximaci\'on general (ver secci\'on
 \ref{appendix-plots-zipf-law}.).
 
-\paragraph{Ratio de \textit{Odds}}
+\paragraph{\textit{Ratio} de \textit{Odds}}
 Se utilizan \textit{odds} de ambos conjuntos de discursos como
 t\'ecnica de selecci\'on. En este caso, los \textit{tokens} m\'as caracter\'isticos
 no resultan de una diferencia sino de un cociente:
@@ -171,14 +170,14 @@ corte para considerar a un \textit{token} como caracter\'istico de
 determinado grupo de discursos no es el $0$ sino el $1$, por la misma
 definici\'on de la funci\'on.
 
-\paragraph{Ratio \textit{Log-odds}}
+\paragraph{\textit{Ratio} \textit{Log-odds}}
 Sobre los \textit{odds}, tambi\'en se calcul\'o el \textit{ratio log-odds}.
 Para este c\'alculo se utiliz\'o el logaritmo natural: $\ln{O_t}$.
 Asimismo, se realiz\'o un suavizado sobre las frecuencias en los casos
 en los que los \textit{tokens} solo se encontraban en uno de los grupos
 discursivos. Dicho suavizado consisti\'o en agregar un peso predefinido a las
 frecuencias relativas, $\tilde{f}^{i}_{w} = f^{i}_{w}+\epsilon$, y tomar
-este valor en el c\'alculo del ratio. Siguiendo a \cite{monroe2008fightin},
+este valor en el c\'alculo del \textit{ratio}. Siguiendo a \cite{monroe2008fightin},
 se utiliz\'o $\epsilon=0.5$.
 
 \paragraph{\textit{TF-IDF}}
