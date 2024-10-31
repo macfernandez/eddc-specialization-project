@@ -59,3 +59,24 @@ Si se está utilizando _VSCode_, presionar `ctrl+shift+p` y seleccionar la opci�
 Esta opción incluye todos los pasos mencionados en la [configuración en local](#local).
 
 ## Estructura del repositorio
+
+```
+└── bibliography
+└── data
+└── doc
+└── notebooks
+|   ├── README.md
+|   └── ...
+└── src
+|   ├── __main__.py
+|   ├── config_handler.py
+|   ├── utils.py
+|   ├── downloaders
+|   |   ├── attendees.py
+|   |   ├── bibliography.py
+|   |   └── data.py
+|   └── preprocess
+|       ├── patterns.py
+|       └── pipeline.py
+└── config.json
+```
