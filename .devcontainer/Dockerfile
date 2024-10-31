@@ -62,7 +62,6 @@ WORKDIR /root
 RUN rm -rf /tmp/*
 
 RUN chown -R ${USER_NAME} /root
-RUN sudo chown -R ${USER_NAME} /workspace
 
 USER $USER_NAME
 ENV PATH=$PATH:/home/${USER_NAME}/.local/bin
