@@ -2,6 +2,14 @@
 
 Proyecto final para la [Especialización de Explotación de Datos y Descubrimiento del Conocimiento de la Universidad de Buenos Aires](https://datamining.dc.uba.ar/datamining/).
 
+**Tabla de contenidos**
+- [Configuración](#configuración)
+    - [Local](#local)
+        - [Entorno](#entorno)
+        - [Descarga de los datos](#descarga-de-los-datos)
+    - [Usando un contenedor](#usando-un-contenedor)
+- [Estructura del repositorio](#estructura-del-repositorio)
+
 ## Configuración
 
 Para correr el conjunto de _notebooks_ con el código desarrollado, es necesario disponer de un entorno apto para ello. A continuación, se describen dos formas posibles de generar ese entorno: instalando los requerimientos en el local o utilizando un contenedor.
@@ -38,14 +46,7 @@ Este comando:
 2. convierte dicha transcripción a texto plano (`.txt`)
 3. separa los fragmentos de la transcripción indicando si son fragmentos discursivos o aclaraciones de la transcripción (`speech`) y, en caso de ser fragmentos discursivos, el orador que los pronunción (`speaker`), esta información se guarda en el archivo `session_29-12-2020_discourse.xml`
 4. extrae la lista de senadores convocados indicando si estuvieron presentes o ausentes y la almacena en el archivo `session_29-12-2020_attendees.csv`
-
-Luego, descargar los datos de los senadores en ejercicio durante el período en el que tuvo lugar la sesión:
-
-```{bash}
-python -m src download attendees
-```
-
-Este comando descarga la lista de senadores desde la [página del Senado](https://www.senado.gob.ar/senadores/Historico/Fecha) filtrando por la fecha del período correspondiente y la almacena en el archivo `senators_data.csv`. Dicho archivo contiene no solo el nombre de cada senador sino también la información sobre a qué partido y provincia representa, entre otros datos adicionales.
+5. descarga la lista de senadores desde la [página del Senado](https://www.senado.gob.ar/senadores/Historico/Fecha) filtrando por la fecha del período correspondiente y la almacena en el archivo `senators_data.csv`. Dicho archivo contiene no solo el nombre de cada senador sino también la información sobre a qué partido y provincia representa, entre otros datos adicionales.
 
 ### Usando un contenedor
 
@@ -56,3 +57,5 @@ Si se está utilizando _VSCode_, presionar `ctrl+shift+p` y seleccionar la opci�
 `Dev Containers: Reopen in Container`.
 
 Esta opción incluye todos los pasos mencionados en la [configuración en local](#local).
+
+## Estructura del repositorio

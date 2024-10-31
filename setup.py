@@ -16,7 +16,7 @@ setup(name='eddc',
         'pandas==2.0.3',
         'pdfminer==20191125',
         'pdfminer-six==20221105',
-        'requests==2.28.2',
+        'requests==2.32.3',
         'selenium==4.10.0',
         'webdriver-manager==4.0.1'
       ],
