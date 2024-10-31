@@ -3,6 +3,10 @@ FROM ubuntu:24.04
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 ENV DEBIAN_FRONTEND noninteractive
 
+ARG USER_NAME
+ARG USER_UID
+ARG USER_GID
+
 RUN sed -i 's/# deb-src/deb-src/' /etc/apt/sources.list \
     && apt-get update --fix-missing; exit 0
 
@@ -36,11 +40,6 @@ RUN apt update && apt install -y \
     && rm -rf /tmp/* /var/tmp/* \
     && rm -rf /var/lib/apt/lists/*
 
-ARG USER_NAME=vscode
-ARG USER_UID=1001
-ARG USER_GID=$USER_UID
-
-ENV ENV=dev
 WORKDIR /root
 
 RUN groupadd --gid $USER_GID $USER_NAME \
@@ -57,24 +56,16 @@ RUN groupadd --gid $USER_GID $USER_NAME \
 ENV SHELL=/usr/bin/zsh
 RUN chsh $USER_NAME -s $SHELL
 
-# disable git ssl verify
-RUN git config --global http.sslverify false
-
 WORKDIR /root
 
 # clean
 RUN rm -rf /tmp/*
 
 RUN chown -R ${USER_NAME} /root
+RUN sudo chown -R ${USER_NAME} /workspace
 
-USER vscode
-ENV PATH=$PATH:/home/vscode/.local/bin
+USER $USER_NAME
+ENV PATH=$PATH:/home/${USER_NAME}/.local/bin
 
-CMD /bin/zsh -c "while sleep 1000; do :; done"
-
-# TODO
-# error: could not write config file /home/vscode/.gitconfig: Device or resource busy
-# agregar postCreatedCommand para instalar dependencias
-# agregar descarga de datos
-# actualmente no se pueden guardar los archivos modificados (fixear)
-# limpiar este archivo
+RUN sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+ENV PATH=$PATH:/home/${USER_NAME}/.local/bin
