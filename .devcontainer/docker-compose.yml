@@ -1,0 +1,17 @@
+services:
+  eddc-devcontainer:
+    network_mode: host
+    container_name: eddc-devcontainer
+    build:
+      context: ..
+      dockerfile: .devcontainer/Dockerfile
+      args:
+        - USER_NAME=vscode
+        - USER_UID=1001
+        - USER_GID=1001
+    volumes:
+      - ..:/workspace:cached
+      - $HOME/.ssh/:/home/vscode/.ssh
+      - $HOME/.gitconfig:/home/vscode/.gitconfig
+    # Please do not comment or remove this line!
+    command: /bin/sh -c "while sleep 1000; do :; done"
