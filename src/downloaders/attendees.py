@@ -45,7 +45,7 @@ def get_col_names(driver: webdriver) -> List[str]:
     return col_names
 
 
-def get_table_content(driver: webdriver, col_names: List[str]) -> List[Dict[str,str]]:
+def get_table_content(driver: webdriver, col_names: List[str]) -> List[Dict[str, str]]:
     content = get_row_info(driver, col_names)
     while find_next_page(driver):
         next_content = get_row_info(driver, col_names)
@@ -53,7 +53,7 @@ def get_table_content(driver: webdriver, col_names: List[str]) -> List[Dict[str,
     return content
 
 
-def get_row_info(driver: webdriver, col_names: List[str]) -> List[Dict[str,str]]:
+def get_row_info(driver: webdriver, col_names: List[str]) -> List[Dict[str, str]]:
     info = list()
     row = driver.find_elements(
         By.XPATH,

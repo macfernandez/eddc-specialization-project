@@ -11,7 +11,7 @@ services:
         - USER_GID=1001
     volumes:
       - ..:/workspace:cached
-      - $HOME/.ssh/:/home/vscode/.ssh
-      - $HOME/.gitconfig:/home/vscode/.gitconfig
+      - $HOME/.ssh/:/home/seluser/.ssh
+      - $HOME/.gitconfig:/home/seluser/.gitconfig
     # Please do not comment or remove this line!
     command: /bin/sh -c "while sleep 1000; do :; done"
