@@ -68,10 +68,11 @@ de la sesi\'on del Senado de la Naci\'on Argentina para la reglamentaci\'on del 
 al aborto, la cual fue obtenida mediante la t\'ecnica de \textit{scraping}. Durante el
 procesamiento de los datos se recurre a una lematizaci\'on automatizada sobre la que
 luego se realiza una correcci\'on manual. Para la vectorizaci\'on se emplean
-m\'etodos estad\'isticos tomados de \cite{monroe2008fightin}, los cuales son
-evaluados respecto de su rendimiento para el entrenamiento de un modelo de
-regresi\'on log\'istica. El mejor vectorizador hallado es utilizado para el
-entrenamiento final.
+m\'etodos estad\'isticos previamente probados entre los que se encuentran la diferencia
+de frecuencias absolutas, el \textit{ratio} de \textit{log-odds} y el cálculo de
+\textit{TF-IDF}, entre otros. Tras evaluar los distintos vectorizadores respecto de
+su rendimiento para el entrenamiento de un modelo de regresi\'on log\'istica,
+se utiliza el mejor vectorizador hallado para el entrenamiento final.
 \end{abstract}
 
 \newpage
