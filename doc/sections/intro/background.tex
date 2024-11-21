@@ -33,18 +33,46 @@ Luego de sus sesiones, ambas c\'amaras disponibilizan en formato digital la
 transcripci\'on taquigr\'afica de la reuni\'on, de modo que cualquier ciudadano con
 acceso a una computadora e internet pueda acceder a ella.
 \par
-Al trabajar con textos, el cient\'ifico de datos se ve en la necesidad
-de vectorizar, mediante alg\'un mecanismo, el \textit{corpus} que desea
-utilizar.
-De este modo, lo convierte en una secuencia de n\'umeros capaz de ser
+\cite{jurafsky2000speech}\footnote{
+Las citas incluidas a continuaci\'on fueron traducidas del ingl\'es por
+la autora de este trabajo.}
+reseña una serie de aspectos relacionados con la semántica léxica, la cual se ocupa
+del estudio lingü\'istico del significado de las palabras, para argumentar que
+``un modelo del significado de las palabras nos debería permitir realizar inferencias
+para abordar tareas relacionadas al significado''. Entre dichos aspectos, menciona
+la noción de similitud. De ella dice que ``mientras que las palabras no tienen muchos
+sin\'onimos, la mayoría de ellas s\'i tiene muchas palabras similares. [...]
+Al movernos de la sinonimia a la similitud, es \'util pasar de hablar de relaciones
+entre sentidos de las palabras (como en la sinonimia) a hablar de relaciones entre las
+palabras (como en la similitud). Lidiar con palabras nos evita tener que comprometernos
+con una representaci\'on particular del sentido de las palabras, lo cual simplifica
+nuestra tarea. [...] Conocer cuán similares son dos palabras puede ayudar a computar
+cuán similar es el significado de dos frases u oraciones [...]''. Del mismo modo
+se detiene en otro tipo de relaci\'on entre las palabras como es el campo
+sem\'antico, el cual ``refiere a un conjunto de palabras que cubren un dominio
+sem\'antico particular y mantienen relaciones estructurales entre s\'i'', y también en
+la connotación o el sentio afectivo de las palabras, el cual indica ``los
+aspectos del significado de una palabra que est\'an relacionados con las emociones,
+sentimientos, opiniones y evaluaciones de un escritor o lector''. En particular,
+el an\'alisis de sentimientos permite identificar ``el lenguaje usado para evaluaciones
+positivas o negativas''. Luego de enunciar estas y otras cuestiones de interés para
+el an\'alisis sem\'antico, Jurafsky resalta que la ``la semántica vectoial es el método
+tradicional de repressentar el significado de las palabras en el PLN\footnote{Nota de
+traducci\'on: la sigla PLN refiere a Procesamiento de Lenguaje Natural.}, ayud\'andonos
+a modelar muchos de los aspectos del significado de las palabras'', y menciona que
+``en el modelo de \textit{TF-IDF}, un modelo base de importante, el significado
+de una palabra es definifo por una simple funci\'on de c\'alculo de las palabras
+cercanas [...] este m\'etodo resulta en un vectores muy extendos que adem\'as
+son ralos\footnote{Nota de traducci\'on: se traduce como ralo el t\'ermino del ingl\'es
+\textit{sparse}.}''.
+\par
+As\'i, es la vectorizaci\'on la que le permite al cient\'ifico de datos convertir,
+mediante alg\'un c\'alculo pre-establecido, el \textit{corpus} que desea
+utilizar en una secuencia de n\'umeros capaz de ser
 procesada por una computadora siguiendo cierto procedimiento.
-Los textos, una vez transformados en vectores, pueden ser agrupados, 
+Los textos, transformados en vectores, pueden ser agrupados,
 analizados para la obtenci\'on de informaci\'on o utilizados
 como conjunto de entrenamiento y testeo de modelos predictivos.
-En el cap\'itulo 6 de \usebibentry{jurafsky2000speech}{title}, Jurafsky
-repasa los distintos usos y ventajas de la vectorizaci\'on de documentos, a la vez
-que detalla los procedimientos m\'as utilizados en aprendizaje autom\'atico. Entre ellos,
-menciona el c\'alculo de \textit{TF-IDF} como uno de los m\'etodos base.
 \par
 Por su parte, \cite{monroe2008fightin} exponen una serie de t\'ecnicas
 que podr\'ian ser \'utiles a la hora de capturar palabras con contenido partidario
