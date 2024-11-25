@@ -1,10 +1,10 @@
 Durante la validaci\'on cruzada realizada para evaluar el rendimiento de los
 distintos vectorizadores se fueron registrando varias m\'etricas de evaluaci\'on
-para cada iteraci\'on como as\'i tambi\'en el tiempo de ajuste necesario en cada caso.
-La figura \ref{fig-results-features-fit-time} muestra el promedio y el desv\'io
+para cada iteraci\'on como as\'i tambi\'en el tiempo requerido para el entrenamiento
+en cada caso. La figura \ref{fig-results-features-fit-time} muestra el promedio y el desv\'io
 est\'andar de este \'ultimo en las cinco iteraciones realizadas. Como es posible
 apreciar, el vectorizado de proporciones con remoci\'on de \textit{stopwords}
-provenientes de \textit{NLTK} es el que presenta un tiempo de ajuste promedio
+provenientes de \textit{NLTK} es el que presenta un tiempo de entrenamiento promedio
 menor, y tambi\'en un menor desv\'io. El vectorizador de \textit{TF-IDF} con
 frecuencia de documentos natural, por otro lado, es el que mayores valores
 exhibe tanto en la media como en el desv\'io est\'andar. La tabla \ref{table-appendix-fit-time}
@@ -14,8 +14,8 @@ a una las medidas de centralidad.
 \begin{figure}[h!]
     \centering
     \includegraphics[scale=0.6]{../visualizations/features/fit_time.png}
-    \caption{Media y desvi\'o est\'andar del tiempo de ajuste (medido en segundos)
-    requerido para el entrenamiento de una regresi\'on log\'istica \textit{baseline}
+    \caption{Media y desvi\'o est\'andar del tiempo requerido (medido en segundos)
+    para el entrenamiento de una regresi\'on log\'istica \textit{baseline}
     al utilizar distintos vecotrizadores siguiendo una estrategia de
     validaci\'on cruzada con cinco iteraciones.}
     \label{fig-results-features-fit-time}
