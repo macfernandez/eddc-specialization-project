@@ -11,16 +11,21 @@ lema (o lemas, si se predijo m\'as de uno) para esa palabra en tales contextos.}
 De ellas, se despreciaron 211 cadenas de caracteres ($1.86\percentsign$)
 \footnote{Remitirse a \ref{appendix-annotation} para un detalle de las palabras
 despreciadas.}. De las palabras que se persistieron para el an\'alisis,
-el $12.35\percentsign$ requiri\'o una correcci\'on en la etiqueta gramatical.
-En la mayor\'ia de estos casos ($71\percentsign$), el modelo predijo m\'as de una etiqueta
-posible para determinada palabra y una de ellas result\'o ser la adecuada, solo que no
-fue predicha de forma consistente. En el resto de los casos ($29\percentsign$)
-el modelo no fue capaz de identificar la etiqueta adecuada.
-Respecto de los lemas, el $20.4\percentsign$ de las palabras debi\'o ser corregida
-y, de estas, el $27.8\percentsign$ de las correcciones fueron casos en los que el
-modelo predijo al menos una vez el lema correcto, pero no hizo tal predicci\'on de
-forma consistente, y el $72.2\percentsign$ fueron casos en los que el modelo
-no logr\'o predecir el lema correcto en ninguna situaci\'on.
+el $20.4\percentsign$ requiri\'o una correcci\'on en el lema predicho.
+De estas correcciones, el $27.8\percentsign$ de los casos corresponden a
+palabras para las cuales el modelo realiz\'o diferentes predicciones en los distintos
+contextos de aparici\'on y una de estas predicciones fue acertada. Estos casos se
+consideraron un error porque, si bien el modelo predijo al menos una vez el lema correcto,
+no lo hizo de forma consistente. El $72.2\percentsign$ de los errores
+restantes fueron casos en los que el modelo no logr\'o predecir el lema correcto en
+ninguna situaci\'on.
+Respecto de las etiquetas \textit{POS} se procedi\'o con un an\'alisis similar.
+El $12.35\percentsign$ de las palabras etiquetadas de manera autom\'atica requiri\'o
+una correcci\'on. De estos casos de error, el $71\percentsign$ de las palabras
+constituyen casos en los cuales el modelo predijo distintas etiquetas en los contextos
+observados y una de ellas result\'o ser la adecuada.
+En el resto de los casos ($29\percentsign$) el modelo no fue capaz de
+identificar la etiqueta adecuada en ninguna de sus predicciones.
 \par
 Al final del procedimiento se obtuvo un conjunto de 4889 \textit{tokens} \'unicos,
 donde la unicidad hace referencia al lema y a la etiqueta gramatical asignada.
