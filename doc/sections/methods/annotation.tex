@@ -9,20 +9,22 @@ Sin embargo, a la hora de extraer los rasgos a partir de los discursos prounciad
 estas palabras ser\'an consideradas como tres rasgos distintos si no se las convierte
 previamente a una forma \'unica o base.
 \par
-El \textbf{lema} es la forma de una palabra que se utiliza para hacer referencia a ella
-en la entrada de un diccionario y var\'ia seg\'un la convenci\'on en cada lengua. En español
-y en ingl\'es, por ejemplo, los verbos se enuncian en infinitivo, pero en lat\'in lo hacen
-utilizando la primera persona del singular del presente en modo indicativo, la segunda
-del mismo tiempo y la primera del pret\'erito perfecto. Por otro lado, el
+
+Como indican \cite{bird2009natural}, ``la \textbf{lematizaci\'on} es el proceso que mapea
+las distintas formas de una palabra (como `apareci\'o', `aparece') a su forma
+can\'onica o de entrada de diccionario, tambi\'en conocida como lema''.
+\footnote{Cita traducida del ingl\'es por la autora de este trabajo.
+El resaltado es propio.}
+Por otro lado, el
 \textbf{\textit{stemizado}} es el proceso por el cual se le remueven los sufijos
 a una palabra, persistiendo solamente su primer o primeros morfemas y utilizando
-esto como forma base\footnote{\citet[Cap\'itulo~3]{bird2009natural}.}.
+esto como forma base.
 \par
 En este trabajo se exploraron ambas opciones de procesamiento. Cuestiones que se tuvieron
 en cuenta particularmente fueron la preservaci\'on de la marcaci\'on de g\'enero, puesto que
 no resulta menor respecto del tema en consideraci\'on, y la minimizaci\'on en la cantidad de formas a las
 cuales se transformaron los verbos. Para el \textit{stemizado} se utiliz\'o la
-liber\'ia \textit{NLTK}\footnote{\url{https://www.nltk.org/} [\'ultimo acceso: 15--10--2024].},
+liber\'ia \textit{NLTK} \citep{bird2009natural},
 la cual proporciona distintos algoritmos posibles. Aqu\'i, se opt\'o por la
 implementaci\'on de \textit{SnowballStemmer}\footnote{Sobre la implementaci\'on de la
 librer\'ia, consultar la documentaci\'on en
