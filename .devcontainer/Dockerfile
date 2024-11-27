@@ -24,8 +24,8 @@ RUN apt-get update \
 RUN chown -R ${USER_NAME} /root
 
 RUN git config --global http.sslverify false \
+    && git config core.pager more \
     && git config --global --add safe.directory /workspace \
     && git config --system --add safe.directory /workspace
 
 USER $USER_NAME
-WORKDIR /root
