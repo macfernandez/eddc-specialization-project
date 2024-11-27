@@ -1,7 +1,6 @@
 {
 	"name": "eddc",
 	"dockerComposeFile": "docker-compose.yml",
-	//"dockerFile": "Dockerfile",
 	//"workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind",
 	"workspaceFolder": "/workspace",
 	"service": "eddc-devcontainer",

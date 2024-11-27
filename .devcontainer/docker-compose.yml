@@ -6,9 +6,9 @@ services:
       context: ..
       dockerfile: .devcontainer/Dockerfile
       args:
-        - USER_NAME=vscode
-        - USER_UID=1001
-        - USER_GID=1001
+        - USER_NAME=seluser
+      #  - USER_UID=1001
+      #  - USER_GID=1001
     volumes:
       - ..:/workspace:cached
       - $HOME/.ssh/:/home/seluser/.ssh
