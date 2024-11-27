@@ -48,7 +48,7 @@ Este comando:
 4. extrae la lista de senadores convocados indicando si estuvieron presentes o ausentes y la almacena en el archivo `session_29-12-2020_attendees.csv`
 5. descarga la lista de senadores desde la [página del Senado](https://www.senado.gob.ar/senadores/Historico/Fecha) filtrando por la fecha del período correspondiente y la almacena en el archivo `senators_data.csv`. Dicho archivo contiene no solo el nombre de cada senador sino también la información sobre a qué partido y provincia representa, entre otros datos adicionales.
 
-### Usando un contenedor
+### En contenedor
 
 Este repositorio cuenta con un contenedor dentro del cual es posible ejecutar el código
 y las _notebooks_ disponibles [`eddc-devcontainer`](./.devcontainer/devcontainer.json).
