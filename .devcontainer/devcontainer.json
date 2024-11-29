@@ -1,38 +1,25 @@
 {
 	"name": "eddc",
 	"dockerComposeFile": "docker-compose.yml",
-	//"workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind",
 	"workspaceFolder": "/workspace",
 	"service": "eddc-devcontainer",
 	"runServices": [
 		"eddc-devcontainer"
 	],
-	//"remoteUser": "vscode",
 	"features": {
 		"ghcr.io/devcontainers/features/python:1": {
 			"installTools": false,
 			"installJupyterlab": true,
 			"version": "3.11"
 		},
-		//"ghcr.io/devcontainers-contrib/features/zsh-plugins:0": {
-		//	"omzPlugins": "https://github.com/zsh-users/zsh-autosuggestions"
-		//},
 		"ghcr.io/devcontainers/features/git:1": {
 			"version": "latest"
 		}
 	},
-	//"mounts": [
-	//	"source=${localEnv:HOME}/.ssh/,target=/home/vscode/.ssh,type=bind,consistency=cached",
-	//	"source=${localEnv:HOME}/.gitconfig,target=/home/vscode/.gitconfig,type=bind,consistency=cached"
-	//	//"source=${localWorkspaceFolder}/data/session_29-12-2020_votes.csv,target=/workspace/data/session_29-12-2020_votes.csv,type=bind,consistency=cached"
-	//],
 	"customizations": {
         "vscode": {
-            //"settings": {
-            //    "terminal.integrated.defaultProfile.linux": "zsh",
-            //    "terminal.integrated.profiles.linux": { "zsh": { "path": "/bin/zsh" } }
-            //},
 			"extensions": [
+				"mathematic.vscode-latex",
 				"ms-azuretools.vscode-docker",
 				"ms-python.flake8",
 				"ms-python.debugpy",
@@ -41,6 +28,7 @@
 				"ms-toolsai.jupyter",
 				"ms-toolsai.jupyter-keymap",
 				"ms-toolsai.jupyter-renderers",
+				"tomoki1207.pdf",
 				"waderyan.gitblame"
 			]
         }
