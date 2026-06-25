@@ -72,7 +72,7 @@ Cada paso está documentado en las [notebooks numeradas](./notebooks/) y desarro
 
 ![Importancia de los rasgos del modelo final](./doc/images/graphs/lr_feature_importance_barplot_log_proba.png)
 
-> 📄 **El desarrollo completo —metodología, decisiones de anotación y discusión— está en la [tesis en PDF](https://macfernandez.github.io/eddc-specialization-project/thesis.pdf).** (GitHub no renderiza PDFs dentro del README; el botón de arriba lleva a la versión publicada en GitHub Pages, que se compila automáticamente con el workflow [`build-thesis`](./.github/workflows/build-thesis.yml).)
+> 📄 **El desarrollo completo —metodología, decisiones de anotación y discusión— está en la [tesis en PDF](https://macfernandez.github.io/eddc-specialization-project/thesis.pdf).**
 
 ## Estructura del repositorio
 
@@ -127,4 +127,4 @@ cd doc && latexmk -pdf -shell-escape main.tex
 
 **Macarena Fernández Urquiza** — 2024.
 
-Si te interesa el procesamiento de lenguaje natural en español o el análisis de discurso político, ¡los comentarios y las _issues_ son bienvenidos!
+Si te interesa el procesamiento de lenguaje natural en español o el análisis de discurso político, ¡los comentarios e _issues_ son bienvenidos!
