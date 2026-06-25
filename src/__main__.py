@@ -1,6 +1,6 @@
 import argparse
 
-from src.config_hander import ConfigHandler
+from src.config_handler import ConfigHandler
 from src.downloaders.data import download as download_data
 from src.preprocessor.pipeline import convert_pdf2txt, preprocess
 from src.downloaders.attendees import download as download_attendees
