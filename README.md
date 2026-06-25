@@ -54,11 +54,11 @@ Cada paso está documentado en las [notebooks numeradas](./notebooks/) y desarro
 
 ![Palabras características de cada técnica de vectorización](./doc/images/graphs/tfidf_dflogged.png)
 
-**2. ¿Qué vectorizador entrena el mejor modelo?** Comparando el rendimiento (F1) de una regresión logística _baseline_ con cada vectorizador mediante validación cruzada:
+**2. ¿Qué vectorizador entrena el mejor modelo?** Cada vectorizador se usó para entrenar una regresión logística _baseline_ y su rendimiento (F1) se comparó mediante validación cruzada. El de TF-IDF (log IDF) volvió a destacarse: obtuvo el F1 más alto y más estable a lo largo de las cinco iteraciones.
 
 ![F1 por técnica de vectorización y por iteración](./doc/images/graphs/f1_by_split.png)
 
-**3. El modelo final** —regresión logística + TF-IDF (log IDF)— alcanzó, sobre un conjunto de test separado (40 discursos):
+**3. El modelo final** —regresión logística + TF-IDF (log IDF)— se evaluó sobre un conjunto de test separado de 40 discursos, donde alcanzó un 78% de _accuracy_. La tabla resume su rendimiento por clase:
 
 | Clase | Precisión | Cobertura | F1 |
 | --- | --- | --- | --- |
