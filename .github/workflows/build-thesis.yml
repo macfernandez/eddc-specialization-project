@@ -1,11 +1,5 @@
 name: Build thesis PDF
 
-# Compila la tesis (doc/main.tex) a PDF.
-# - Se puede lanzar a demanda desde la pestaña "Actions" (workflow_dispatch).
-# - Tambien corre automaticamente cuando cambian los fuentes en doc/.
-# El PDF queda disponible como artefacto de la corrida y, ademas, se publica
-# en GitHub Pages para poder enlazarlo/embeberlo desde el README.
-
 on:
   workflow_dispatch:
   push:
@@ -19,7 +13,6 @@ permissions:
   pages: write
   id-token: write
 
-# Evita corridas de Pages superpuestas.
 concurrency:
   group: pages
   cancel-in-progress: true
