@@ -35,7 +35,7 @@ jobs:
       - name: Preparar artefacto de Pages
         run: |
           mkdir -p public
-          cp doc/main.pdf public/thesis.pdf
+          cp doc/main.pdf public/final-project.pdf
           cat > public/index.html <<'HTML'
           <!doctype html>
           <html lang="es">
@@ -49,7 +49,7 @@ jobs:
             </style>
           </head>
           <body>
-            <embed src="./thesis.pdf" type="application/pdf">
+            <embed src="./final-project.pdf" type="application/pdf">
           </body>
           </html>
           HTML
