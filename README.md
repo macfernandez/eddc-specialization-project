@@ -8,6 +8,8 @@
 [![Build thesis PDF](https://github.com/macfernandez/eddc-specialization-project/actions/workflows/build-thesis.yml/badge.svg)](https://github.com/macfernandez/eddc-specialization-project/actions/workflows/build-thesis.yml)
 ![Python](https://img.shields.io/badge/python-3.11-blue)
 
+> 🇬🇧 **In English (TL;DR):** End-to-end NLP project (in Python) over the December 2020 Argentine Senate session that legalized abortion. It applies the methods from Monroe et al.'s _["Fightin' Words"](https://doi.org/10.1093/pan/mpn018)_ to compare several text-vectorization techniques, and trains a logistic regression that classifies each speech by vote with ~78% accuracy. The pipeline covers web scraping, PDF-to-text extraction, linguistic annotation (POS tagging and lemmatization, reviewed by hand), vectorizer comparison via cross-validation, and model interpretation. **The repository and the thesis are written in Spanish.**
+
 ---
 
 ## ¿De qué se trata?
