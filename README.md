@@ -4,9 +4,11 @@
 >
 > **Título:** _Selección de técnicas estadísticas para la vectorización de discursos políticos referidos a la reglamentación del acceso al aborto._
 
-[![Tesis (PDF)](https://img.shields.io/badge/Tesis-PDF-b31b1b)](https://macfernandez.github.io/eddc-specialization-project/thesis.pdf)
-[![Build thesis PDF](https://github.com/macfernandez/eddc-specialization-project/actions/workflows/build-thesis.yml/badge.svg)](https://github.com/macfernandez/eddc-specialization-project/actions/workflows/build-thesis.yml)
+[![Trabajo final (PDF)](https://img.shields.io/badge/Trabajo%20final-PDF-b31b1b)](https://macfernandez.github.io/eddc-specialization-project/final-project.pdf)
+[![Build project PDF](https://github.com/macfernandez/eddc-specialization-project/actions/workflows/build-project.yml/badge.svg)](https://github.com/macfernandez/eddc-specialization-project/actions/workflows/build-project.yml)
 ![Python](https://img.shields.io/badge/python-3.11-blue)
+
+> 🇬🇧 **English TL;DR:** End-to-end NLP project (in Python) over the December 2020 Argentine Senate session that legalized abortion. It applies the methods from Monroe et al.'s _["Fightin' Words"](https://doi.org/10.1093/pan/mpn018)_ to compare several text-vectorization techniques, and trains a logistic regression that classifies each speech by vote with ~78% accuracy. The pipeline covers web scraping, PDF-to-text extraction, linguistic annotation (POS tagging and lemmatization, reviewed by hand), vectorizer comparison via cross-validation, and model interpretation. **The repository and the final project are written in Spanish.**
 
 ---
 
@@ -46,7 +48,7 @@ flowchart LR
     H --> I[Modelo final<br/>+ interpretación]
 ```
 
-Cada paso está documentado en las [notebooks numeradas](./notebooks/) y desarrollado en detalle en la [tesis](https://macfernandez.github.io/eddc-specialization-project/thesis.pdf).
+Cada paso está documentado en las [notebooks numeradas](./notebooks/) y desarrollado en detalle en el [trabajo final](https://macfernandez.github.io/eddc-specialization-project/final-project.pdf).
 
 ## Resultados principales
 
@@ -72,7 +74,7 @@ Cada paso está documentado en las [notebooks numeradas](./notebooks/) y desarro
 
 ![Importancia de los rasgos del modelo final](./doc/images/graphs/lr_feature_importance_barplot_log_proba.png)
 
-> 📄 **El desarrollo completo —metodología, decisiones de anotación y discusión— está en la [tesis en PDF](https://macfernandez.github.io/eddc-specialization-project/thesis.pdf).**
+> 📄 **El desarrollo completo —metodología, decisiones de anotación y discusión— está en el [trabajo final en PDF](https://macfernandez.github.io/eddc-specialization-project/final-project.pdf).**
 
 ## Estructura del repositorio
 
@@ -82,7 +84,7 @@ Cada paso está documentado en las [notebooks numeradas](./notebooks/) y desarro
 │   ├── downloaders/      # scraping de la sesión y del padrón de senadores
 │   └── preprocessor/     # conversión PDF→texto y segmentación de discursos
 ├── notebooks/            # flujo de trabajo paso a paso (01 … 06)
-├── doc/                  # tesis en LaTeX, secciones, gráficos y bibliografía
+├── doc/                  # trabajo final en LaTeX, secciones, gráficos y bibliografía
 ├── data/                 # datos versionados (votos, mapeos, etc.)
 ├── bibliography/         # material de referencia
 └── config.json           # URLs y rutas de salida para la descarga
@@ -115,7 +117,7 @@ python -m src download data
 
 Este comando descarga la transcripción de la sesión n.º 28 (período 138) en PDF, la convierte a texto plano, separa los fragmentos discursivos por orador (`session_29-12-2020_discourse.xml`), extrae la lista de asistentes y descarga el padrón de senadores con su partido y provincia.
 
-### Compilar la tesis
+### Compilar el trabajo final
 
 El PDF se compila automáticamente en CI, pero también podés generarlo localmente:
 
