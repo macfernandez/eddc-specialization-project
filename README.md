@@ -1,13 +1,13 @@
 # Vectorización de discursos políticos sobre el aborto
 
-> Trabajo final de la [Especialización en Explotación de Datos y Descubrimiento del Conocimiento](https://datamining.dc.uba.ar/datamining/) (FCEN, Universidad de Buenos Aires).
->
-> **Título:** _Selección de técnicas estadísticas para la vectorización de discursos políticos referidos a la reglamentación del acceso al aborto._
-
 [![Trabajo final (PDF)](https://img.shields.io/badge/Trabajo%20final-PDF-b31b1b)](https://macfernandez.github.io/eddc-specialization-project/final-project.pdf)
 [![Build project PDF](https://github.com/macfernandez/eddc-specialization-project/actions/workflows/build-project.yml/badge.svg)](https://github.com/macfernandez/eddc-specialization-project/actions/workflows/build-project.yml)
 ![Python](https://img.shields.io/badge/python-3.11-blue)
 
+> Trabajo final de la [Especialización en Explotación de Datos y Descubrimiento del Conocimiento](https://datamining.dc.uba.ar/datamining/) (FCEN, Universidad de Buenos Aires).
+>
+> **Título:** _Selección de técnicas estadísticas para la vectorización de discursos políticos referidos a la reglamentación del acceso al aborto._
+>
 > 🇬🇧 **English TL;DR:** End-to-end NLP project (in Python) over the December 2020 Argentine Senate session that legalized abortion. It applies the methods from Monroe et al.'s _["Fightin' Words"](https://doi.org/10.1093/pan/mpn018)_ to compare several text-vectorization techniques, and trains a logistic regression that classifies each speech by vote with ~78% accuracy. The pipeline covers web scraping, PDF-to-text extraction, linguistic annotation (POS tagging and lemmatization, reviewed by hand), vectorizer comparison via cross-validation, and model interpretation. **The repository and the final project are written in Spanish.**
 
 ---
