@@ -1,4 +1,4 @@
-# Vectorización de discursos políticos sobre el aborto
+# Vectorización de discursos políticos sobre la legalización del aborto en Argentina
 
 [![Trabajo final (PDF)](https://img.shields.io/badge/Trabajo%20final-PDF-b31b1b)](https://macfernandez.github.io/eddc-specialization-project/final-project.pdf)
 [![Build project PDF](https://github.com/macfernandez/eddc-specialization-project/actions/workflows/build-project.yml/badge.svg)](https://github.com/macfernandez/eddc-specialization-project/actions/workflows/build-project.yml)
